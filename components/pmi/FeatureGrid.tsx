@@ -21,12 +21,11 @@ export function FeatureList() {
   const included = features.filter((f) => f.status !== 'Not on your plan').length;
 
   return (
-    <div id="features" className="flex flex-col gap-3">
-      <div className="flex flex-col gap-1">
+    <div id="features" className="flex flex-col gap-5">
+      <div className="flex flex-col gap-1.5">
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
           <h3 className="text-[15px] font-semibold">What you get</h3>
-          <span className="flex items-center gap-3 text-[11px] text-secondary">
-            <span className="inline-flex items-center gap-1"><span aria-hidden className="flex size-3.5 items-center justify-center rounded-full bg-[#1D8A4F] text-white"><Check size={9} strokeWidth={3} /></span>Included</span>
+          <span className="flex items-center text-[11px] text-secondary">
             <span className="inline-flex items-center gap-1"><Sparkles aria-hidden size={12} strokeWidth={1.8} className="text-ai-icon" />Relevant to you</span>
           </span>
         </div>
@@ -36,7 +35,7 @@ export function FeatureList() {
             : `${included} of ${features.length} included. Change an option to see what moves.`}
         </p>
       </div>
-      <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
+      <ul className="m-0 flex list-none flex-col gap-2 p-0">
         {features.map((f) => {
           const Icon = FEATURE_ICON[f.id] ?? HeartPulse;
           const off = f.status === 'Not on your plan';
@@ -45,7 +44,7 @@ export function FeatureList() {
             ? 'bg-white text-ai-icon ring-1 ring-ai-highlight'
             : off ? 'bg-surface-2 text-[#A8A8A8]' : 'bg-brand-tint text-brand';
           return (
-            <li key={f.id} className={`flex items-center gap-3 rounded-[12px] px-2.5 py-2 transition-colors ${f.changed ? 'bg-ai-bg' : ''}`}>
+            <li key={f.id} className={`flex items-center gap-3.5 rounded-[12px] px-2 py-2.5 transition-colors ${f.changed ? 'bg-ai-bg' : ''}`}>
               <span aria-hidden className={`relative flex size-9 shrink-0 items-center justify-center rounded-[10px] ${tile}`}>
                 <Icon size={17} strokeWidth={1.8} />
                 {!off && (
@@ -54,10 +53,10 @@ export function FeatureList() {
                   </span>
                 )}
               </span>
-              <div className="flex min-w-0 flex-1 flex-col">
-                <span className={`flex items-center gap-1.5 text-sm leading-snug ${off ? 'text-secondary-2' : 'font-semibold text-ink'}`}>
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                <span className={`text-sm leading-snug ${off ? 'text-secondary-2' : 'font-semibold text-ink'}`}>
                   {f.name}
-                  {f.relevant && <Sparkles size={12} strokeWidth={1.8} className="shrink-0 text-ai-icon" aria-label="Relevant to you" />}
+                  {f.relevant && <Sparkles size={12} strokeWidth={1.8} className="ml-1.5 inline-block align-[-1px] text-ai-icon" aria-label="Relevant to you" />}
                 </span>
                 <span className={`text-[13px] leading-snug ${f.changed ? 'font-medium text-ai-text' : off ? 'text-secondary-2' : 'text-secondary'}`}>
                   {f.detail}
