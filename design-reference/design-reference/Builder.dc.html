@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI plan builder for health cover</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#141414;background:#fff}
+a{color:#141414}a:hover{color:#000}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 1080px; background: #ffffff; font-size: 14px">
+<nav aria-label="Main" style="flex: 1 1 220px; max-width: 240px; border-right: 1px solid #ECECEC; padding: 20px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; background: #ffffff">
+<div style="display: flex; align-items: center; gap: 8px; padding: 0 6px">
+<span style="width: 26px; height: 26px; border-radius: 7px; background: #1F5C4E; color: #ffffff; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center">M</span>
+<span style="font-weight: 600; font-size: 15px">Meridian Benefits</span>
+</div>
+<a href="Builder.dc.html" style="display: flex; align-items: center; gap: 8px; background: #F4F4F3; border-radius: 10px; padding: 9px 10px; color: #5F5F5F; text-decoration: none; font-size: 13px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search or ask</a>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg>Home</a>
+<a href="Benefit.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l2 2.6 3.3-.5.5 3.3L20.4 10l-1.7 2 1.7 2-2.6 1.6-.5 3.3-3.3-.5L12 21l-2-2.6-3.3.5-.5-3.3L3.6 14l1.7-2-1.7-2 2.6-1.6.5-3.3 3.3.5z"></path></svg>Benefits</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 12V4h8l10 10-7 7z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg>Store</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 20l5-13 8 8z"></path><path d="M14 4l1 2M18 6l-2 1M20 10l-2-.4"></path></svg>Recognition</a>
+<a href="Review.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>My choices</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12h8M12 8v8"></path></svg>Total rewards</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 20s-7-4.4-9-8.6C1.6 8.3 3.5 5 6.8 5c2 0 3.3 1.1 4.2 2.4C11.9 6.1 13.2 5 15.2 5 18.5 5 20.4 8.3 19 11.4 17 15.6 12 20 12 20z"></path></svg>Saved</a>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; background: #F6F5F1; border: 1px solid #ECEAE2; border-radius: 999px; padding: 5px 10px"><span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: #E8B10E"></span>100 to spend</span>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 6px; border-top: 1px solid #ECECEC">
+<span style="width: 26px; height: 26px; border-radius: 50%; background: #F3D9A4; color: #5C3D00; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">PS</span>
+<span style="font-size: 13px; font-weight: 500">Priya Shah</span>
+</div>
+</div>
+</nav>
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-wrap: wrap; box-sizing: border-box">
+<section aria-label="Conversation" style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; border-right: 1px solid #ECECEC; box-sizing: border-box">
+<div style="padding: 20px 32px; border-bottom: 1px solid #F0F0F0; display: flex; align-items: center; gap: 12px">
+<a href="Benefit.dc.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #3D3D3D; text-decoration: none; padding: 8px 4px"><span aria-hidden="true">‹</span>Back</a>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h1 style="margin: 0; font-size: 16px; font-weight: 600">Your health cover for April</h1>
+<span style="font-size: 12px; color: #5F5F5F">Knows Meridian’s scheme rules and your HR record. Prices and tax are calculated, not guessed.</span>
+</div>
+</div>
+<div style="flex: 1; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<span aria-hidden="true" style="width: 30px; height: 30px; border-radius: 9px; background: #F2EFFD; color: #4B36C4; display: flex; align-items: center; justify-content: center; flex: 0 0 30px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg></span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 15px; line-height: 1.6">Hi Priya. Before we start, here’s what I already know from Meridian. Is it still right?</p>
+<div style="border: 1px solid #ECECEC; border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 16px">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #5F5F5F">Age</span><span style="font-size: 14px; font-weight: 500">34</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #5F5F5F">Home postcode</span><span style="font-size: 14px; font-weight: 500">E8, London</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #5F5F5F">Income tax rate</span><span style="font-size: 14px; font-weight: 500">40%</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #5F5F5F">Family on record</span><span style="font-size: 14px; font-weight: 500">Sam (spouse)</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #5F5F5F">Cover today</span><span style="font-size: 14px; font-weight: 500">Core, just you</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #5F5F5F">Flex Fund</span><span style="font-size: 14px; font-weight: 500">£500 to spend</span></div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid #F0F0F0; padding-top: 10px"><span style="font-size: 11px; color: #5F5F5F">You told us you’re focused on</span><span style="font-size: 14px; font-weight: 500">Mental health &amp; wellbeing · Bones, joints &amp; muscles</span></div>
+</div>
+<div style="display: flex; gap: 8px">
+<span style="font-size: 13px; font-weight: 500; background: #141414; color: #ffffff; padding: 7px 12px; border-radius: 8px">Looks right</span>
+<button type="button" style="font-size: 13px; background: #ffffff; border: 1px solid #DADADA; padding: 7px 12px; border-radius: 8px; cursor: pointer">Something’s changed</button>
+</div>
+</div>
+</div>
+<div style="display: flex; justify-content: flex-end">
+<p style="margin: 0; max-width: 440px; background: #141414; color: #ffffff; border-radius: 14px 14px 4px 14px; padding: 12px 16px; font-size: 15px; line-height: 1.55">Yes. I want Sam on my cover without it costing a fortune. He has asthma, does that matter?</p>
+</div>
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<span aria-hidden="true" style="width: 30px; height: 30px; border-radius: 9px; background: #F2EFFD; color: #4B36C4; display: flex; align-items: center; justify-content: center; flex: 0 0 30px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg></span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 15px; line-height: 1.6">Enrolment is open until 31 March, so you can add him now. And good news on the asthma: under Meridian’s scheme rules, anyone added at enrolment joins with their medical history ignored, so it won’t be excluded. Worth knowing: PMI covers flare-ups and diagnosis, not routine ongoing care. That stays with his GP.</p>
+<span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #1D5E35"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>What you tell me about Sam’s health stays between you and Navigator. Meridian never sees it.</span>
+<p style="margin: 0; font-size: 15px; line-height: 1.6">Here’s the lowest-cost sensible way to add Sam. I’ve put it on your plan so you can check it:</p>
+<div style="border: 1px solid #B9ACF5; background: #FAF9FF; border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<span style="font-size: 14px; font-weight: 600">Add Sam, keep it lean</span>
+<span style="font-size: 12px; font-weight: 500; color: #4B36C4">3 changes</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+<div style="display: flex; gap: 8px; align-items: center"><span aria-hidden="true" style="color: #4B36C4; font-weight: 600">+</span><span>Add Sam as your spouse</span></div>
+<div style="display: flex; gap: 8px; align-items: center"><span aria-hidden="true" style="color: #4B36C4; font-weight: 600">↗</span><span>Excess from £0 to £250</span></div>
+<div style="display: flex; gap: 8px; align-items: center"><span aria-hidden="true" style="color: #4B36C4; font-weight: 600">↘</span><span>Specialist choice from “Your choice” to “Guided by AXA”, where AXA arranges your specialist</span></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 18px; padding-top: 10px; border-top: 1px solid #E4DEFC">
+<div style="display: flex; flex-direction: column"><span style="font-size: 20px; font-weight: 600">£51.50<span style="font-size: 13px; font-weight: 400; color: #4A4A4A"> a month</span></span><span style="font-size: 12px; color: #4A4A4A">with these changes</span></div>
+<div style="display: flex; flex-direction: column"><span style="font-size: 20px; font-weight: 600; color: #4A4A4A">£80.00<span style="font-size: 13px; font-weight: 400"> a month</span></span><span style="font-size: 12px; color: #4A4A4A">if you just add Sam</span></div>
+</div>
+<sc-if value="{{pending}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" onClick="{{accept}}" style="background: #141414; color: #ffffff; border: none; padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; min-height: 44px">Accept all three</button>
+<a href="Scenarios.dc.html" style="display: inline-flex; align-items: center; border: 1px solid #DADADA; text-decoration: none; padding: 10px 16px; border-radius: 10px; font-size: 14px; min-height: 44px; box-sizing: border-box">Compare alternatives</a>
+</div>
+</sc-if>
+<sc-if value="{{accepted}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #1D5E35">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+<span>Applied to your plan</span>
+<button type="button" onClick="{{undo}}" style="margin-left: 6px; background: none; border: none; font-size: 13px; text-decoration: underline; cursor: pointer; color: #4A4A4A">Undo</button>
+</div>
+</sc-if>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.55; color: #3D3D3D; background: #F7F7F6; border-radius: 10px; padding: 10px 12px">Why the tax doesn’t change: it’s based on what Meridian and your Flex Fund pay, which stays the same. Every pound trimmed from the premium comes straight off your payslip deduction.</p>
+</div>
+</div>
+<sc-if value="{{accepted}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<span aria-hidden="true" style="width: 30px; height: 30px; border-radius: 9px; background: #F2EFFD; color: #4B36C4; display: flex; align-items: center; justify-content: center; flex: 0 0 30px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg></span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 15px; line-height: 1.6">Done. Before you confirm, want to see how this plan would handle a few real situations, like a knee operation or a flare-up for Sam?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="Scenarios.dc.html" style="background: #141414; color: #ffffff; text-decoration: none; padding: 10px 14px; border-radius: 10px; font-size: 14px; font-weight: 500">Show me scenarios</a>
+<a href="Review.dc.html" style="border: 1px solid #DADADA; text-decoration: none; padding: 10px 14px; border-radius: 10px; font-size: 14px">Go to review</a>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+<div style="padding: 16px 32px 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="Scenarios.dc.html" style="font-size: 13px; text-decoration: none; border: 1px solid #E4E4E4; padding: 7px 12px; border-radius: 999px">What if I needed knee surgery?</a>
+<a href="Scenarios.dc.html" style="font-size: 13px; text-decoration: none; border: 1px solid #E4E4E4; padding: 7px 12px; border-radius: 999px">Compare with Enhanced</a>
+<a href="Scenarios.dc.html" style="font-size: 13px; text-decoration: none; border: 1px solid #E4E4E4; padding: 7px 12px; border-radius: 999px">What if we have a baby next year?</a>
+</div>
+<label style="display: flex; align-items: center; gap: 10px; border: 1px solid #DADADA; border-radius: 14px; padding: 6px 6px 6px 16px">
+<span style="position: absolute; left: -9999px">Message</span>
+<input type="text" placeholder="Tell me what you want to change, or ask anything" style="flex: 1; border: none; outline: none; font-size: 15px; padding: 10px 0; min-width: 0">
+<button type="button" aria-label="Send" style="width: 40px; height: 40px; border-radius: 10px; border: none; background: #141414; color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+</label>
+</div>
+</section>
+<section aria-labelledby="plan" style="flex: 1 1 400px; min-width: 0; background: #F8F8F7; padding: 28px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h2 id="plan" style="margin: 0; font-size: 17px; font-weight: 600">Your plan</h2>
+<span style="font-size: 12px; color: #5F5F5F">AXA Health · 1 April 2027 to 31 March 2028</span>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: #4B36C4; background: #ffffff; border: 1px solid #D9D2FA; padding: 4px 10px; border-radius: 999px"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #5B45D6"></span>{{statusText}}</span>
+</div>
+<div style="background: #ffffff; border: 1px solid #ECECEC; border-radius: 14px; overflow: hidden">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+<div style="{{r.rowStyle}}">
+<span style="font-size: 13px; color: #4A4A4A">{{r.label}}</span>
+<span style="display: flex; align-items: center; gap: 8px; justify-content: flex-end; flex-wrap: wrap">
+<sc-if value="{{r.showOld}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #6B6B6B; text-decoration: line-through">{{r.old}}</span></sc-if>
+<span style="{{r.valStyle}}">{{r.value}}</span>
+</span>
+</div>
+</sc-for>
+</div>
+<div style="background: #ffffff; border: 1px solid #ECECEC; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; color: #5F5F5F">What it really costs you</span>
+<span style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em">{{realMo}}<span style="font-size: 14px; font-weight: 400; color: #5F5F5F"> a month</span></span>
+</div>
+<span style="font-size: 13px; color: #4A4A4A">Keeping current cover: £30.00 a month</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; color: #4A4A4A">Who pays the {{totalYr}} premium</span>
+<div style="display: flex; height: 14px; border-radius: 5px; overflow: hidden; gap: 2px">
+<div style="{{barEmp}}"></div><div style="{{barFund}}"></div><div style="{{barYou}}"></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: #3D3D3D">
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: #1F5C4E"></span>Meridian £900</span>
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: #8FBFAE"></span>Flex Fund {{fundYr}}</span>
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: #141414"></span>Your pay {{payYr}}</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; border-top: 1px solid #F0F0F0; padding-top: 12px">
+<div style="display: flex; justify-content: space-between"><span style="color: #4A4A4A">From your pay</span><span style="font-weight: 500">{{payMo}} a month</span></div>
+<div style="display: flex; justify-content: space-between"><span style="color: #4A4A4A">Income tax on the benefit (via payroll)</span><span style="font-weight: 500">{{taxMo}} a month</span></div>
+</div>
+</div>
+<div style="background: #FFF6E5; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #7A4300"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 2 21h20z"></path><path d="M12 10v5M12 18v.01"></path></svg>Worth knowing before you commit</span>
+<span style="font-size: 13px; line-height: 1.5; color: #5C3600">The £250 excess is paid once per person each year you claim. It saves you about £13.50 a month, so it pays off if you claim less than once every 18 months. With Guided, AXA picks your specialist from its shortlist, so you can’t ask for a named consultant.</span>
+</div>
+<a href="Review.dc.html" style="display: flex; justify-content: center; align-items: center; background: #141414; color: #ffffff; text-decoration: none; padding: 13px; border-radius: 10px; font-weight: 500; font-size: 14px; min-height: 44px; box-sizing: border-box">Review and confirm</a>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { accepted: false };
+  }
+  renderVals() {
+    var self = this, a = this.state.accepted;
+    var defs = [
+      ['Cover level', 'Core', 'Core'],
+      ['Who’s covered', 'Just you', 'You and Sam'],
+      ['Excess', '£0', '£250'],
+      ['Outpatient allowance', 'Up to £1,000', 'Up to £1,000'],
+      ['Choosing your specialist', 'Your choice', 'Guided by AXA']
+    ];
+    var rows = defs.map(function (d, i) {
+      var changed = d[1] !== d[2];
+      var base = 'display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 16px; ' + (i > 0 ? 'border-top: 1px solid #F0F0F0; ' : '');
+      return {
+        label: d[0], old: d[1], value: changed ? d[2] : d[1], showOld: changed && !a,
+        rowStyle: base + (changed && !a ? 'background: #FAF9FF;' : ''),
+        valStyle: 'font-size: 14px; font-weight: 500; ' + (changed ? (a ? 'color: #141414;' : 'color: #4B36C4; background: #F2EFFD; padding: 2px 8px; border-radius: 6px;') : 'color: #141414;')
+      };
+    });
+    var P = 1458, pay = 58, fund = 500, emp = 900;
+    var pct = function (n) { return (n / P * 100).toFixed(1) + '%'; };
+    return {
+      rows: rows,
+      pending: !a, accepted: a,
+      accept: function () { self.setState({ accepted: true }); },
+      undo: function () { self.setState({ accepted: false }); },
+      statusText: a ? 'Updated, not yet confirmed' : '3 suggested changes',
+      realMo: a ? '£51.50' : '£30.00 → £51.50',
+      totalYr: '£1,458',
+      fundYr: '£500', payYr: '£58',
+      barEmp: 'width: ' + pct(emp) + '; background: #1F5C4E;',
+      barFund: 'width: ' + pct(fund) + '; background: #8FBFAE;',
+      barYou: 'width: ' + pct(pay) + '; background: #141414; min-width: 6px;',
+      payMo: '£4.83', taxMo: '£46.67'
+    };
+  }
+}
+</script>
+</body>
+</html>

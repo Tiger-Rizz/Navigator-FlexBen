@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Private Medical Insurance with flex choices</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#141414;background:#fff}
+a{color:#141414}a:hover{color:#000}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 1900px; background: #ffffff; font-size: 14px">
+<nav aria-label="Main" style="flex: 1 1 220px; max-width: 240px; border-right: 1px solid #ECECEC; padding: 20px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; background: #ffffff">
+<div style="display: flex; align-items: center; gap: 8px; padding: 0 6px">
+<span style="width: 26px; height: 26px; border-radius: 7px; background: #1F5C4E; color: #ffffff; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center">M</span>
+<span style="font-weight: 600; font-size: 15px">Meridian Benefits</span>
+</div>
+<a href="Builder.dc.html" style="display: flex; align-items: center; gap: 8px; background: #F4F4F3; border-radius: 10px; padding: 9px 10px; color: #5F5F5F; text-decoration: none; font-size: 13px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search or ask</a>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg>Home</a>
+<a href="Benefit.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none; background: #F1F1F0; font-weight: 500"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l2 2.6 3.3-.5.5 3.3L20.4 10l-1.7 2 1.7 2-2.6 1.6-.5 3.3-3.3-.5L12 21l-2-2.6-3.3.5-.5-3.3L3.6 14l1.7-2-1.7-2 2.6-1.6.5-3.3 3.3.5z"></path></svg>Benefits</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 12V4h8l10 10-7 7z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg>Store</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 20l5-13 8 8z"></path><path d="M14 4l1 2M18 6l-2 1M20 10l-2-.4"></path></svg>Recognition</a>
+<a href="Review.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>My choices</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12h8M12 8v8"></path></svg>Total rewards</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 20s-7-4.4-9-8.6C1.6 8.3 3.5 5 6.8 5c2 0 3.3 1.1 4.2 2.4C11.9 6.1 13.2 5 15.2 5 18.5 5 20.4 8.3 19 11.4 17 15.6 12 20 12 20z"></path></svg>Saved</a>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; background: #F6F5F1; border: 1px solid #ECEAE2; border-radius: 999px; padding: 5px 10px"><span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: #E8B10E"></span>100 to spend</span>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 6px; border-top: 1px solid #ECECEC">
+<span style="width: 26px; height: 26px; border-radius: 50%; background: #F3D9A4; color: #5C3D00; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">PS</span>
+<span style="font-size: 13px; font-weight: 500">Priya Shah</span>
+</div>
+</div>
+</nav>
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box">
+<div style="background: #E9F1EE; padding: 28px 48px 72px">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555555">
+<a href="Main.dc.html" aria-label="Back" style="color: #555555; text-decoration: none">←</a>
+<a href="Main.dc.html" style="color: #555555; text-decoration: none">Benefits</a>
+<span aria-hidden="true">›</span>
+<span style="color: #141414">Private Medical Insurance</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; justify-content: space-between">
+<div style="display: flex; align-items: center; gap: 16px">
+<span style="width: 60px; height: 60px; border-radius: 10px; background: #00008F; color: #ffffff; font-weight: 700; font-size: 18px; display: flex; align-items: center; justify-content: center; letter-spacing: 0.02em">AXA</span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; color: #3D3D3D">AXA Health</span>
+<h1 style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Private Medical Insurance</h1>
+</div>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: #1F5C4E; background: #ffffff; border: 1px solid #C9DDD6; padding: 6px 12px; border-radius: 999px"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: #1F8A5B"></span>Enrolment open until 31 March</span>
+</div>
+</div>
+</div>
+<div style="padding: 0 48px 24px; margin-top: -48px">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<div style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<sc-if value="{{showNudge}}" hint-placeholder-val="{{ true }}">
+<div style="background: #ffffff; border: 1px solid #D9D2FA; border-radius: 14px; padding: 16px 18px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center">
+<span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 9px; background: #F2EFFD; color: #4B36C4; display: flex; align-items: center; justify-content: center; flex: 0 0 32px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 3v4M17 5h4"></path></svg></span>
+<div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 3px">
+<p style="margin: 0; font-size: 14px; line-height: 1.5">Sam is listed as your spouse but <strong style="font-weight: 600">isn’t on your health cover</strong>. Enrolment is the main time in the year to add family, and it closes on 31 March.</p>
+<span style="font-size: 12px; color: #5F5F5F">Sam is listed as a dependant in your HR record</span>
+</div>
+<div style="display: flex; gap: 8px">
+<button type="button" onClick="{{addSam}}" style="background: #141414; color: #ffffff; border: none; padding: 10px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; min-height: 44px">Add Sam</button>
+<a href="Builder.dc.html" style="display: inline-flex; align-items: center; border: 1px solid #D9D2FA; color: #4B36C4; text-decoration: none; padding: 10px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; min-height: 44px; box-sizing: border-box">Talk it through</a>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{kept}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="background: #EEF8F1; border: 1px solid #BFE3CC; border-radius: 14px; padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<span aria-hidden="true" style="width: 30px; height: 30px; border-radius: 50%; background: #1D5E35; color: #ffffff; display: flex; align-items: center; justify-content: center; flex: 0 0 30px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span>
+<div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 600; color: #174A2A">Your cover stays as it is from 1 April</span><span style="font-size: 13px; color: #2F5C3F">Saved to My choices. You can still change it until 31 March.</span></div>
+<button type="button" onClick="{{reset}}" style="background: none; border: none; font-size: 13px; color: #174A2A; text-decoration: underline; cursor: pointer; padding: 8px">Undo</button>
+</div>
+</sc-if>
+<section aria-labelledby="choices" style="background: #ffffff; border: 1px solid #ECECEC; border-radius: 16px; padding: 24px 26px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 id="choices" style="margin: 0; font-size: 18px; font-weight: 600">Your cover for April 2027 to March 2028</h2>
+<p style="margin: 0; font-size: 13px; color: #5F5F5F">Most people keep their cover or add family. Everything else is optional.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<button type="button" onClick="{{keep}}" style="{{keepStyle}}">
+<span style="font-size: 14px; font-weight: 600">Keep my current cover</span>
+<span style="font-size: 12px; color: #4A4A4A">£30.00 a month, just you</span>
+</button>
+<button type="button" onClick="{{startAdd}}" style="text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 12px; border: 1px solid #DADADA; background: #ffffff; cursor: pointer; font-family: inherit; color: #141414">
+<span style="font-size: 14px; font-weight: 600">Add family</span>
+<span style="font-size: 12px; color: #4A4A4A">Partner or children</span>
+</button>
+<a href="Builder.dc.html" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 12px; border: 1px solid #D9D2FA; background: #FAF9FF">
+<span style="font-size: 14px; font-weight: 600; color: #4B36C4; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Help me choose</span>
+<span style="font-size: 12px; color: #4A4A4A">Talk it through with AI</span>
+</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 1px solid #F0F0F0">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 14px; font-weight: 600">Who’s covered</span>
+<sc-if value="{{whoChanged}}" hint-placeholder-val="{{ false }}"><span style="font-size: 11px; font-weight: 600; color: #4B36C4; background: #F2EFFD; padding: 2px 7px; border-radius: 5px">Changed</span></sc-if>
+</div>
+<div style="border: 1px solid #ECECEC; border-radius: 12px; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px">
+<span style="width: 32px; height: 32px; border-radius: 50%; background: #F3D9A4; color: #5C3D00; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: 0 0 32px">PS</span>
+<div style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 500">Priya Shah</span><span style="font-size: 12px; color: #5F5F5F">You · always covered</span></div>
+</div>
+<sc-if value="{{samIn}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid #F0F0F0; background: #FAF9FF">
+<span style="width: 32px; height: 32px; border-radius: 50%; background: #DCE7F7; color: #1D3F73; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: 0 0 32px">SS</span>
+<div style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 500">Sam Shah</span><span style="font-size: 12px; color: #5F5F5F">Spouse · from your HR record</span></div>
+<button type="button" onClick="{{removeSam}}" style="background: none; border: none; font-size: 13px; color: #4A4A4A; text-decoration: underline; cursor: pointer; padding: 8px">Remove</button>
+</div>
+</sc-if>
+<sc-if value="{{samOut}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px dashed #D9D2FA">
+<span style="width: 32px; height: 32px; border-radius: 50%; border: 1px dashed #B9ACF5; color: #4B36C4; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: 0 0 32px; box-sizing: border-box">SS</span>
+<div style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 500">Sam Shah</span><span style="font-size: 12px; color: #5F5F5F">Spouse · from your HR record · not covered</span></div>
+<button type="button" onClick="{{addSam}}" style="background: #ffffff; border: 1px solid #DADADA; font-size: 13px; font-weight: 500; cursor: pointer; padding: 8px 12px; border-radius: 8px; min-height: 36px">Add · {{samCost}} a month</button>
+</div>
+</sc-if>
+<sc-for list="{{kids}}" as="k" hint-placeholder-count="0">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid #F0F0F0; background: #FAF9FF">
+<span style="width: 32px; height: 32px; border-radius: 50%; background: #E6F2EA; color: #1D5E35; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: 0 0 32px">{{k.initial}}</span>
+<div style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 500">{{k.name}}</span><span style="font-size: 12px; color: #5F5F5F">Child · added by you</span></div>
+<button type="button" onClick="{{k.remove}}" style="background: none; border: none; font-size: 13px; color: #4A4A4A; text-decoration: underline; cursor: pointer; padding: 8px">Remove</button>
+</div>
+</sc-for>
+<sc-if value="{{notAdding}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{startAdd}}" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; padding: 13px 14px; border: none; border-top: 1px solid #F0F0F0; background: #ffffff; cursor: pointer; font-size: 14px; font-weight: 500; color: #141414"><span aria-hidden="true" style="font-size: 18px; line-height: 1">+</span>Add someone</button>
+</sc-if>
+<sc-if value="{{adding}}" hint-placeholder-val="{{ false }}">
+<div style="border-top: 1px solid #F0F0F0; padding: 14px; display: flex; flex-direction: column; gap: 12px; background: #FBFBFA">
+<span style="font-size: 13px; font-weight: 500">Who would you like to add?</span>
+<div role="group" aria-label="Relationship" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{rels}}" as="r" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{r.on}}" onClick="{{r.pick}}" style="{{r.style}}">{{r.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{relChild}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end">
+<label style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500">First name<input type="text" value="{{kidName}}" onChange="{{setKidName}}" aria-invalid="{{kidErr}}" style="{{kidStyle}}"></label>
+<label style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500">Date of birth<input type="text" placeholder="DD/MM/YYYY" style="border: 1px solid #DADADA; border-radius: 10px; padding: 10px 12px; font-size: 14px"></label>
+<button type="button" onClick="{{addKid}}" style="background: #141414; color: #ffffff; border: none; padding: 11px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; min-height: 44px">Add child · {{kidCost}} a month</button>
+</div>
+<sc-if value="{{kidErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 13px; color: #B42318">Enter your child’s first name to add them.</p></sc-if>
+<span style="font-size: 12px; color: #4A4A4A">Children can be covered until 21, or 25 if they’re in full-time education.</span>
+</sc-if>
+<sc-if value="{{relPartner}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #3D3D3D">You can cover one partner, including a cohabiting partner. Sam is already listed above as your spouse.</p>
+</sc-if>
+<sc-if value="{{relOther}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 10px; align-items: flex-start; background: #ffffff; border: 1px solid #D9D2FA; border-radius: 10px; padding: 12px">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round" style="flex: 0 0 16px; margin-top: 2px"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; line-height: 1.5">Meridian’s scheme covers partners and children only, so parents and other relatives can’t be added. They could buy their own policy, but it would ask about their medical history and may exclude existing conditions.</p>
+<a href="Builder.dc.html" style="font-size: 13px; font-weight: 500; color: #4B36C4">Talk through other options</a>
+</div>
+</div>
+</sc-if>
+<button type="button" onClick="{{cancelAdd}}" style="align-self: flex-start; background: none; border: none; font-size: 13px; color: #4A4A4A; text-decoration: underline; cursor: pointer; padding: 4px 0">Cancel</button>
+</div>
+</sc-if>
+</div>
+<p style="margin: 0; display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: #3D3D3D"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round" style="flex: 0 0 15px; margin-top: 2px"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg><span>Under Meridian’s scheme rules, anyone you add at enrolment joins with their medical history ignored, so existing conditions aren’t excluded.</span></p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 18px; border-top: 1px solid #F0F0F0">
+<div style="display: flex; align-items: center; gap: 8px; justify-content: space-between">
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 14px; font-weight: 600">Fine-tune your cover</span>
+<sc-if value="{{leversChanged}}" hint-placeholder-val="{{ false }}"><span style="font-size: 11px; font-weight: 600; color: #4B36C4; background: #F2EFFD; padding: 2px 7px; border-radius: 5px">Changed</span></sc-if>
+</div>
+<button type="button" aria-expanded="{{fine}}" onClick="{{toggleFine}}" style="background: #ffffff; border: 1px solid #DADADA; padding: 8px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; min-height: 36px">{{fineLabel}}</button>
+</div>
+<sc-if value="{{notFine}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #3D3D3D">{{leverSummary}}</p>
+</sc-if>
+<sc-if value="{{fine}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 13px; color: #5F5F5F">These are the options Meridian has agreed with AXA. Every change updates your real monthly cost.</p>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid #F4F4F4">
+<span style="font-size: 13px; font-weight: 600">{{g.label}}</span>
+<div role="group" aria-label="{{g.label}}" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{g.opts}}" as="o" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+</sc-for>
+</div>
+<p style="margin: 0; display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: #3D3D3D"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round" style="flex: 0 0 15px; margin-top: 2px"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg><span>{{g.hint}}</span></p>
+</div>
+</sc-for>
+</sc-if>
+</div>
+</section>
+<section aria-labelledby="changed" style="background: #ffffff; border: 1px solid #ECECEC; border-radius: 16px; padding: 22px 26px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+<h2 id="changed" style="margin: 0; font-size: 18px; font-weight: 600">What’s changed since last year</h2>
+</div>
+<sc-for list="{{diffs}}" as="d" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr); gap: 12px; align-items: center; padding: 11px 0; border-top: 1px solid #F0F0F0; font-size: 13px">
+<span style="font-weight: 500">{{d.label}}</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="color: #6B6B6B">{{d.from}}</span><span aria-hidden="true" style="color: #9A9A9A">→</span><span style="{{d.toStyle}}">{{d.to}}</span></span>
+<span style="color: #4A4A4A">{{d.note}}</span>
+</div>
+</sc-for>
+<span style="font-size: 11px; color: #6B6B6B; margin-top: 4px">Compared by Navigator from AXA’s 2026–27 and 2027–28 scheme documents for Meridian</span>
+</section>
+<section aria-labelledby="included" style="background: #ffffff; border: 1px solid #ECECEC; border-radius: 16px; padding: 24px 26px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 3px">
+<h2 id="included" style="margin: 0; font-size: 18px; font-weight: 600">What your choices include</h2>
+<span style="font-size: 12px; color: #5F5F5F">Sorted by what you told us matters: Mental health &amp; wellbeing, and Bones, joints &amp; muscles</span>
+</div>
+<a href="Benefit.dc.html" style="font-size: 13px; color: #3D3D3D; white-space: nowrap">See all 55</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{features}}" as="f" hint-placeholder-count="8">
+<div style="{{f.cardStyle}}">
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: flex-start">
+<span style="font-size: 14px; font-weight: 600; line-height: 1.35">{{f.name}}</span>
+<span style="{{f.chipStyle}}">{{f.status}}</span>
+</div>
+<span style="font-size: 13px; color: #4A4A4A; line-height: 1.45">{{f.detail}}</span>
+<sc-if value="{{f.relevant}}" hint-placeholder-val="{{ false }}">
+<span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: #4B36C4"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Relevant to you</span>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+<section aria-labelledby="faqs" style="background: #ffffff; border: 1px solid #ECECEC; border-radius: 16px; padding: 22px 26px; display: flex; flex-direction: column; gap: 4px">
+<h2 id="faqs" style="margin: 0 0 8px; font-size: 18px; font-weight: 600">Common questions</h2>
+<sc-for list="{{faqRows}}" as="q" hint-placeholder-count="4">
+<button type="button" onClick="{{q.open}}" style="width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 0; border: none; border-top: 1px solid #F0F0F0; background: none; cursor: pointer; font-size: 14px; color: #141414; min-height: 44px">
+<span style="display: flex; flex-direction: column; gap: 3px"><span style="font-weight: 500">{{q.q}}</span><span style="font-size: 13px; color: #5F5F5F">{{q.short}}</span></span>
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round" style="flex: 0 0 16px"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+</button>
+</sc-for>
+</section>
+</div>
+<aside aria-labelledby="yourcover" style="flex: 1 1 300px; max-width: 380px; position: sticky; top: 24px; background: #ffffff; border: 1px solid #ECECEC; border-radius: 16px; padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<h2 id="yourcover" style="margin: 0; font-size: 16px; font-weight: 600">Your cover from 1 April</h2>
+<span style="{{changesStyle}}">{{changesText}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 13px; color: #5F5F5F">What it really costs you</span>
+<div style="display: flex; align-items: baseline; gap: 6px">
+<span style="font-size: 36px; font-weight: 600; letter-spacing: -0.02em">{{realMo}}</span>
+<span style="font-size: 14px; color: #5F5F5F">a month</span>
+</div>
+<span style="font-size: 13px; color: #5F5F5F">Keeping your current cover: £30.00 a month</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 9px; border-top: 1px solid #F0F0F0; padding-top: 14px; font-size: 13px">
+<div style="display: flex; justify-content: space-between"><span style="color: #4A4A4A">Total premium</span><span style="font-weight: 500">{{total}} a year</span></div>
+<div style="display: flex; justify-content: space-between"><span style="color: #4A4A4A">Paid by Meridian</span><span style="font-weight: 500">{{emp}}</span></div>
+<div style="display: flex; justify-content: space-between"><span style="color: #4A4A4A">From your Flex Fund</span><span style="font-weight: 500">{{fund}}</span></div>
+<div style="display: flex; justify-content: space-between; border-top: 1px dashed #E4E4E4; padding-top: 9px"><span style="color: #4A4A4A">From your pay</span><span style="font-weight: 500">{{payMo}} a month</span></div>
+<div style="display: flex; justify-content: space-between"><span style="color: #4A4A4A">Income tax on the benefit</span><span style="font-weight: 500">{{taxMo}} a month</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #4A4A4A"><span>Flex Fund used</span><span>{{fundUsed}} of £500</span></div>
+<div style="height: 8px; background: #EEF3F1; border-radius: 4px; overflow: hidden"><div style="{{fundBar}}"></div></div>
+<span style="font-size: 12px; line-height: 1.45; color: #4A4A4A">{{fundNote}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; background: #FFF6E5; color: #7A4300; border-radius: 10px; padding: 10px 12px; font-size: 13px">
+<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span>Closes 31 March: 9 days left</span>
+</div>
+<a href="Review.dc.html" style="display: flex; justify-content: center; align-items: center; background: #141414; color: #ffffff; text-decoration: none; padding: 13px; border-radius: 10px; font-weight: 500; font-size: 14px; min-height: 44px; box-sizing: border-box">Review and confirm</a>
+<button type="button" onClick="{{reset}}" style="background: none; border: none; font-size: 13px; color: #4A4A4A; text-decoration: underline; cursor: pointer; padding: 6px">Reset to my current cover</button>
+<p style="margin: 0; font-size: 11px; line-height: 1.5; color: #6B6B6B">Guidance, not financial advice. Illustrative prices. Tax shown at your 40% rate. No AXA login needed: we update AXA and payroll for you.</p>
+</aside>
+</div>
+</div>
+<div style="position: sticky; bottom: 20px; padding: 0 28px 20px; display: flex; justify-content: flex-end; pointer-events: none">
+<sc-if value="{{assistClosed}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{openAssist}}" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; background: #141414; color: #ffffff; border: none; padding: 13px 18px; border-radius: 999px; font-size: 14px; font-weight: 500; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.16)"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 3v4M17 5h4"></path></svg>Ask AI about this benefit</button>
+</sc-if>
+<sc-if value="{{assistOpen}}" hint-placeholder-val="{{ false }}">
+<section aria-label="Ask AI about this benefit" style="pointer-events: auto; width: 420px; max-width: 100%; background: #ffffff; border: 1px solid #E4E4E4; border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.14); display: flex; flex-direction: column; overflow: hidden">
+<div style="padding: 12px 12px 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #F0F0F0">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<label style="flex: 1; display: flex"><span style="position: absolute; left: -9999px">Search or ask a question</span><input type="text" placeholder="Ask about Private Medical Insurance…" style="flex: 1; border: none; outline: none; font-size: 15px; padding: 8px 0; min-width: 0"></label>
+<button type="button" aria-label="Close" onClick="{{closeAssist}}" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid #E4E4E4; background: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</div>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+<sc-if value="{{hasAnswer}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; justify-content: flex-end"><span style="background: #141414; color: #ffffff; border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 500">{{askQ}}</span></div>
+<p style="margin: 0; font-size: 14px; line-height: 1.6">{{askA}}</p>
+<sc-if value="{{askCard}}" hint-placeholder-val="{{ false }}">
+<div style="border: 1px solid #ECECEC; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; color: #5F5F5F">{{cardLabel}}</span>
+<span style="font-size: 24px; font-weight: 600">{{cardAmt}}</span>
+<span style="font-size: 12px; line-height: 1.45; color: #4A4A4A">{{cardNote}}</span>
+</div>
+</sc-if>
+<sc-if value="{{hasLinks}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+<sc-for list="{{links}}" as="l" hint-placeholder-count="2">
+<a href="Benefit.dc.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #141414"><span aria-hidden="true" style="width: 16px; height: 16px; border-radius: 3px; background: #00008F; color: #ffffff; font-size: 7px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center">AXA</span><span style="text-decoration: underline">{{l}}</span></a>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{askAction}}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{addSam}}" style="align-self: flex-start; background: #141414; color: #ffffff; border: none; padding: 9px 14px; border-radius: 9px; font-size: 13px; font-weight: 500; cursor: pointer; min-height: 40px">Add Sam to my choices</button>
+</sc-if>
+<sc-if value="{{askPrivate}}" hint-placeholder-val="{{ false }}">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #1D5E35"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>This stays between you and Navigator. Meridian never sees it.</span>
+</sc-if>
+<span style="font-size: 11px; color: #6B6B6B">Sources: Meridian scheme rules, AXA 2027–28 policy document, your current choices</span>
+</sc-if>
+<span style="font-size: 12px; font-weight: 600; color: #3D3D3D; margin-top: 2px">Suggested questions</span>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{c.ask}}" style="text-align: left; display: flex; gap: 10px; align-items: flex-start; padding: 9px 4px; border: none; background: none; cursor: pointer; font-size: 13px; line-height: 1.45; color: #141414; border-radius: 8px">
+<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round" style="flex: 0 0 14px; margin-top: 2px"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{c.label}}
+</button>
+</sc-for>
+</div>
+</div>
+<div style="padding: 10px 16px 14px; border-top: 1px solid #F0F0F0; display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 11px; color: #6B6B6B">Answers use your current choices</span>
+<a href="Builder.dc.html" style="font-size: 13px; font-weight: 500; color: #4B36C4">Continue in Chat</a>
+</div>
+</section>
+</sc-if>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tier: 'core', sam: false, kids: [], ex: '0', op: '1000', spec: 'dir', adding: false, rel: '', kidName: '', kidErr: false, assist: false, q: -1, fine: false, kept: false };
+  }
+  calc(s) {
+    var RATE = { core: 900, enh: 1125, prem: 1350 };
+    var E = { '0': 1, '100': 0.95, '250': 0.9, '500': 0.85 }, O = { '500': 0.9, '1000': 1, full: 1.1 }, SP = { guided: 0.9, dir: 1, ext: 1.15 };
+    var heads = RATE[s.tier] * (1 + (s.sam ? 1 : 0)) + RATE[s.tier] * 0.4 * s.kids.length;
+    var P = heads * E[s.ex] * O[s.op] * SP[s.spec];
+    var emp = Math.min(P, 900), pot = 500 + (900 - emp), rem = P - emp;
+    var fund = Math.min(rem, pot), pay = rem - fund, tax = (P - pay) * 0.4;
+    return { P: P, emp: emp, fund: fund, pay: pay, tax: tax, unused: pot - fund, real: (pay + tax) / 12 };
+  }
+  feats(s) {
+    var t = s.tier, not = 'Not on your plan';
+    return [
+      { name: 'Mental health support', rel: true, detail: { core: 'Outpatient care up to £1,000 a year', enh: 'Outpatient care up to £2,000 a year', prem: 'Outpatient care paid in full' }[t], status: 'Included' },
+      { name: 'Physiotherapy and osteopathy', rel: true, detail: { core: 'Up to 10 sessions, no GP referral needed', enh: 'Up to 15 sessions, no GP referral needed', prem: 'Unlimited when clinically needed' }[t], status: 'Included' },
+      { name: 'Virtual GP (Doctor at Hand)', detail: 'Phone and video appointments, 24/7', status: 'Included' },
+      { name: 'Cancer care', detail: 'Diagnosis, surgery and drug treatment paid in full', status: 'Included' },
+      { name: 'Outpatient consultations, tests and therapies', detail: { '500': 'Up to £500 a year, including your excess', '1000': 'Up to £1,000 a year, including your excess', full: 'Paid in full' }[s.op], status: s.op === '500' ? 'Limited' : 'Included' },
+      { name: 'MRI, CT and PET scans', detail: s.spec === 'ext' ? 'Paid in full at any UK scanning centre' : 'Paid in full at AXA scanning centres', status: 'Included' },
+      { name: 'Therapies (acupuncture, chiropody)', detail: t === 'core' ? 'Comes with Enhanced or Premium' : 'Up to £500 a year', status: t === 'core' ? not : 'Included' },
+      { name: 'Dental and optical cash plan', detail: t === 'prem' ? 'Up to £250 a year back' : 'Comes with Premium', status: t === 'prem' ? 'Included' : not }
+    ];
+  }
+  renderVals() {
+    var self = this, s = this.state;
+    var base = { tier: 'core', sam: false, kids: [], ex: '0', op: '1000', spec: 'dir' };
+    var c = this.calc(s);
+    var m2 = function (n) { return '£' + n.toFixed(2); };
+    var m0 = function (n) { return '£' + Math.round(n).toLocaleString('en-GB'); };
+    var btn = 'padding: 10px 14px; border-radius: 10px; font-size: 14px; cursor: pointer; min-height: 44px; font-family: inherit; ';
+    var onS = 'background: #141414; color: #ffffff; border: 1px solid #141414; font-weight: 500;', offS = 'background: #ffffff; color: #141414; border: 1px solid #DADADA;';
+    var hints = {
+      tier: { core: 'Meridian’s base level: 10 physio sessions and up to £1,000 of outpatient mental health care.', enh: 'Adds therapies and raises physio to 15 sessions and mental health to £2,000.', prem: 'Adds a dental and optical cash plan and unlimited physio. The most expensive by far.' },
+      ex: { '0': 'You pay nothing when you claim.', '100': 'You pay the first £100 of claims, once per person each year. It counts towards your outpatient allowance.', '250': 'You pay the first £250 of claims, once per person each year. Saves premium if you rarely claim.', '500': 'You pay the first £500 of claims, once per person each year. Only worth it if you rarely claim.' },
+      op: { '500': 'Covers a consultation or two. Specialist tests before treatment often cost more, and you’d pay the difference.', '1000': 'Covers most diagnosis journeys. MRI, CT and PET scans are paid in full on top of this.', full: 'Consultations, tests and therapies paid in full.' },
+      spec: { guided: 'AXA arranges your specialist and hospital from its shortlist. Lower cost, but you can’t choose a named consultant.', dir: 'You choose any specialist and hospital in AXA’s Directory of Hospitals.', ext: 'Adds hospitals and scanning centres outside AXA’s Directory. Only worth it if you have one in mind.' }
+    };
+    var defs = [
+      { key: 'tier', label: 'Cover level', opts: [['core', 'Core'], ['enh', 'Enhanced'], ['prem', 'Premium']] },
+      { key: 'ex', label: 'Excess', opts: [['0', '£0'], ['100', '£100'], ['250', '£250'], ['500', '£500']] },
+      { key: 'op', label: 'Outpatient allowance', opts: [['500', '£500'], ['1000', '£1,000'], ['full', 'Paid in full']] },
+      { key: 'spec', label: 'Choosing your specialist', opts: [['guided', 'Guided by AXA'], ['dir', 'Your choice'], ['ext', 'Your choice + Extended cover']] }
+    ];
+    var names = { tier: { core: 'Core', enh: 'Enhanced', prem: 'Premium' }, ex: { '0': '£0 excess', '100': '£100 excess', '250': '£250 excess', '500': '£500 excess' }, op: { '500': '£500 outpatient allowance', '1000': '£1,000 outpatient allowance', full: 'outpatient paid in full' }, spec: { guided: 'specialist guided by AXA', dir: 'your choice of specialist', ext: 'your choice + Extended cover' } };
+    var groups = defs.map(function (d) {
+      return {
+        label: d.label, hint: hints[d.key][s[d.key]],
+        opts: d.opts.map(function (o) {
+          var on = s[d.key] === o[0];
+          return { label: o[1], pressed: on, style: btn + (on ? onS : offS), pick: function () { var u = { kept: false }; u[d.key] = o[0]; self.setState(u); } };
+        })
+      };
+    });
+    var leversChanged = defs.some(function (d) { return s[d.key] !== base[d.key]; });
+    var now = this.feats(s), was = this.feats(base);
+    var chip = { Included: 'background: #EAF5EE; color: #1D5E35;', Limited: 'background: #FFF3DC; color: #7A4300;', 'Not on your plan': 'background: #F1F1F0; color: #4A4A4A;' };
+    var features = now.map(function (f, i) {
+      var changed = f.detail !== was[i].detail || f.status !== was[i].status;
+      return {
+        name: f.name, detail: f.detail, status: f.status, relevant: !!f.rel,
+        chipStyle: chip[f.status] + ' font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; white-space: nowrap;',
+        cardStyle: 'display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 12px; ' + (changed ? 'border: 1px solid #B9ACF5; background: #FAF9FF;' : 'border: 1px solid #ECECEC; background: #ffffff;')
+      };
+    });
+    var diffs = [
+      { label: 'Mental health outpatient limit', from: '£750', to: '£1,000', note: 'Higher on every cover level', up: true },
+      { label: 'Guided by AXA option', from: 'Not offered', to: 'New', note: 'Lower cost if AXA arranges your specialist', up: true },
+      { label: 'Physiotherapy sessions', from: '10', to: '10', note: 'No change', up: false },
+      { label: 'Core premium for you', from: '£900', to: '£900', note: 'No change. Meridian still pays it', up: false }
+    ].map(function (d) { return Object.assign(d, { toStyle: d.up ? 'font-weight: 600; color: #1D5E35;' : 'font-weight: 500; color: #141414;' }); });
+    var withSam = this.calc(Object.assign({}, s, { sam: true }));
+    var withKid = this.calc(Object.assign({}, s, { kids: s.kids.concat([{ name: 'x' }]) }));
+    var rels = [['child', 'Child'], ['partner', 'Partner'], ['parent', 'Parent'], ['other', 'Someone else']].map(function (r) {
+      var on = s.rel === r[0];
+      return { label: r[1], on: on, style: btn + (on ? onS : offS), pick: function () { self.setState({ rel: r[0], kidErr: false }); } };
+    });
+    var kids = s.kids.map(function (k, i) {
+      return { name: k.name, initial: k.name.charAt(0).toUpperCase(), remove: function () { var arr = s.kids.slice(); arr.splice(i, 1); self.setState({ kids: arr }); } };
+    });
+    var excess = +s.ex, allow = s.op === 'full' ? Infinity : +s.op, kneeCost = 1300;
+    var kneePay = s.op === 'full' ? excess : excess + Math.max(0, kneeCost - allow);
+    var answers = [
+      { q: 'Can I add Sam?', short: s.sam ? 'Yes, he’s in your choices.' : 'Yes, until 31 March. About ' + m2(withSam.real - c.real) + ' more a month.',
+        a: s.sam ? 'Sam’s already in your choices. He’ll be covered from 1 April once you confirm. I’ll just need his date of birth.' : 'Yes. Enrolment is open until 31 March, and it’s the main time in the year to add family. With your other choices as they are, that’s about ' + m2(withSam.real - c.real) + ' more a month, including tax.',
+        action: !s.sam },
+      { q: 'What would a knee operation cost me?', short: 'On your current choices: ' + m0(kneePay) + '.',
+        a: 'Say you need two consultations and some tests (about £1,300), then an MRI and day-case surgery. The MRI and the surgery are paid in full on any of your options. You’d usually start with physio through AXA’s Muscles, Bones and Joints service, with no GP referral needed.',
+        card: true, label: 'You’d pay', amt: m0(kneePay), note: (excess ? m0(excess) + ' excess' : 'No excess') + (s.op === 'full' ? '. Outpatient costs paid in full.' : (kneeCost > allow ? ', plus ' + m0(kneeCost - allow) + ' over your ' + m0(allow) + ' outpatient allowance.' : '. Outpatient costs fit within your allowance.')),
+        links: ['Physiotherapy and osteopathy', 'MRI, CT and PET scans'] },
+      { q: 'What’s changed since last year?', short: 'Higher mental health limit, and a new lower-cost option.',
+        a: 'Two things. Mental health outpatient cover goes up from £750 to £1,000 a year on every level, and there’s a new Guided by AXA option that lowers the cost if you let AXA arrange your specialist. Physio and your Core premium are unchanged.',
+        links: ['Mental health support'] },
+      { q: 'What if I change my mind later?', short: 'Only after another life event, until March 2028.',
+        a: 'After 31 March you can only change your cover after another life event, such as a birth. Under Meridian’s scheme rules, someone who leaves and rejoins later may no longer have their medical history ignored.' },
+      { q: 'Are pre-existing conditions covered?', short: 'Yes, for you and anyone you add now.',
+        a: 'Yes, for you and anyone you add at enrolment: Meridian’s scheme ignores medical history. PMI covers flare-ups and diagnosis; routine management of long-term conditions stays with your GP.', priv: true }
+    ];
+    var cur = s.q >= 0 ? answers[s.q] : null;
+    var faqRows = answers.map(function (a, i) { return { q: a.q, short: a.short, open: function () { self.setState({ assist: true, q: i }); } }; });
+    var chips = answers.map(function (a, i) { return { label: a.q, i: i, ask: function () { self.setState({ q: i }); } }; }).filter(function (x) { return x.i !== s.q; }).slice(0, 4);
+    var whoChanged = s.sam || s.kids.length > 0;
+    var n = defs.filter(function (d) { return s[d.key] !== base[d.key]; }).length + (whoChanged ? 1 : 0);
+    var pct = Math.min(100, Math.round(c.fund / 500 * 100));
+    var keepOn = s.kept;
+    return {
+      groups: groups, features: features, diffs: diffs, rels: rels, kids: kids, faqRows: faqRows, chips: chips,
+      showNudge: !s.sam && !s.kept, kept: s.kept, samIn: s.sam, samOut: !s.sam, whoChanged: whoChanged,
+      samCost: m2(withSam.real - c.real), kidCost: m2(withKid.real - c.real),
+      adding: s.adding, notAdding: !s.adding,
+      relChild: s.rel === 'child', relPartner: s.rel === 'partner', relOther: s.rel === 'parent' || s.rel === 'other',
+      kidName: s.kidName, kidErr: s.kidErr,
+      kidStyle: 'border: 1px solid ' + (s.kidErr ? '#B42318' : '#DADADA') + '; border-radius: 10px; padding: 10px 12px; font-size: 14px;',
+      setKidName: function (e) { self.setState({ kidName: e.target.value, kidErr: false }); },
+      addKid: function () { var nm = s.kidName.trim(); if (!nm) { self.setState({ kidErr: true }); return; } self.setState({ kids: s.kids.concat([{ name: nm }]), kidName: '', adding: false, rel: '', kept: false }); },
+      startAdd: function () { self.setState({ adding: true, rel: '', kept: false }); },
+      cancelAdd: function () { self.setState({ adding: false, rel: '', kidErr: false }); },
+      addSam: function () { self.setState({ sam: true, kept: false }); },
+      removeSam: function () { self.setState({ sam: false }); },
+      keep: function () { self.setState(Object.assign({}, base, { kept: true, adding: false, rel: '', fine: false })); },
+      keepStyle: 'text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 12px; cursor: pointer; font-family: inherit; color: #141414; ' + (keepOn ? 'border: 2px solid #1D5E35; background: #EEF8F1;' : 'border: 1px solid #DADADA; background: #ffffff;'),
+      reset: function () { self.setState(Object.assign({}, base, { adding: false, rel: '', kept: false })); },
+      fine: s.fine, notFine: !s.fine, fineLabel: s.fine ? 'Hide options' : 'Adjust',
+      toggleFine: function () { self.setState({ fine: !s.fine }); },
+      leversChanged: leversChanged,
+      leverSummary: names.tier[s.tier] + ' · ' + names.ex[s.ex] + ' · ' + names.op[s.op] + ' · ' + names.spec[s.spec] + '. Change your excess, outpatient allowance or how you choose a specialist.',
+      assistOpen: s.assist, assistClosed: !s.assist,
+      openAssist: function () { self.setState({ assist: true }); },
+      closeAssist: function () { self.setState({ assist: false }); },
+      hasAnswer: !!cur, askQ: cur ? cur.q : '', askA: cur ? cur.a : '',
+      askCard: !!(cur && cur.card), cardLabel: cur && cur.label || '', cardAmt: cur && cur.amt || '', cardNote: cur && cur.note || '',
+      askAction: !!(cur && cur.action), askPrivate: !!(cur && cur.priv),
+      hasLinks: !!(cur && cur.links), links: cur && cur.links ? cur.links : [],
+      realMo: m2(c.real), total: m0(c.P), emp: m0(c.emp), fund: m0(c.fund),
+      payMo: m2(c.pay / 12), taxMo: m2(c.tax / 12), fundUsed: m0(c.fund),
+      fundBar: 'height: 8px; width: ' + pct + '%; background: #1F5C4E; border-radius: 4px;',
+      fundNote: c.fund > 0 ? 'Spending your Flex Fund here means about ' + m2(c.fund * 0.6 / 12) + ' a month less if you’d taken it as cash.' : m0(c.unused) + ' of your Flex Fund is free for other benefits, or to take as cash.',
+      changesText: s.kept ? 'Confirmed' : (n === 0 ? 'No changes' : n + (n > 1 ? ' changes' : ' change') + ' to confirm'),
+      changesStyle: 'font-size: 12px; font-weight: 500; padding: 3px 8px; border-radius: 6px; white-space: nowrap; ' + (s.kept ? 'background: #EAF5EE; color: #1D5E35;' : (n === 0 ? 'background: #F1F1F0; color: #4A4A4A;' : 'background: #F2EFFD; color: #4B36C4;'))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scenario explorer for health cover</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#141414;background:#fff}
+a{color:#141414}a:hover{color:#000}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 1360px; background: #ffffff; font-size: 14px">
+<nav aria-label="Main" style="flex: 1 1 220px; max-width: 240px; border-right: 1px solid #ECECEC; padding: 20px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; background: #ffffff">
+<div style="display: flex; align-items: center; gap: 8px; padding: 0 6px">
+<span style="width: 26px; height: 26px; border-radius: 7px; background: #1F5C4E; color: #ffffff; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center">M</span>
+<span style="font-weight: 600; font-size: 15px">Meridian Benefits</span>
+</div>
+<a href="Builder.dc.html" style="display: flex; align-items: center; gap: 8px; background: #F4F4F3; border-radius: 10px; padding: 9px 10px; color: #5F5F5F; text-decoration: none; font-size: 13px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search or ask</a>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg>Home</a>
+<a href="Benefit.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none; background: #F1F1F0; font-weight: 500"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l2 2.6 3.3-.5.5 3.3L20.4 10l-1.7 2 1.7 2-2.6 1.6-.5 3.3-3.3-.5L12 21l-2-2.6-3.3.5-.5-3.3L3.6 14l1.7-2-1.7-2 2.6-1.6.5-3.3 3.3.5z"></path></svg>Benefits</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 12V4h8l10 10-7 7z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg>Store</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 20l5-13 8 8z"></path><path d="M14 4l1 2M18 6l-2 1M20 10l-2-.4"></path></svg>Recognition</a>
+<a href="Review.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>My choices</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12h8M12 8v8"></path></svg>Total rewards</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; text-decoration: none"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 20s-7-4.4-9-8.6C1.6 8.3 3.5 5 6.8 5c2 0 3.3 1.1 4.2 2.4C11.9 6.1 13.2 5 15.2 5 18.5 5 20.4 8.3 19 11.4 17 15.6 12 20 12 20z"></path></svg>Saved</a>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; background: #F6F5F1; border: 1px solid #ECEAE2; border-radius: 999px; padding: 5px 10px"><span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: #E8B10E"></span>100 to spend</span>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 6px; border-top: 1px solid #ECECEC">
+<span style="width: 26px; height: 26px; border-radius: 50%; background: #F3D9A4; color: #5C3D00; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">PS</span>
+<span style="font-size: 13px; font-weight: 500">Priya Shah</span>
+</div>
+</div>
+</nav>
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 48px 64px; box-sizing: border-box">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555555">
+<a href="Benefit.dc.html" style="color: #555555; text-decoration: none">Private Medical Insurance</a>
+<span aria-hidden="true">›</span>
+<span style="color: #141414">What would happen if…</span>
+</div>
+<h1 style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">What would happen if…</h1>
+<p style="margin: 0; font-size: 15px; color: #4A4A4A; max-width: 680px; line-height: 1.55">Real situations, priced on each plan, so you can choose by what it means for you rather than by the premium alone. Picked from what you told us matters, plus Sam’s asthma.</p>
+</div>
+<section aria-label="Summary" style="border: 1px solid #D9D2FA; border-radius: 16px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start">
+<span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 9px; background: #F2EFFD; color: #4B36C4; display: flex; align-items: center; justify-content: center; flex: 0 0 32px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 3v4M17 5h4"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 15px; line-height: 1.6">Adding Sam the lean way costs you <strong style="font-weight: 600">£258 a year more</strong> than today, and its main trade-off is the £250 excess. Even if all four of these happened in one year, Enhanced would still cost you <strong style="font-weight: 600">£230 more overall</strong>. It’s only worth it if you’d value outpatient care paid in full and a free choice of specialist.</p>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #4A4A4A">The biggest risk is in today’s plan: Sam isn’t covered, so anything serious for him means the NHS waiting list or paying privately in full.</p>
+</div>
+</section>
+<section aria-label="Plans compared" style="overflow-x: auto; border: 1px solid #ECECEC; border-radius: 16px">
+<div style="min-width: 860px; display: flex; flex-direction: column">
+<div style="display: grid; grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr)); border-bottom: 1px solid #ECECEC">
+<div style="padding: 16px 18px; display: flex; align-items: flex-end"><span style="font-size: 12px; color: #5F5F5F">Choose a plan to highlight it</span></div>
+<sc-for list="{{plans}}" as="p" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{p.on}}" onClick="{{p.pick}}" style="{{p.headStyle}}">
+<span style="font-size: 12px; font-weight: 500; color: {{p.tagColor}}">{{p.tag}}</span>
+<span style="font-size: 15px; font-weight: 600">{{p.name}}</span>
+<span style="font-size: 12px; color: #4A4A4A; line-height: 1.4">{{p.sub}}</span>
+<span style="font-size: 18px; font-weight: 600; margin-top: 4px">{{p.mo}}<span style="font-size: 12px; font-weight: 400; color: #4A4A4A"> a month</span></span>
+</button>
+</sc-for>
+</div>
+<sc-for list="{{scen}}" as="s" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr)); border-bottom: 1px solid #F0F0F0">
+<div style="padding: 18px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 500; color: #4A4A4A">{{s.who}} · typical cost {{s.cost}}</span>
+<span style="font-size: 15px; font-weight: 600">{{s.title}}</span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+<sc-for list="{{s.journey}}" as="j" hint-placeholder-count="3">
+<span style="font-size: 12px; background: #F4F4F3; color: #3D3D3D; padding: 3px 8px; border-radius: 6px">{{j}}</span>
+</sc-for>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: #4B36C4"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{s.why}}</span>
+</div>
+<sc-for list="{{s.cells}}" as="c" hint-placeholder-count="3">
+<div style="{{c.style}}">
+<span style="font-size: 20px; font-weight: 600; color: {{c.amtColor}}">{{c.amt}}</span>
+<span style="font-size: 12px; color: #4A4A4A; line-height: 1.4">{{c.note}}</span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+<sc-for list="{{totals}}" as="t" hint-placeholder-count="2">
+<div style="display: grid; grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr)); background: #FAFAF9; border-bottom: 1px solid #F0F0F0">
+<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 600">{{t.label}}</span>
+<span style="font-size: 12px; color: #4A4A4A">{{t.sub}}</span>
+</div>
+<sc-for list="{{t.cells}}" as="c" hint-placeholder-count="3">
+<div style="{{c.style}}"><span style="font-size: 18px; font-weight: 600">{{c.amt}}</span></div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</section>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+<label style="flex: 1 1 420px; display: flex; align-items: center; gap: 10px; border: 1px solid #D9D2FA; border-radius: 12px; padding: 6px 6px 6px 14px">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B45D6" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+<span style="position: absolute; left: -9999px">Ask your own what-if</span>
+<input type="text" placeholder="Ask your own, like “what if Sam needed a hernia operation?”" style="flex: 1; border: none; outline: none; font-size: 14px; padding: 8px 0; min-width: 0">
+<button type="button" style="background: #141414; color: #ffffff; border: none; padding: 10px 14px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer">Add scenario</button>
+</label>
+<a href="Review.dc.html" style="display: inline-flex; align-items: center; gap: 8px; background: #141414; color: #ffffff; text-decoration: none; padding: 13px 18px; border-radius: 10px; font-weight: 500; font-size: 14px; min-height: 44px; box-sizing: border-box">Continue with {{selName}}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+<p style="margin: 0; font-size: 12px; color: #5F5F5F; line-height: 1.5">Illustrative costs, worked out from your plan’s rules: the excess is paid once per person each year and counts towards the outpatient allowance; MRI, CT and PET scans are paid in full at AXA scanning centres. Not a prediction of what will happen, and not financial advice.</p>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1360}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 1 };
+  }
+  renderVals() {
+    var self = this, sel = this.state.sel;
+    var planDefs = [
+      { tag: 'Keep as is', tagColor: '#4A4A4A', name: 'Current cover', sub: 'Core, just you, £0 excess, £1,000 outpatient, your choice of specialist', mo: '£30.00' },
+      { tag: 'Suggested in chat', tagColor: '#4B36C4', name: 'Add Sam, lean', sub: 'Core, you and Sam, £250 excess, £1,000 outpatient, Guided by AXA', mo: '£51.50' },
+      { tag: 'Alternative', tagColor: '#4A4A4A', name: 'Enhanced', sub: 'Enhanced, you and Sam, £250 excess, outpatient in full, your choice', mo: '£115.63' }
+    ];
+    var cellStyle = function (i, extra) {
+      return 'padding: 18px 16px; display: flex; flex-direction: column; gap: 4px; justify-content: center; border-left: 1px solid #F0F0F0; ' + (i === sel ? 'background: #FAF9FF; box-shadow: inset 2px 0 0 #5B45D6, inset -2px 0 0 #5B45D6;' : '') + (extra || '');
+    };
+    var plans = planDefs.map(function (p, i) {
+      return Object.assign({}, p, {
+        on: i === sel,
+        pick: function () { self.setState({ sel: i }); },
+        headStyle: 'text-align: left; font-family: inherit; cursor: pointer; border: none; border-left: 1px solid #F0F0F0; padding: 16px; display: flex; flex-direction: column; gap: 3px; ' + (i === sel ? 'background: #F2EFFD; box-shadow: inset 2px 0 0 #5B45D6, inset -2px 0 0 #5B45D6, inset 0 2px 0 #5B45D6;' : 'background: #ffffff;')
+      });
+    });
+    var scenDefs = [
+      { who: 'Priya', cost: 'over £11,000', why: 'You told us bones, joints & muscles matter', title: 'Knee injury that needs surgery', journey: ['Virtual GP', 'Consultations and tests £1,300', 'MRI (paid in full)', 'Day-case surgery (paid in full)'],
+        cells: [['£300', 'Consultations and tests go £300 over your £1,000 allowance'], ['£550', '£250 excess, plus £300 over the allowance'], ['£250', 'Just the excess. Outpatient paid in full']] },
+      { who: 'Sam', cost: '£650', why: 'You mentioned Sam’s asthma in chat', title: 'Asthma flare-up, specialist review', journey: ['GP referral', 'Respiratory consultant', 'Lung function tests'],
+        cells: [['£650', 'Sam isn’t covered: pay privately or wait for the NHS'], ['£250', 'Covered: under Meridian’s rules his history is ignored'], ['£250', 'Covered: under Meridian’s rules his history is ignored']] },
+      { who: 'Priya', cost: '£960', why: 'You told us mental health matters', title: 'Eight sessions of talking therapy', journey: ['Self-referral', 'Mental health assessment', '8 sessions'],
+        cells: [['£0', 'Within your £1,000 mental health limit'], ['£250', 'The excess applies'], ['£250', 'The excess applies']] },
+      { who: 'Priya', cost: '£840', why: 'You told us bones, joints & muscles matter', title: 'Back pain needing 14 physio sessions', journey: ['Self-referral', 'Physio assessment', '14 sessions'],
+        cells: [['£240', 'Sessions 11 to 14 aren’t covered'], ['£490', '£250 excess, plus 4 sessions not covered'], ['£250', '15 sessions included. Just the excess']] }
+    ];
+    var scen = scenDefs.map(function (s) {
+      return {
+        who: s.who, why: s.why, cost: s.cost, title: s.title, journey: s.journey,
+        cells: s.cells.map(function (c, i) {
+          return { amt: c[0], note: c[1], amtColor: c[0] === '£0' ? '#1D5E35' : '#141414', style: cellStyle(i) };
+        })
+      };
+    });
+    var totals = [
+      { label: 'If nothing happens this year', sub: 'What the cover costs you: deductions plus tax', vals: ['£360', '£618', '£1,388'] },
+      { label: 'If all four happened in one year', sub: 'Cover cost plus claims, with the excess paid once per person', vals: ['£1,550', '£1,658', '£1,888'] }
+    ].map(function (t) {
+      return { label: t.label, sub: t.sub, cells: t.vals.map(function (v, i) { return { amt: v, style: cellStyle(i, 'padding: 16px;') }; }) };
+    });
+    return { plans: plans, scen: scen, totals: totals, selName: planDefs[sel].name.toLowerCase() === 'current cover' ? 'my current cover' : planDefs[sel].name };
+  }
+}
+</script>
+</body>
+</html>
