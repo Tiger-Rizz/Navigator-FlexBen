@@ -9,7 +9,7 @@ import { pay } from '@/lib/part2';
 import { usePlan } from '@/lib/store';
 import { MessageParts, TypingDots } from './MessageParts';
 
-/** Floating "Ask AI about this benefit" pill (PMI pages) and the Ask AI panel: answer above, composer below. */
+/** Floating "Ask more about this benefit" pill (PMI pages) and the Ask panel: answer above, composer below. */
 export function AskPanel() {
   const pathname = usePathname();
   const router = useRouter();
@@ -72,19 +72,19 @@ export function AskPanel() {
           className="fixed bottom-24 right-4 z-40 inline-flex min-h-12 items-center gap-2 rounded-full border border-ai-border bg-white px-5 font-medium text-ai-text shadow-[var(--shadow-float)] cursor-pointer hover:bg-ai-soft lg:bottom-6 lg:right-6"
         >
           <Sparkles aria-hidden size={17} strokeWidth={1.8} className="text-ai-icon" />
-          Ask AI about this benefit
+          Ask more about this benefit
         </button>
       )}
       {askOpen && (
         <section
           role="dialog"
-          aria-label="Ask AI"
+          aria-label={onPay ? 'Ask about your pay' : 'Ask about this benefit'}
           data-tour="ask-panel"
           className="rise fixed bottom-4 left-4 right-4 z-50 flex max-h-[min(640px,calc(100vh-2rem))] flex-col overflow-hidden rounded-[18px] border border-line bg-white shadow-[var(--shadow-float)] sm:left-auto sm:w-[440px]"
         >
           <header className="flex items-center gap-2 border-b border-line py-1.5 pl-4 pr-1.5">
             <Sparkles aria-hidden size={16} strokeWidth={1.8} className="text-ai-icon" />
-            <span className="flex-1 text-sm font-semibold">Ask AI</span>
+            <span className="flex-1 text-sm font-semibold">{onPay ? 'Ask about your pay' : 'Ask about this benefit'}</span>
             {question && !onPay && (
               <button type="button" onClick={toChat} className="inline-flex min-h-11 items-center gap-1.5 rounded-[10px] px-2.5 text-[13px] font-medium text-ai-text cursor-pointer hover:bg-ai-soft">
                 <MessagesSquare aria-hidden size={15} strokeWidth={1.8} />Continue in chat

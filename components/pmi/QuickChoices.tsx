@@ -50,7 +50,7 @@ export function QuickChoices({ onAddFamily }: { onAddFamily: () => void }) {
       </button>
       <Link href="/benefits/pmi/chat" className={`${card} border-ai-border bg-ai-soft hover:bg-ai-bg`}>
         <span className="font-semibold">Help me choose</span>
-        <span className="text-[13px] text-ai-text">Talk it through with AI</span>
+        <span className="text-[13px] text-ai-text">Talk through your options</span>
       </Link>
     </div>
   );
