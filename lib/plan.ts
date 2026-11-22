@@ -42,6 +42,17 @@ export function whoLabel(selection: Selection, people: Dependant[]): string {
 /** Lower-cases only the first letter: "You and Sam" → "you and Sam". */
 export const lowerFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
+/** The plan as short chips: "Core cover", "£250 excess", "£1,000 outpatient", "Specialist guided by AXA". */
+export function planChips(s: Selection): string[] {
+  const spec = optionFor('specialist', s.specialist).summary;
+  return [
+    `${optionFor('tier', s.tier).label} cover`,
+    `${optionFor('excess', s.excess).label} excess`,
+    s.outpatient === 'full' ? 'Outpatient in full' : `${optionFor('outpatient', s.outpatient).label} outpatient`,
+    spec.charAt(0).toUpperCase() + spec.slice(1),
+  ];
+}
+
 /** "Core · £0 excess · £1,000 outpatient allowance · your choice of specialist" */
 export function leverSummary(s: Selection): string {
   return LEVERS.map((l) => optionFor(l, s[l]).summary).join(' · ');
