@@ -164,7 +164,7 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 
 ## Part 2 · §3–§5, §7: Your pay, Claim it and tours P and C
 
-93. **All copy lives in `data/pay.april-2027.json` and `data/claims.json`**, taken from the designs and validated with zod in `lib/part2.ts`. The payslip lines are stored as display strings exactly as designed, including "—" and the tax codes.
+93. **All copy lives in `data/pay.april-2027.json` and `data/claims.json`**, taken from the designs and validated with zod in `lib/part2.ts`. The payslip lines are stored as display strings exactly as designed, including "-" and the tax codes.
 94. **The arithmetic is tested, including against Part 1:** +104.40 − 48.33 − 21.50 − 5.22 = +29.35; 180, 83.33 and 9 after 40% tax and 2% NI; 500 − 45 − 25 = 430; 430 − 189 = 241; 189 × 0.58 = 109.62. The −£21.50 health cover effect equals the Part 1 engine's extra tax (£16.67) plus the £4.83 deduction, and the £116.67 medical benefit matches the Part 1 payslip preview. 1167L = 1257L less the £900 benefit.
 95. **Page state lives in a small in-memory store (`lib/part2Store.ts`)** rather than in components, so tours P and C drive the real UI with the same actions a person would take. It isn't persisted: Part 2 is a fixed scripted story.
 96. **The two payslip questions always use the scripted answers** (word for word from PART2.md), even when an API key is set, so Part 2 never calls the API. In the Ask panel on `/pay`, the suggested questions are the payslip ones.

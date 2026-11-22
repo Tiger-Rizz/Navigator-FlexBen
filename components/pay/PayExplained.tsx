@@ -211,7 +211,7 @@ function Payslip() {
       <ul className="m-0 flex list-none flex-col px-5 p-0">
         {pay.lines.map((l) => {
           const { name, note } = splitLabel(l.label);
-          const isNew = l.march === '—';
+          const isNew = l.march === '-';
           return (
             <li key={l.label} className="flex items-center justify-between gap-3 border-t border-divider py-3 first:border-t-0">
               <span className="flex min-w-0 flex-col">

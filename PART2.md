@@ -1,4 +1,4 @@
-# PART2.md — Demo room, notes and two Part 2 features
+# PART2.md - Demo room, notes and two Part 2 features
 
 Read alongside CLAUDE.md, whose principles, tokens and copy rules all still apply. The approved designs are in `/design-reference`: `DemoRoom.dc.html`, `Notes.dc.html`, `Pay.dc.html`, `Claim.dc.html` (same design-tool format as before: ignore `<x-dc>`, `{{ }}` and `DCLogic`; copy layout, spacing and wording; use `renderVals()` only to understand behaviour).
 
@@ -45,7 +45,7 @@ Static data in `/data/pay.april-2027.json`. Copy all wording from the design ref
 | Pension on your higher salary (still 5%) | **−£5.22** | £9 more a month, £5.22 after tax; Meridian's 8% grows too |
 
 (Check: +104.40 − 48.33 − 21.50 − 5.22 = **+29.35**. Add a unit test for it.)
-- **Lines that changed** (right column), March → April: Basic pay £6,000.00 → £6,180.00 · Pension (salary sacrifice) −£300.00 → −£309.00 · Cycle to work — → −£83.33 · Medical benefit (taxed, not paid to you) — → £116.67 · Health cover deduction — → −£4.83 · Tax code 1167L → 1257L. "View full payslip" link (can open a simple modal). "Ask about your pay" with two suggested questions ("Why did my tax code change?", "When do my bike payments end?"). These open the Ask AI panel with scripted answers:
+- **Lines that changed** (right column), March → April: Basic pay £6,000.00 → £6,180.00 · Pension (salary sacrifice) −£300.00 → −£309.00 · Cycle to work - → −£83.33 · Medical benefit (taxed, not paid to you) - → £116.67 · Health cover deduction - → −£4.83 · Tax code 1167L → 1257L. "View full payslip" link (can open a simple modal). "Ask about your pay" with two suggested questions ("Why did my tax code change?", "When do my bike payments end?"). These open the Ask AI panel with scripted answers:
   - Tax code: "Until April, the £900 value of your health cover was taken off your tax-free allowance, giving 1167L. Now that the tax is collected through payroll each month, the adjustment is gone and you're back on 1257L."
   - Bike: "Your last payment is in March 2028, the 12th month. After that, your take-home goes up by £48.33 a month."
 - **Something look wrong?** [Ask payroll] → inline form: line select (required, inline error if empty), optional note, "We'll attach your April payslip, the line and this explanation." [Send to payroll] → confirmation "Sent to Meridian Payroll. They usually reply within 2 working days…"
