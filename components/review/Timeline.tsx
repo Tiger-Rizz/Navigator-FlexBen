@@ -1,27 +1,34 @@
 'use client';
 
+import { Check } from 'lucide-react';
+import { useId } from 'react';
 import type { Dependant, Selection } from '@/lib/data';
 import { formatMonthly } from '@/lib/engine/format';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
 import { coveredPeople } from '@/lib/plan';
 import { addedPeople, nameList } from '@/lib/reviewView';
 
-interface Item { month: string; day: string; title: string; detail: string; key?: boolean; today?: boolean }
+interface Item { month: string; day: string; title: string; detail: string; key?: boolean; today?: boolean; done?: boolean }
 
 /** What happens next, as calendar tiles on a line, so the dates read at a glance. */
-export function Timeline({ base, selection, people }: { base: Selection; selection: Selection; people: Dependant[] }) {
+export function Timeline({ base, selection, people, confirmed = false }: { base: Selection; selection: Selection; people: Dependant[]; confirmed?: boolean }) {
   const b = usePlanPricing(selection);
+  const headingId = useId();
+  // Inside the confirmation sheet the sheet's own headline is the only h2.
+  const Heading = confirmed ? 'h3' : 'h2';
   const added = addedPeople(base, selection, people);
   const covered = coveredPeople(selection, people);
   const items: Item[] = [
-    { month: 'Mar', day: '22', title: 'You confirm', detail: 'Summary by email. We update AXA and payroll.', today: true },
+    confirmed
+      ? { month: 'Mar', day: '22', title: 'Confirmed today', detail: 'Summary on its way. We’re updating AXA and payroll.', today: true, done: true }
+      : { month: 'Mar', day: '22', title: 'You confirm', detail: 'Summary by email. We update AXA and payroll.', today: true },
     ...(added.length ? [{ month: 'Mar', day: '25', title: `${nameList(added)} set up with AXA`, detail: 'App invite sent' }] : []),
     { month: 'Apr', day: '1', title: 'Cover starts', detail: covered.length ? `For you and ${nameList(covered)}` : 'Your cover continues', key: true },
     { month: 'Apr', day: '30', title: 'First payslip', detail: `${formatMonthly(b.realMonthlyCost)} a month, including tax` },
   ];
   return (
-    <section aria-labelledby="next" className="flex flex-col gap-4 rounded-[16px] border border-line bg-white px-5 py-5">
-      <h2 id="next" className="text-base">What happens next</h2>
+    <section aria-labelledby={headingId} className="flex flex-col gap-4 rounded-[16px] border border-line bg-white px-5 py-5">
+      <Heading id={headingId} className="text-base font-semibold">{confirmed ? 'What happens now' : 'What happens next'}</Heading>
       <ol className="relative m-0 flex list-none flex-col gap-4 p-0">
         <span aria-hidden className="absolute bottom-6 left-[21px] top-6 w-px bg-line" />
         {items.map((it) => (
@@ -34,7 +41,10 @@ export function Timeline({ base, selection, people }: { base: Selection; selecti
               <span className="py-0.5 text-base font-semibold leading-tight">{it.day}</span>
             </span>
             <span className="flex flex-col">
-              <span className="text-sm font-semibold">{it.title}<span className="sr-only">, {it.day} {it.month === 'Mar' ? 'March' : 'April'}</span></span>
+              <span className="flex items-center gap-1.5 text-sm font-semibold">
+                {it.done && <span aria-hidden className="flex size-4 items-center justify-center rounded-full bg-success text-white"><Check size={10} strokeWidth={3} /></span>}
+                {it.title}<span className="sr-only">, {it.day} {it.month === 'Mar' ? 'March' : 'April'}</span>
+              </span>
               <span className="text-xs text-secondary">{it.detail}</span>
             </span>
           </li>
