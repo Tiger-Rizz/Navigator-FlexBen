@@ -21,6 +21,9 @@
   --color-brand-tint-border: #c9ddd6;
   --color-fund: #1f5c4e;
   --color-fund-soft: #8fbfae;
+  /* Waterfall marks on Your pay (validated pair: CVD-safe with direct labels) */
+  --color-gain: #2e8a5e;
+  --color-loss: #c26a2b;
 
   --color-ai-text: #4b36c4;
   --color-ai-icon: #5b45d6;

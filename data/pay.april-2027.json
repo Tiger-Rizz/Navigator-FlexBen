@@ -1,53 +1,197 @@
 {
   "period": "April 2027 payslip · paid 30 April",
   "summary": {
-    "lead": "Your take-home pay is ",
-    "strong": "up £29.35 on March",
-    "rest": ", but not by as much as your pay rise. Four things changed.",
+    "headline": "Your take-home pay is up £29.35 on March",
+    "sub": "But not by as much as your £180.00 pay rise. Four things changed.",
     "source": "Worked out from your March and April payslips from Meridian Payroll"
   },
   "payRiseBeforeTax": 180,
   "takeHomeChange": 29.35,
-  "rates": { "incomeTax": 0.4, "nationalInsurance": 0.02 },
+  "rates": {
+    "incomeTax": 0.4,
+    "nationalInsurance": 0.02
+  },
   "rows": [
-    { "id": "rise", "title": "Your pay rise", "sub": "Salary up 3% to £74,160 a year", "takeHome": 104.40, "grossMonthly": 180,
-      "explain": "Your salary went up by £180 a month. After 40% income tax and 2% National Insurance, £104.40 of that reaches your account.",
-      "link": { "label": "Total rewards", "href": "/total-rewards", "tile": "£", "tileBg": "#E9F1EE", "tileFg": "#1F5C4E" },
-      "source": "Source: April payslip, basic pay" },
-    { "id": "cycle", "title": "Cycle to work started", "sub": "£83.33 a month for 12 months, taken before tax", "takeHome": -48.33, "grossMonthly": -83.33,
-      "explain": "Your bike is paid for through salary sacrifice: £83.33 comes off your pay before tax, so it only reduces your take-home by £48.33. Eleven more payments to go.",
-      "link": { "label": "Cycle to work", "href": "/benefits", "tile": "C2W", "tileBg": "#F3E9D8", "tileFg": "#5C3D00" },
-      "source": "Source: April payslip, salary sacrifice" },
-    { "id": "health", "title": "Health cover is now taxed through payroll", "sub": "A new line, and Sam is now covered", "takeHome": -21.50,
-      "explain": "From April 2027, tax on health cover is taken through your payslip each month instead of your tax code. You’ll see “Medical benefit £116.67”: that’s the value you’re taxed on, not money paid to you. It’s higher than before because Sam joined your cover, and your tax code has gone back to 1257L.",
-      "link": { "label": "Private Medical Insurance", "href": "/benefits/pmi", "tile": "AXA", "tileBg": "#00008F", "tileFg": "#ffffff" },
-      "source": "Source: April payslip, payrolled benefits" },
-    { "id": "pension", "title": "Pension on your higher salary", "sub": "Still 5%, now of a bigger salary", "takeHome": -5.22, "grossMonthly": -9,
-      "explain": "You pay 5% into your pension through salary sacrifice. On your new salary that’s £9 more a month, which costs you £5.22 after tax. Meridian’s 8% grows too.",
-      "link": { "label": "Pension", "href": "/benefits", "tile": "AV", "tileBg": "#F3E9D8", "tileFg": "#5C3D00" },
-      "source": "Source: April payslip, pension" }
+    {
+      "id": "rise",
+      "title": "Your pay rise",
+      "short": "Pay rise",
+      "sub": "Salary up 3% to £74,160 a year",
+      "takeHome": 104.4,
+      "grossMonthly": 180,
+      "explain": "Your salary went up £180 a month. Income tax and National Insurance take their share before it reaches you.",
+      "maths": [
+        {
+          "label": "Extra salary",
+          "amount": 180
+        },
+        {
+          "label": "Income tax at 40%",
+          "amount": -72
+        },
+        {
+          "label": "National Insurance at 2%",
+          "amount": -3.6
+        }
+      ],
+      "link": {
+        "label": "Total rewards",
+        "href": "/total-rewards",
+        "tile": "£",
+        "tileBg": "#E9F1EE",
+        "tileFg": "#1F5C4E"
+      },
+      "source": "Source: April payslip, basic pay"
+    },
+    {
+      "id": "cycle",
+      "title": "Cycle to work started",
+      "short": "Cycle to work",
+      "sub": "£83.33 a month for 12 months, taken before tax",
+      "takeHome": -48.33,
+      "grossMonthly": -83.33,
+      "explain": "Your bike is paid for through salary sacrifice, before tax, so it costs you less than the £83.33 payment. Eleven more payments to go.",
+      "maths": [
+        {
+          "label": "Bike payment, taken before tax",
+          "amount": -83.33
+        },
+        {
+          "label": "Tax and NI you don’t pay on it",
+          "amount": 35
+        }
+      ],
+      "link": {
+        "label": "Cycle to work",
+        "href": "/benefits",
+        "tile": "C2W",
+        "tileBg": "#F3E9D8",
+        "tileFg": "#5C3D00"
+      },
+      "source": "Source: April payslip, salary sacrifice"
+    },
+    {
+      "id": "health",
+      "title": "Health cover is now taxed through payroll",
+      "short": "Health cover",
+      "sub": "A new line, and Sam is now covered",
+      "takeHome": -21.5,
+      "explain": "From April 2027, tax on health cover comes through your payslip, not your tax code. The £116.67 medical benefit is the value you’re taxed on, not money paid to you. It’s higher because Sam joined, and your tax code is back to 1257L.",
+      "maths": [
+        {
+          "label": "Health cover deduction",
+          "amount": -4.83
+        },
+        {
+          "label": "Tax on the £116.67 medical benefit",
+          "amount": -46.67
+        },
+        {
+          "label": "Tax no longer taken through your tax code",
+          "amount": 30
+        }
+      ],
+      "link": {
+        "label": "Private Medical Insurance",
+        "href": "/benefits/pmi",
+        "tile": "AXA",
+        "tileBg": "#00008F",
+        "tileFg": "#ffffff"
+      },
+      "source": "Source: April payslip, payrolled benefits"
+    },
+    {
+      "id": "pension",
+      "title": "Pension on your higher salary",
+      "short": "Pension",
+      "sub": "Still 5%, now of a bigger salary",
+      "takeHome": -5.22,
+      "grossMonthly": -9,
+      "explain": "You still pay 5%, now of a bigger salary, before tax. Meridian’s 8% grows too.",
+      "maths": [
+        {
+          "label": "5% of the extra £180, before tax",
+          "amount": -9
+        },
+        {
+          "label": "Tax and NI you don’t pay on it",
+          "amount": 3.78
+        }
+      ],
+      "link": {
+        "label": "Pension",
+        "href": "/benefits",
+        "tile": "AV",
+        "tileBg": "#F3E9D8",
+        "tileFg": "#5C3D00"
+      },
+      "source": "Source: April payslip, pension"
+    }
   ],
   "defaultOpen": "health",
   "lines": [
-    { "label": "Basic pay", "march": "£6,000.00", "april": "£6,180.00" },
-    { "label": "Pension (salary sacrifice)", "march": "−£300.00", "april": "−£309.00" },
-    { "label": "Cycle to work (salary sacrifice)", "march": "—", "april": "−£83.33" },
-    { "label": "Medical benefit (taxed, not paid to you)", "march": "—", "april": "£116.67" },
-    { "label": "Health cover deduction", "march": "—", "april": "−£4.83" },
-    { "label": "Tax code", "march": "1167L", "april": "1257L" }
+    {
+      "label": "Basic pay",
+      "march": "£6,000.00",
+      "april": "£6,180.00"
+    },
+    {
+      "label": "Pension (salary sacrifice)",
+      "march": "−£300.00",
+      "april": "−£309.00"
+    },
+    {
+      "label": "Cycle to work (salary sacrifice)",
+      "march": "—",
+      "april": "−£83.33"
+    },
+    {
+      "label": "Medical benefit (taxed, not paid to you)",
+      "march": "—",
+      "april": "£116.67"
+    },
+    {
+      "label": "Health cover deduction",
+      "march": "—",
+      "april": "−£4.83"
+    },
+    {
+      "label": "Tax code",
+      "march": "1167L",
+      "april": "1257L"
+    }
   ],
   "questions": [
-    { "q": "Why did my tax code change?", "a": "Until April, the £900 value of your health cover was taken off your tax-free allowance, giving 1167L. Now that the tax is collected through payroll each month, the adjustment is gone and you’re back on 1257L." },
-    { "q": "When do my bike payments end?", "a": "Your last payment is in March 2028, the 12th month. After that, your take-home goes up by £48.33 a month." }
+    {
+      "q": "Why did my tax code change?",
+      "a": "Until April, the £900 value of your health cover was taken off your tax-free allowance, giving 1167L. Now that the tax is collected through payroll each month, the adjustment is gone and you’re back on 1257L."
+    },
+    {
+      "q": "When do my bike payments end?",
+      "a": "Your last payment is in March 2028, the 12th month. After that, your take-home goes up by £48.33 a month."
+    }
   ],
   "flag": {
     "lines": [
-      { "value": "cycle", "label": "Cycle to work" },
-      { "value": "health", "label": "Health cover and medical benefit" },
-      { "value": "pension", "label": "Pension" },
-      { "value": "tax", "label": "Tax code" }
+      {
+        "value": "cycle",
+        "label": "Cycle to work"
+      },
+      {
+        "value": "health",
+        "label": "Health cover and medical benefit"
+      },
+      {
+        "value": "pension",
+        "label": "Pension"
+      },
+      {
+        "value": "tax",
+        "label": "Tax code"
+      }
     ],
     "sent": "They usually reply within 2 working days. We’ll let you know here."
   },
-  "march": "Nothing changed in March. Your March payslip matched February’s."
+  "march": "Nothing changed in March. Your March payslip matched February’s.",
+  "marchPeriod": "March 2027 payslip · paid 31 March"
 }

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getPersona, scenarioLibrary } from '@/lib/data';
 import { price } from '@/lib/engine/pricing';
-import { afterTaxAndNi, allowanceLeft, axaOutcome, claims, inPocketAfterTax, money, pay, signedMoney, takeHomeTotal } from './part2';
+import { afterTaxAndNi, allowanceLeft, axaOutcome, claims, inPocketAfterTax, money, pay, signedMoney, takeHomeTotal, waterfall } from './part2';
+import { roundTo } from '@/lib/engine/format';
 
 describe('Your pay, explained (PART2.md §3)', () => {
   it('the four changes add up to +£29.35: +104.40 − 48.33 − 21.50 − 5.22', () => {
@@ -24,6 +25,22 @@ describe('Your pay, explained (PART2.md §3)', () => {
     expect(Math.round(effect * 100) / 100).toBe(-21.5);
     expect(pay.rows.find((r) => r.id === 'health')!.takeHome).toBe(-21.5);
     expect(money(after.taxableBenefitMonthly)).toBe('£116.67');
+  });
+  it('each line’s maths adds up to its take-home effect', () => {
+    for (const r of pay.rows) expect(roundTo(r.maths.reduce((t, m) => t + m.amount, 0), 2)).toBe(r.takeHome);
+  });
+  it('the maths steps use the real rates: 40% tax, 2% NI', () => {
+    const step = (id: string, i: number) => pay.rows.find((r) => r.id === id)!.maths[i].amount;
+    expect(step('rise', 1)).toBe(-180 * 0.4);
+    expect(step('rise', 2)).toBe(roundTo(-180 * 0.02, 2));
+    expect(step('cycle', 1)).toBe(roundTo(83.33 * 0.42, 2));
+    expect(step('pension', 1)).toBe(roundTo(9 * 0.42, 2));
+    expect(step('health', 1)).toBe(-roundTo(116.67 * 0.4, 2));
+    expect(step('health', 2)).toBe(roundTo((900 / 12) * 0.4, 2));
+  });
+  it('the waterfall runs 0 → 104.40 → 56.07 → 34.57 → 29.35', () => {
+    expect(waterfall().map((w) => w.to)).toEqual([104.4, 56.07, 34.57, 29.35]);
+    expect(waterfall().at(-1)!.to).toBe(pay.takeHomeChange);
   });
   it('the old tax code 1167L is 1257L less the £900 benefit', () => {
     expect(`${(12570 - 900) / 10}L`).toBe('1167L');
