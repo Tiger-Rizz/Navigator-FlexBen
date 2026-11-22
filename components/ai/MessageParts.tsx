@@ -6,6 +6,7 @@ import { buttonClass } from '@/components/ui/Button';
 import { usePersona, usePlan } from '@/lib/store';
 import type { MessagePart } from '@/lib/ai/types';
 import { BenefitLink } from './BenefitLink';
+import { RichText } from './RichText';
 import { PrivacyNote } from './PrivacyNote';
 import { ProposalCard } from './ProposalCard';
 import { ScenarioCard } from './ScenarioCard';
@@ -20,7 +21,7 @@ export function MessageParts({ parts, onChip }: { parts: MessagePart[]; onChip?:
       {parts.map((p, i) => {
         switch (p.type) {
           case 'text':
-            return <p key={i} className="whitespace-pre-line leading-relaxed">{p.text}</p>;
+            return <div key={i} className="flex flex-col gap-2"><RichText text={p.text} /></div>;
           case 'proposal':
             return <ProposalCard key={i} proposal={p.proposal} />;
           case 'scenario':

@@ -146,3 +146,9 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
     - The limit is 5 steps, and the 5th step forbids tools (`prepareStep` → `toolChoice: 'none'`), so it must answer. That keeps §11's four rounds of tool calls.
     - Safety net: a live reply that still has no text uses the scripted answer, or a plain line if a proposal card was already shown.
     The live path now lives in `lib/ai/live.ts`, with mock-model tests for each case.
+86. **Live answer quality, found by testing the deployment with the real model:**
+    - The eligibility tool counted Sam against the one-partner rule when asked about Sam himself, and the model quoted that internal message. It now takes `personId`.
+    - The prompt now asks for plain text under 80 words, never mentions tools or internal checks, and weighs focus areas when trimming cost. The model had cut the outpatient allowance for a member who cares about bones and joints.
+    - Markdown is rendered safely (bold, bullets) in case the model uses it anyway.
+    - Pricing one situation on one plan now shows the "You'd pay" card in live mode too.
+    - The Demo mode badge no longer calls the API from the passcode page, which logged a 401.

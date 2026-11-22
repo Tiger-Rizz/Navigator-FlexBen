@@ -131,3 +131,13 @@ describe('the scripted reply only mentions what the member said', () => {
     expect(parts(ev).some((p) => p.type === 'proposal')).toBe(true);
   });
 });
+
+describe('check_eligibility for someone already on record', () => {
+  it('Sam can be covered: he does not count against the one-partner rule himself', () => {
+    const r = runTool('check_eligibility', { relationship: 'spouse', personId: 'sam' }, ctx()) as { eligible: boolean };
+    expect(r.eligible).toBe(true);
+  });
+  it('a second partner is still refused', () => {
+    expect((runTool('check_eligibility', { relationship: 'cohabiting_partner' }, ctx()) as { eligible: boolean }).eligible).toBe(false);
+  });
+});

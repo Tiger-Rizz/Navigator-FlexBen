@@ -36,6 +36,7 @@ export const toolSchemas = {
   search_policy: z.object({ query: z.string() }),
   check_eligibility: z.object({
     relationship: z.enum(['spouse', 'civil_partner', 'cohabiting_partner', 'child', 'parent', 'other_relative']),
+    personId: z.string().optional().describe('Id of someone already on record (e.g. "sam") when asking whether they can be covered'),
     age: z.number().int().min(0).max(120).optional(),
     inFullTimeEducation: z.boolean().optional(),
   }),
@@ -50,7 +51,7 @@ export const toolDescriptions: Record<keyof typeof toolSchemas, string> = {
   run_scenarios: 'What the member would pay out of pocket in real situations on each plan, plus yearly totals.',
   compare_plan_years: 'What changed between the 2026–27 and 2027–28 schemes.',
   search_policy: 'Citable policy passages that match a query. Use to quote the rules.',
-  check_eligibility: 'Whether someone can be covered, with the explanation.',
+  check_eligibility: 'Whether someone can be covered, with the explanation. For someone already on record, pass their personId.',
 };
 
 export function breakdownView(selection: Selection, ctx: ResolvedContext) {
@@ -130,8 +131,8 @@ export function runTool(name: keyof typeof toolSchemas, input: unknown, ctx: Res
       return { passages: scored };
     }
     case 'check_eligibility': {
-      const a = args as z.infer<typeof toolSchemas.check_eligibility>;
-      const existing = ctx.people.filter((p) => p.relationship !== 'child');
+      const { personId, ...a } = args as z.infer<typeof toolSchemas.check_eligibility>;
+      const existing = ctx.people.filter((p) => p.relationship !== 'child' && p.id !== personId);
       return checkEligibility({ ...a, existing });
     }
   }
