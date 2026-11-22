@@ -9,6 +9,7 @@ import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
 import { countChanges, LEVER_LABEL, leverValueLabel, whoLabel, type Lever } from '@/lib/plan';
 import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
 import { CoveredPeople } from '@/components/pmi/CoveredPeople';
+import { PremiumSplit } from '@/components/pmi/PremiumSplit';
 
 type Row = { label: string; value: (s: Selection) => string };
 
@@ -32,7 +33,6 @@ export function LivePlan() {
     : status !== 'editing' ? 'Confirmed'
     : countChanges(baseline, selection) ? 'Updated, not yet confirmed' : 'No changes yet';
 
-  const pct = (n: number) => `${next.premium > 0 ? (n / next.premium) * 100 : 0}%`;
   const warnings: string[] = [];
   if (shown.excess > 0) {
     const s = excessSaving(shown, people, persona.taxRate);
@@ -83,19 +83,7 @@ export function LivePlan() {
         <span className="text-xs text-secondary-2">Keeping current cover: {perMonth(keep.realMonthlyCost)}</span>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <span className="text-[13px] text-secondary">Who pays the {formatAnnualExact(next.premium)} premium</span>
-        <div className="flex h-2.5 overflow-hidden rounded" role="img" aria-label={`Meridian ${formatAnnual(next.employerPays)}, Flex Fund ${formatAnnual(next.fromFund)}, your pay ${formatAnnual(next.fromPay)}`}>
-          <div className="bg-fund" style={{ width: pct(next.employerPays) }} />
-          <div className="bg-fund-soft" style={{ width: pct(next.fromFund) }} />
-          <div className="bg-ink" style={{ width: pct(next.fromPay) }} />
-        </div>
-        <ul className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs text-secondary">
-          <li className="flex items-center gap-1.5"><span aria-hidden className="size-2 rounded-full bg-fund" />Meridian {formatAnnual(next.employerPays)}</li>
-          <li className="flex items-center gap-1.5"><span aria-hidden className="size-2 rounded-full bg-fund-soft" />Flex Fund {formatAnnual(next.fromFund)}</li>
-          <li className="flex items-center gap-1.5"><span aria-hidden className="size-2 rounded-full bg-ink" />Your pay {formatAnnual(next.fromPay)}</li>
-        </ul>
-      </div>
+      <PremiumSplit b={next} label={`Who pays the ${formatAnnualExact(next.premium)} premium`} />
 
       <dl className="m-0 flex flex-col gap-1.5 border-t border-divider pt-3 text-[13px]">
         <div className="flex justify-between gap-3"><dt className="text-secondary">From your pay</dt><dd className="m-0 whitespace-nowrap font-medium">{perMonth(next.fromPayMonthly)}</dd></div>

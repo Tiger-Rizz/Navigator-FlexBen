@@ -6,6 +6,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { AlertTriangle, ArrowLeft, Bookmark, CalendarPlus, Check, CirclePlus, Lock, Receipt, Sparkles, Undo2, UserRoundSearch, Wallet, X } from 'lucide-react';
 import { Button, buttonClass } from '@/components/ui/Button';
 import { AxaTile, BenefitHeader } from '@/components/pmi/BenefitHeader';
+import { PremiumSplit } from '@/components/pmi/PremiumSplit';
 import type { Dependant } from '@/lib/data';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
 import { relationshipLabel, validateDob } from '@/lib/engine/rules';
@@ -214,7 +215,6 @@ function ConfirmedSheet() {
   };
 
   const chips = planChips(s);
-  const pct = (n: number) => `${b.premium > 0 ? (n / b.premium) * 100 : 0}%`;
 
   return (
     <div className="fixed inset-0 z-[55] flex justify-end">
@@ -245,16 +245,7 @@ function ConfirmedSheet() {
             <div className="flex flex-col gap-3 rounded-[16px] border border-line bg-white px-5 py-4">
               <span className="text-[13px] text-secondary">What it really costs you</span>
               <span className="text-[30px] font-semibold leading-none tracking-tight">{formatMonthly(b.realMonthlyCost)} <span className="text-sm font-normal text-secondary">a month</span></span>
-              <div className="flex h-2 overflow-hidden rounded" role="img" aria-label={`Meridian ${formatAnnual(b.employerPays)}, Flex Fund ${formatAnnual(b.fromFund)}, your pay ${formatAnnual(b.fromPay)} a year`}>
-                <div className="bg-fund" style={{ width: pct(b.employerPays) }} />
-                <div className="bg-fund-soft" style={{ width: pct(b.fromFund) }} />
-                <div className="bg-ink" style={{ width: pct(b.fromPay) }} />
-              </div>
-              <ul aria-hidden className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs text-secondary">
-                <li className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-fund" />Meridian {formatAnnual(b.employerPays)}</li>
-                <li className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-fund-soft" />Flex Fund {formatAnnual(b.fromFund)}</li>
-                <li className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-ink" />Your pay {formatAnnual(b.fromPay)}</li>
-              </ul>
+              <PremiumSplit b={b} />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
