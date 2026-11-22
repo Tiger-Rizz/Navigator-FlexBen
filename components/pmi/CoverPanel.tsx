@@ -8,10 +8,10 @@ import { employer } from '@/lib/data';
 import { formatAnnual, formatAnnualExact, formatMonthly, perMonth } from '@/lib/engine/format';
 import { daysLeft } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
-import { countChanges, coveredPeople, planChips, whoLabel } from '@/lib/plan';
-import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
+import { countChanges, planChips } from '@/lib/plan';
+import { baseline, usePlan } from '@/lib/store';
+import { CoveredPeople } from './CoveredPeople';
 
-const initialsOf = (name: string) => name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
 /** "+£21.50 a month on today", or "Same as today". */
 const diffLabel = (d: number) => (Math.abs(d) < 0.005 ? 'Same as today' : `${d > 0 ? '+' : '−'}${formatMonthly(Math.abs(d))} a month on today`);
 
@@ -28,8 +28,6 @@ export function StatusChip() {
  * the full panel sits on the cover page (Review and confirm, Reset).
  */
 export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' }) {
-  const people = usePeople();
-  const persona = usePersona();
   const { selection, reset, status } = usePlan();
   const b = usePlanPricing(selection);
   const now = usePlanPricing(baseline);
@@ -63,14 +61,7 @@ export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' 
       {summary ? (
         <>
           <div className="flex flex-col gap-3 border-t border-divider pt-4">
-            <div className="flex items-center gap-2.5">
-              <span aria-hidden className="flex -space-x-2">
-                {[persona.name, ...coveredPeople(selection, people).map((p) => p.name)].map((n) => (
-                  <span key={n} className="flex size-8 items-center justify-center rounded-full border-2 border-white bg-avatar text-[11px] font-semibold text-avatar-text">{initialsOf(n)}</span>
-                ))}
-              </span>
-              <span className="text-sm font-medium"><span className="sr-only">Who’s covered: </span>{whoLabel(selection, people)}</span>
-            </div>
+            <CoveredPeople selection={selection} />
             <ul aria-label="Your choices" className="m-0 flex list-none flex-wrap gap-1.5 p-0">
               {planChips(selection).map((c) => <li key={c} className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium text-ink-2">{c}</li>)}
             </ul>

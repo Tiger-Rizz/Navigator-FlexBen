@@ -8,6 +8,7 @@ import { formatAnnual, formatAnnualExact, formatMonthly, perMonth } from '@/lib/
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
 import { countChanges, LEVER_LABEL, leverValueLabel, whoLabel, type Lever } from '@/lib/plan';
 import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
+import { CoveredPeople } from '@/components/pmi/CoveredPeople';
 
 type Row = { label: string; value: (s: Selection) => string };
 
@@ -22,7 +23,8 @@ export function LivePlan() {
   const keep = usePlanPricing(baseline);
 
   const lever = (l: Lever): Row => ({ label: LEVER_LABEL[l], value: (s) => leverValueLabel(l, s[l]) });
-  const rows: Row[] = [lever('tier'), { label: 'Who’s covered', value: (s) => whoLabel(s, people) }, lever('excess'), lever('outpatient'), lever('specialist')];
+  const rows: Row[] = [lever('tier'), lever('excess'), lever('outpatient'), lever('specialist')];
+  const whoChanged = !!pending && whoLabel(selection, people) !== whoLabel(shown, people);
 
   const nPending = pending ? countChanges(selection, pending.selection) : 0;
   const statusText = pending
@@ -49,7 +51,11 @@ export function LivePlan() {
         <span className="text-xs text-secondary-2">AXA Health · 1 April 2027 to 31 March 2028</span>
       </div>
 
-      <dl className="m-0 flex flex-col">
+      <div className={`-mb-2 rounded-[8px] px-2 py-2 ${whoChanged ? 'bg-ai-bg' : ''}`}>
+        <CoveredPeople selection={shown} before={pending ? selection : undefined} />
+      </div>
+
+      <dl className="m-0 flex flex-col border-t border-divider pt-1">
         {rows.map((r) => {
           const before = r.value(selection);
           const after = r.value(shown);
