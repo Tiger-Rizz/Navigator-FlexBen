@@ -9,7 +9,7 @@ import { formatAnnual, formatAnnualExact, formatMonthly, perMonth } from '@/lib/
 import { daysLeft } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
 import { countChanges, leverSummary, whoLabel } from '@/lib/plan';
-import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
+import { baseline, usePeople, usePlan } from '@/lib/store';
 
 export function StatusChip() {
   const { selection, status } = usePlan();
@@ -24,12 +24,10 @@ export function StatusChip() {
  * the full panel sits on the cover page (Review and confirm, Reset).
  */
 export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' }) {
-  const persona = usePersona();
   const people = usePeople();
   const { selection, reset } = usePlan();
   const b = usePlanPricing(selection);
   const now = usePlanPricing(baseline);
-  const taxPct = Math.round(persona.taxRate * 100);
   const summary = variant === 'summary';
 
   const rows: [string, string][] = [
@@ -80,9 +78,6 @@ export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' 
           <button type="button" onClick={reset} className="-my-1 min-h-11 text-sm font-medium text-secondary underline-offset-2 hover:underline cursor-pointer">
             Reset to my current cover
           </button>
-          <p className="text-xs text-secondary-2">
-            Guidance, not financial advice. Illustrative prices. Tax shown at your {taxPct}% rate. No AXA login needed: we update AXA and payroll for you.
-          </p>
         </>
       )}
     </aside>
