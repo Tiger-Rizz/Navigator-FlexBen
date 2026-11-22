@@ -7,7 +7,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { getPersona, type Dependant, type Selection } from '@/lib/data';
-import type { Lever } from '@/lib/plan';
+import { sameSelection, type Lever } from '@/lib/plan';
 import type { ChatMessage, MessagePart, Proposal } from '@/lib/ai/types';
 
 export type Status = 'editing' | 'kept' | 'confirmed';
@@ -143,7 +143,12 @@ export const usePlan = create<PlanState>()(
         const prev = get().undoSelection;
         if (prev) set({ selection: prev, undoSelection: null, proposalStatus: 'pending' });
       },
-      applySelection: (s) => set({ ...edit(s) }),
+      applySelection: (s) => {
+        const { proposal, selection } = get();
+        // Choosing the AI's suggestion from the comparison counts as accepting it, so the chat card agrees.
+        if (proposal && sameSelection(proposal.selection, s)) set({ ...edit(s), proposalStatus: 'accepted', undoSelection: selection });
+        else set({ ...edit(s) });
+      },
 
       addMessage: (m) => set({ messages: [...get().messages, m] }),
       appendToMessage: (id, part) =>

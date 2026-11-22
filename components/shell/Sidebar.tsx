@@ -7,6 +7,7 @@ import { Badge as BadgeIcon, Bookmark, CirclePlus, Heart, House, Menu, PartyPopp
 import { PointsPill } from './PointsPill';
 import { SearchOrAsk } from './SearchOrAsk';
 import { DemoBadge } from '@/components/ai/DemoBadge';
+import { useOutstandingAction } from '@/components/home/ActionPrompt';
 
 const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) => boolean; isNew?: boolean }[] = [
   { href: '/home', label: 'Home', icon: House, match: (p) => p === '/home' },
@@ -44,6 +45,7 @@ export const isChromeless = (p: string) => p === '/' || p.startsWith('/notes') |
 
 function NavLinks() {
   const pathname = usePathname();
+  const action = useOutstandingAction();
   return (
     <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
       {NAV.map(({ href, label, icon: Icon, match, isNew }) => {
@@ -60,6 +62,11 @@ function NavLinks() {
               <Icon aria-hidden size={16} strokeWidth={1.8} />
               {label}
               {isNew && <span className="ml-auto rounded-[5px] bg-ai-bg px-1.5 py-0.5 text-[10px] font-semibold text-ai-text">New</span>}
+              {href === '/benefits' && action && (
+                <span className="ml-auto flex size-5 items-center justify-center rounded-full bg-ai-icon text-[11px] font-semibold text-white">
+                  1<span className="sr-only"> action to review</span>
+                </span>
+              )}
             </Link>
           </li>
         );

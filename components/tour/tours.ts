@@ -10,12 +10,15 @@ export interface Tour {
   steps: TourStep[];
   reset: () => void;
   end: { label: string; href: string }[];
+  /** Where Finish takes the member, if anywhere. */
+  finish?: string;
 }
 
 export const TOURS: Record<TourId, Tour> = {
   flex: {
     steps: TOUR_STEPS,
     reset: () => usePlan.getState().resetAll(),
+    finish: '/benefits/pmi',
     end: [{ label: 'Read my notes', href: '/notes/flex' }, { label: 'Back to demo room', href: '/' }],
   },
   pay: {

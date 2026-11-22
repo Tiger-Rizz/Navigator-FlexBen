@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useId, useState } from 'react';
-import { AlertTriangle, CalendarPlus, Check, Lock, Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useId, useRef, useState } from 'react';
+import { AlertTriangle, CalendarPlus, Check, Lock, Sparkles, X } from 'lucide-react';
 import { Button, buttonClass } from '@/components/ui/Button';
 import { PageBody, PageHeader } from '@/components/shell/PageHeader';
 import type { Dependant } from '@/lib/data';
@@ -19,7 +20,13 @@ const isoToUk = (iso: string) => iso.split('-').reverse().join('/');
 
 export function ReviewFlow() {
   const { status } = usePlan();
-  return status === 'editing' ? <ReviewForm /> : <Confirmed />;
+  const confirmed = status !== 'editing';
+  return (
+    <>
+      <div inert={confirmed}><ReviewForm /></div>
+      {confirmed && <ConfirmedSheet />}
+    </>
+  );
 }
 
 function ReviewForm() {
@@ -36,7 +43,6 @@ function ReviewForm() {
     setTried(true);
     if (missing.length === 0 && reviewAgreed) {
       confirm();
-      window.scrollTo({ top: 0 });
     }
   };
 
@@ -159,13 +165,35 @@ function DependantDetails({ person, showError }: { person: Dependant; showError:
   );
 }
 
-function Confirmed() {
+/** The confirmation slides in over the review page; closing it returns to the benefit page. */
+function ConfirmedSheet() {
+  const router = useRouter();
   const persona = usePersona();
   const people = usePeople();
   const { confirmedSelection, selection, status, unconfirm, undo } = usePlan();
   const s = confirmedSelection ?? selection;
   const b = usePlanPricing(s);
   const partner = persona.peopleOnRecord.find((p) => p.relationship !== 'child');
+  const panelRef = useRef<HTMLElement>(null);
+  const close = () => router.push('/benefits/pmi');
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    panel?.querySelector<HTMLElement>('h2')?.focus();
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { e.preventDefault(); router.push('/benefits/pmi'); return; }
+      if (e.key !== 'Tab' || !panel) return;
+      const items = [...panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')];
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !panel.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
+  }, [router]);
 
   const calendar = () => {
     const ics = [
@@ -181,14 +209,27 @@ function Confirmed() {
   };
 
   return (
-    <PageBody>
-      <section aria-labelledby="done" data-tour="confirmed" className="flex max-w-[760px] flex-col gap-5">
-        <span className="flex size-11 items-center justify-center rounded-full bg-success-bg text-success"><Check aria-hidden size={22} /></span>
+    <div className="fixed inset-0 z-[55] flex justify-end">
+      <div aria-hidden onClick={close} className="fade-in absolute inset-0 bg-ink/25 backdrop-blur-[3px]" />
+      <section
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="done"
+        data-tour="confirmed"
+        className="slide-in relative flex h-full w-full flex-col gap-5 overflow-y-auto bg-white px-6 py-6 shadow-[var(--shadow-float)] sm:w-[500px] sm:px-8"
+      >
+        <div className="flex items-start justify-between">
+          <span className="flex size-12 items-center justify-center rounded-full bg-success-bg text-success"><Check aria-hidden size={24} /></span>
+          <button type="button" aria-label="Close and go to Private Medical Insurance" onClick={close} className="-mr-2 flex size-11 items-center justify-center rounded-[10px] cursor-pointer hover:bg-surface-2">
+            <X aria-hidden size={18} />
+          </button>
+        </div>
         <div className="flex flex-col gap-2">
-          <h1 id="done" className="text-[26px]">{coveredHeadline(s, people)}</h1>
+          <h2 id="done" tabIndex={-1} className="text-[24px] leading-tight outline-none">{coveredHeadline(s, people)}</h2>
           <p className="text-[15px] leading-relaxed text-ink-2">{confirmedSummary(s, people, persona.taxRate)}</p>
         </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="flex flex-col gap-3">
           <Link href="/my-choices" className="flex flex-col gap-1 rounded-[12px] border border-success-border bg-success-banner p-4 no-underline">
             <span className="text-xs font-medium text-success">Saved to My choices</span>
             <span className="font-semibold">Private Medical Insurance</span>
@@ -200,21 +241,23 @@ function Confirmed() {
             <span className="text-[13px] text-secondary">{formatAnnual(b.employerPays)} from Meridian, {formatAnnual(b.fromFund)} from your Flex Fund</span>
           </Link>
         </div>
-        <div className="flex flex-wrap gap-2.5">
-          <Button onClick={calendar}><CalendarPlus aria-hidden size={16} />Add 1 April to my calendar</Button>
-          <Link href="/benefits/pmi" className={buttonClass('secondary')}>Back to Private Medical Insurance</Link>
-          <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
-        </div>
         {partner && (
-          <div className="flex gap-3 rounded-[16px] border border-ai-border bg-ai-soft px-5 py-4">
-            <Sparkles aria-hidden size={18} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />
-            <div className="flex flex-col gap-3">
+          <div className="flex gap-3 rounded-[14px] border border-ai-border bg-ai-soft px-4 py-3.5">
+            <Sparkles aria-hidden size={17} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />
+            <div className="flex flex-col gap-1.5 text-sm">
               <p>One more thing: {firstName(partner)} isn’t named on your life assurance. Want to check who should receive it?</p>
               <Link href="/benefits" className="inline-flex min-h-11 items-center self-start font-medium text-ai-text underline underline-offset-2">Review my life assurance</Link>
             </div>
           </div>
         )}
+        <div className="mt-auto flex flex-col gap-2.5 border-t border-divider pt-5">
+          <Link href="/benefits/pmi" className={buttonClass('primary', 'w-full')}>Back to Private Medical Insurance</Link>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <Button variant="secondary" onClick={calendar}><CalendarPlus aria-hidden size={16} />Add 1 April to my calendar</Button>
+            <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
+          </div>
+        </div>
       </section>
-    </PageBody>
+    </div>
   );
 }

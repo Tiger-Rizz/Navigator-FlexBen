@@ -3,7 +3,8 @@
  * and the AI is always scripted during the tour, so it is fully deterministic.
  */
 import { scenarioLibrary } from '@/lib/data';
-import { acceptProposalWithFollowUp, sendMessage } from '@/lib/ai/client';
+import { sameSelection } from '@/lib/plan';
+import { sendMessage } from '@/lib/ai/client';
 import { CANONICAL_OPENING, COMMON_QUESTIONS } from '@/lib/ai/questions';
 import { memberPays } from '@/lib/engine/claims';
 import { price } from '@/lib/engine/pricing';
@@ -27,6 +28,7 @@ export interface TourStep {
 
 const persona = getPersona('priya');
 const SAM = 'sam';
+const LEAN = scenarioLibrary.plans.find((p) => p.id === 'lean')!.selection;
 const KNEE = COMMON_QUESTIONS[1];
 const state = () => usePlan.getState();
 const people = () => [...persona.peopleOnRecord, ...state().addedPeople];
@@ -38,7 +40,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     route: '/home',
     target: '[data-tour="home-nudge"]',
-    what: () => 'Navigator spots a gap: Sam is on Priya’s HR record, but not on her health cover.',
+    what: () => 'One small prompt: Navigator spots that Sam is on Priya’s HR record but not on her health cover.',
     why: 'It asks about people already on record. It never guesses at life events.',
   },
   {
@@ -111,41 +113,38 @@ export const TOUR_STEPS: TourStep[] = [
     why: 'The tax stays the same, so every pound trimmed comes straight off the payslip deduction.',
   },
   {
-    route: '/benefits/pmi/chat',
-    target: '[data-tour="live-plan"]',
-    enter: () => acceptProposalWithFollowUp(),
-    what: () => `Priya accepts. The live plan updates to ${formatMonthly(money())} a month, and so does every other screen.`,
-    why: 'Chat and screen are two views of the same plan: the AI proposes, the member decides.',
-  },
-  {
     route: '/benefits/pmi/scenarios',
-    target: '[data-tour="scenario-summary"]',
+    target: '[data-tour="scenario-grid"]',
     what: () => {
-      const m = scenarioModel(persona, people(), state().selection, state().mentions);
-      const [, mid, enh] = m.rows;
-      const more = Math.round(enh.totals.allInOneYear) - Math.round(mid.totals.allInOneYear);
-      return `Scenarios price real situations on each plan. Even if ${m.countWord} happened in one year, Enhanced would still cost ${formatAnnual(more)} more.`;
+      const m = scenarioModel(persona, people(), state().selection, state().mentions, true);
+      const row = (id: string) => m.rows.find((r) => r.planId === id)!;
+      const more = Math.round(row('enhanced').totals.allInOneYear) - Math.round(row('lean').totals.allInOneYear);
+      return `Before choosing, Priya compares plans on real situations: today’s cover, her choices so far, the lean suggestion and Enhanced. Even if ${m.countWord} happened, Enhanced would cost ${formatAnnual(more)} more than lean.`;
     },
-    why: 'Priya can choose by consequences, not by premium alone.',
+    why: 'She chooses by consequences, not by premium alone, and can come back to compare at any point.',
   },
   {
     route: '/benefits/pmi/review',
     target: '[data-tour="payslip"]',
-    enter: () => { if (state().status === 'confirmed') state().unconfirm(); },
-    what: () => 'Review shows the April 2027 payslip, now that tax on medical benefits is collected through payroll, and what’s hard to undo.',
-    why: 'No surprises after confirming: the deduction and the tax appear as they will on the payslip.',
+    enter: () => {
+      const s = state();
+      if (s.status !== 'editing') s.unconfirm();
+      if (!sameSelection(s.selection, LEAN)) s.applySelection(LEAN);
+    },
+    what: () => `Priya picks the lean plan at ${formatMonthly(money())} a month. Review shows her April 2027 payslip, now that tax on health cover is collected through payroll.`,
+    why: 'No surprises after confirming: the deduction and the tax appear as they will on her payslip, with what’s hard to undo spelled out.',
   },
   {
     route: '/benefits/pmi/review',
     target: '[data-tour="confirmed"]',
     enter: () => {
       const s = state();
+      if (!sameSelection(s.selection, LEAN)) s.applySelection(LEAN);
       if (!s.dobs[SAM]) s.setDob(SAM, '1991-07-14');
       s.setReviewAgreed(true);
       if (s.status !== 'confirmed') s.confirm();
-      window.scrollTo({ top: 0 });
     },
     what: () => `Sam’s date of birth is the only detail to add. Confirmed at ${formatMonthly(money())} a month: Navigator updates AXA and payroll, with no AXA login.`,
-    why: 'Done in one place, in a few minutes, with nothing hard to undo left unsaid.',
+    why: 'Done in one place, in a few minutes. Finish returns Priya to her Private Medical Insurance page, now confirmed.',
   },
 ];
