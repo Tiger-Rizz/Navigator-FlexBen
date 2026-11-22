@@ -3,7 +3,6 @@
 import { useRef } from 'react';
 import { CommonQuestions } from './CommonQuestions';
 import { CoverPanel } from './CoverPanel';
-import { FeatureGrid } from './FeatureGrid';
 import { FineTune } from './FineTune';
 import { MobileCostBar } from './MobileCostBar';
 import { KeptBanner, QuickChoices } from './QuickChoices';
@@ -29,7 +28,6 @@ export function PmiContent() {
             <WhatsChanged />
           </div>
           <FineTune />
-          <FeatureGrid />
           <CommonQuestions />
         </div>
         <div className="w-full shrink-0 lg:sticky lg:top-6 lg:w-[320px]">
