@@ -128,6 +128,8 @@ export const SchemeSchema = z.object({
     }),
   }),
   policyText: z.array(PolicyTextSchema),
+  /** Generic AXA PMI questions for the benefit page (the cover page has the personalised ones). */
+  faqs: z.array(z.object({ id: z.string(), q: z.string(), a: z.string() })),
 });
 export type Scheme = z.infer<typeof SchemeSchema>;
 

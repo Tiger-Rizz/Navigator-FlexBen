@@ -89,5 +89,13 @@
     { "id": "changes", "title": "Changing your cover", "text": "After the enrolment window closes, you can only change your cover after a qualifying life event, within 30 days of it." },
     { "id": "physio", "title": "Muscles, Bones and Joints service", "text": "Physiotherapy and osteopathy through AXA’s Muscles, Bones and Joints service, with no GP referral needed: 10 sessions on Core, 15 on Enhanced, unlimited on Premium when clinically needed." },
     { "id": "mental-health", "title": "Mental health", "text": "Outpatient mental health care is covered up to £1,000 a year on Core, £2,000 on Enhanced, and in full on Premium." }
+  ],
+  "faqs": [
+    { "id": "gp-referral", "q": "Do I need a GP referral for physiotherapy or osteopathy?", "a": "No. You can refer yourself through AXA’s Muscles, Bones and Joints service, by phone or in the AXA Health app. There’s no need to see a GP first." },
+    { "id": "physio-sessions", "q": "How many physiotherapy and osteopathy sessions are covered each year?", "a": "It depends on your cover level: up to 10 sessions on Core, 15 on Enhanced, and unlimited on Premium when clinically needed. Sessions are arranged through the Muscles, Bones and Joints service." },
+    { "id": "claim", "q": "How do I make a claim?", "a": "Contact AXA Health before you book any treatment, by phone or in the AXA Health app. They’ll confirm what’s covered and give you an authorisation number to pass to your specialist or hospital." },
+    { "id": "pre-existing", "q": "Are pre-existing conditions covered?", "a": "Under Meridian’s scheme rules, anyone who joins at enrolment has their medical history disregarded, so existing conditions aren’t excluded. Long-term conditions are covered for diagnosis and flare-ups; routine ongoing care stays with your GP." },
+    { "id": "hospital-directory", "q": "What if I use a hospital that is not in the Directory of Hospitals?", "a": "Your cover pays for treatment at hospitals in AXA’s Directory of Hospitals. Extended cover adds hospitals and scanning centres outside it. Without Extended cover, check with AXA Health before you book, as you may have to pay some or all of the cost." },
+    { "id": "tax", "q": "Is my health cover a taxable benefit?", "a": "Yes. Cover paid for by Meridian or your Flex Fund is a benefit in kind. From 6 April 2027, the tax is collected through payroll each month instead of through your tax code. Anything you pay from your salary reduces the taxable amount." }
   ]
 }
