@@ -100,3 +100,10 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 64. **"Keep my current cover" counts as confirmed**, so the review screen then shows the confirmed state. Undo there restores whatever the plan was before.
 65. **"Add 1 April to my calendar" downloads a small .ics file.** "Review my life assurance" links to Benefits, because life assurance is outside this prototype.
 66. **My choices lists the confirmed election only**, with the real monthly cost and "Change until 31 March". Unconfirmed drafts don't appear there.
+
+## Step 8: Home
+
+67. **The "Action needed" card follows the plan state:** gap ("Sam isn’t on your health cover") → draft ("Finish adding Sam", linking to review) → confirmed ("Your health cover is confirmed for 1 April"). It never infers anything beyond the HR record.
+68. **The hero input sends the typed question to the plan builder and opens it.** An empty submit just opens the builder. Placeholder prompts rotate every 3.5 seconds, except with reduced motion.
+69. **"Remind me tomorrow" only acknowledges** ("We’ll remind you tomorrow."): there's no notification system in the prototype.
+70. **The carousel arrows on "Based on your recent activity" are left out:** buttons that do nothing would mislead reviewers.

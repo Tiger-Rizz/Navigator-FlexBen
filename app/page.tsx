@@ -1,22 +1,15 @@
-import { LinkButton } from '@/components/ui/Button';
-import { BuildPlaceholder } from '@/components/shell/BuildPlaceholder';
-import { PageBody } from '@/components/shell/PageHeader';
+import { ActionCard } from '@/components/home/ActionCard';
+import { BenefitRows } from '@/components/home/BenefitRows';
+import { HomeHero } from '@/components/home/HomeHero';
 
 export default function Home() {
   return (
     <>
-      <section aria-labelledby="hello" className="flex flex-col items-center gap-1 bg-brand-tint px-4 pb-11 pt-12 min-[900px]:px-12">
-        <p className="text-[15px] text-ink-2">Hi Priya,</p>
-        <h1 id="hello" className="text-2xl">Ready to explore your benefits?</h1>
-      </section>
-      <PageBody>
-        <BuildPlaceholder step="8">
-          <p>The AI input, the “Action needed” enrolment card and the benefit rows go here.</p>
-          <div>
-            <LinkButton href="/benefits/pmi">Review my health cover</LinkButton>
-          </div>
-        </BuildPlaceholder>
-      </PageBody>
+      <HomeHero />
+      <div className="flex flex-col gap-8 px-4 pb-14 pt-7 min-[900px]:px-12">
+        <ActionCard />
+        <BenefitRows />
+      </div>
     </>
   );
 }
