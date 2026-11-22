@@ -5,13 +5,16 @@ import claimsJson from '@/data/claims.json';
 import { roundTo } from '@/lib/engine/format';
 
 const PayRow = z.object({
-  id: z.string(), title: z.string(), sub: z.string(), takeHome: z.number(), grossMonthly: z.number().optional(),
+  id: z.string(), title: z.string(), short: z.string(), sub: z.string(), takeHome: z.number(), grossMonthly: z.number().optional(),
   explain: z.string(), source: z.string(),
+  /** How the take-home effect is made up, step by step; sums to takeHome. */
+  maths: z.array(z.object({ label: z.string(), amount: z.number() })).min(2),
   link: z.object({ label: z.string(), href: z.string(), tile: z.string(), tileBg: z.string(), tileFg: z.string() }),
 });
 export const PaySchema = z.object({
   period: z.string(),
-  summary: z.object({ lead: z.string(), strong: z.string(), rest: z.string(), source: z.string() }),
+  marchPeriod: z.string(),
+  summary: z.object({ headline: z.string(), sub: z.string(), source: z.string() }),
   payRiseBeforeTax: z.number(),
   takeHomeChange: z.number(),
   rates: z.object({ incomeTax: z.number(), nationalInsurance: z.number() }),
@@ -45,6 +48,15 @@ export const claims: Claims = ClaimsSchema.parse(claimsJson);
 // ---- Pay arithmetic ----
 /** Sum of the four take-home effects: +104.40 − 48.33 − 21.50 − 5.22 = +29.35. */
 export const takeHomeTotal = (rows = pay.rows) => roundTo(rows.reduce((s, r) => s + r.takeHome, 0), 2);
+/** The take-home steps as a waterfall: each change moves the running total from `from` to `to`. */
+export function waterfall(rows = pay.rows) {
+  let total = 0;
+  return rows.map((r) => {
+    const from = total;
+    total = roundTo(total + r.takeHome, 2);
+    return { id: r.id, label: r.short, amount: r.takeHome, from, to: total };
+  });
+}
 /** What a gross monthly change is worth after income tax and NI (salary and salary sacrifice). */
 export const afterTaxAndNi = (gross: number, rates = pay.rates) => roundTo(gross * (1 - rates.incomeTax - rates.nationalInsurance), 2);
 

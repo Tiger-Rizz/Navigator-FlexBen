@@ -13,7 +13,7 @@ export const PAY_STEPS: TourStep[] = [
     route: '/pay',
     target: '[data-tour="pay-summary"]',
     enter: () => p2().setMonth('april'),
-    what: () => `Navigator compares April with March: take-home is up ${signedMoney(pay.takeHomeChange).slice(1)}, not the full ${money(pay.payRiseBeforeTax)} rise, and it says why.`,
+    what: () => `Navigator compares April with March: take-home is up ${signedMoney(pay.takeHomeChange).slice(1)}, not the full ${money(pay.payRiseBeforeTax)} rise. The chart shows where the difference went.`,
     why: 'People see a smaller rise than they expected. Leading with the reason, in plain English, builds trust in the payslip.',
   },
   {
@@ -27,7 +27,7 @@ export const PAY_STEPS: TourStep[] = [
     route: '/pay',
     target: '[data-tour="pay-row-cycle"]',
     enter: () => p2().openRowOnly('cycle'),
-    what: () => `Salary sacrifice in plain numbers: £83.33 comes off before tax, so take-home falls by only ${money(Math.abs(rowTakeHome('cycle')))}.`,
+    what: () => `Salary sacrifice, with the maths shown: £83.33 comes off before tax, so take-home falls by only ${money(Math.abs(rowTakeHome('cycle')))}.`,
     why: 'Seeing the maths turns a confusing deduction into a benefit Priya understands.',
   },
   {
