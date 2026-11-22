@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { ArrowRight, CalendarDays } from 'lucide-react';
 import type { TourIntroContent } from './tours';
@@ -17,7 +16,7 @@ export function TourIntro({ intro, total, onStart, onExit }: { intro: TourIntroC
       if (e.key === 'Escape') { e.preventDefault(); onExit(); return; }
       if (e.key === 'ArrowRight') { e.preventDefault(); onStart(); return; }
       if (e.key !== 'Tab' || !panel) return;
-      const items = [...panel.querySelectorAll<HTMLElement>('a[href], button')];
+      const items = [...panel.querySelectorAll<HTMLElement>('button')];
       const first = items[0], last = items[items.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
@@ -80,8 +79,6 @@ export function TourIntro({ intro, total, onStart, onExit }: { intro: TourIntroC
           <button ref={startRef} type="button" onClick={onStart} data-testid="tour-intro-start" className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-ink px-5 text-sm font-medium text-white cursor-pointer hover:bg-black">
             Start the journey<ArrowRight aria-hidden size={16} />
           </button>
-          <Link href={intro.notesHref} onClick={onExit} className="inline-flex min-h-11 items-center text-sm underline underline-offset-2">Read my full notes</Link>
-          <button type="button" onClick={onExit} className="ml-auto min-h-11 px-2 text-sm text-secondary underline-offset-2 hover:underline cursor-pointer">Exit tour</button>
         </div>
         <span className="-mt-2 text-[11px] text-secondary-2">{total} short steps · use → to move, Esc to exit</span>
       </section>
