@@ -17,18 +17,27 @@ export interface PlanColumn {
 const plan = (id: string) => scenarioLibrary.plans.find((p) => p.id === id)!;
 const COUNT = ['none', 'it', 'both', 'all three', 'all four', 'all five'];
 
-export function scenarioColumns(selection: Selection, people: Dependant[]): PlanColumn[] {
+/**
+ * Plans compared: today's cover, the plan on screen (only when it isn't one of the others),
+ * the lean way to add Sam and Enhanced. Priya can compare before choosing, then pick one.
+ */
+export function scenarioColumns(selection: Selection, people: Dependant[], suggested = false): PlanColumn[] {
   const keep = plan('keep');
   const lean = plan('lean');
   const enhanced = plan('enhanced');
   const isLibraryPlan = [keep, lean, enhanced].some((p) => sameSelection(p.selection, selection));
-  const middle: PlanColumn = isLibraryPlan
-    ? { ...lean, ai: true }
-    : {
-        id: 'yours', tag: 'Your plan', name: 'Your current choices', ai: true, selection,
+  const yours: PlanColumn[] = isLibraryPlan
+    ? []
+    : [{
+        id: 'yours', tag: 'Your choices so far', name: 'Your current choices', ai: false, selection,
         sub: `${leverSummary(selection).replace(/^./, (c) => c.toUpperCase())}, ${lowerFirst(whoLabel(selection, people))}`,
-      };
-  return [{ ...keep, ai: false }, middle, { ...enhanced, ai: false }];
+      }];
+  return [
+    { ...keep, ai: false },
+    ...yours,
+    { ...lean, tag: suggested ? 'Suggested in chat' : 'Lower-cost way to add Sam', ai: true },
+    { ...enhanced, ai: false },
+  ];
 }
 
 export interface ScenarioModel {
@@ -39,17 +48,20 @@ export interface ScenarioModel {
   countWord: string;
 }
 
-export function scenarioModel(persona: Persona, people: Dependant[], selection: Selection, mentions: string[]): ScenarioModel {
-  const columns = scenarioColumns(selection, people);
+export function scenarioModel(persona: Persona, people: Dependant[], selection: Selection, mentions: string[], suggested = false): ScenarioModel {
+  const columns = scenarioColumns(selection, people, suggested);
   const scenarios = chooseScenarios(scenarioLibrary.scenarios, persona.focusAreas, mentions, people.map((p) => p.id));
   const rows = comparePlans(columns.map((c) => ({ id: c.id, selection: c.selection })), scenarios, people, persona.taxRate);
-  const [keep, mid, enh] = rows;
+  const byId = (id: string) => rows.find((r) => r.planId === id)!;
+  const keep = byId('keep');
+  const mid = byId('lean');
+  const enh = byId('enhanced');
   const countWord = COUNT[scenarios.length] ?? `all ${scenarios.length}`;
 
   const yearMore = displayedDifference(keep.totals.coverCost, mid.totals.coverCost);
   const enhMore = displayedDifference(mid.totals.allInOneYear, enh.totals.allInOneYear);
   const partner = persona.peopleOnRecord.find((p) => p.relationship !== 'child');
-  const midName = columns[1].id === 'lean' && partner ? `Adding ${firstName(partner)} the lean way` : 'Your current choices';
+  const midName = partner ? `Adding ${firstName(partner)} the lean way` : 'The lean plan';
   const tradeOff = mid.selection.excess > 0 ? `, and its main trade-off is the ${formatAnnual(mid.selection.excess)} excess` : '';
 
   const headline = [

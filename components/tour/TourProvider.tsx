@@ -82,6 +82,9 @@ export function TourProvider() {
         // Bring the target near the top, leaving the bottom of the screen for the caption.
         const top = el.getBoundingClientRect().top + window.scrollY - 96;
         window.scrollTo({ top: Math.max(0, top) });
+        // Let entrance animations (slide-in sheet, fade-up cards) settle before measuring the spotlight.
+        const anims = [el, ...el.querySelectorAll('*')].flatMap((n) => n.getAnimations?.() ?? []);
+        await Promise.race([Promise.all(anims.map((a) => a.finished.catch(() => undefined))), sleep(800)]);
       }
       await sleep(80);
     } finally {
@@ -111,9 +114,14 @@ export function TourProvider() {
 
   const next = useCallback(() => {
     if (step === null || running) return;
-    if (step >= steps.length - 1) return exit();
+    if (step >= steps.length - 1) {
+      const finish = TOURS[usePlan.getState().tourId].finish;
+      exit();
+      if (finish) router.push(finish);
+      return;
+    }
     void runStep(step + 1);
-  }, [step, steps, running, runStep, exit]);
+  }, [step, steps, running, runStep, exit, router]);
 
   const back = useCallback(() => {
     if (step === null || running || step === 0) return;

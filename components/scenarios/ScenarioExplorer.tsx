@@ -7,22 +7,27 @@ import { Button } from '@/components/ui/Button';
 import { sendMessage } from '@/lib/ai/client';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
 import { scenarioModel } from '@/lib/scenarioView';
-import { firstName } from '@/lib/plan';
+import { scenarioLibrary } from '@/lib/data';
+import { firstName, sameSelection } from '@/lib/plan';
 import { usePeople, usePersona, usePlan } from '@/lib/store';
 
 export function ScenarioExplorer() {
   const router = useRouter();
   const persona = usePersona();
   const people = usePeople();
-  const { selection, mentions, applySelection } = usePlan();
-  const m = scenarioModel(persona, people, selection, mentions);
-  const [sel, setSel] = useState(1);
+  const { selection, mentions, applySelection, proposal } = usePlan();
+  const suggested = !!proposal && sameSelection(proposal.selection, scenarioLibrary.plans.find((p) => p.id === 'lean')!.selection);
+  const m = scenarioModel(persona, people, selection, mentions, suggested);
+  const leanIndex = m.columns.findIndex((c) => c.id === 'lean');
+  const [picked, setSel] = useState<number | null>(null);
+  const sel = picked ?? leanIndex;
+  const four = m.columns.length > 3;
   const [whatIf, setWhatIf] = useState('');
 
   const cell = (i: number) => (i === sel ? 'bg-ai-soft' : '');
   const whoName = (who: string) => (who === 'member' ? persona.firstName : firstName(people.find((p) => p.id === who) ?? { name: who }));
   const chosen = m.columns[sel];
-  const chosenLabel = chosen.id === 'keep' ? 'my current cover' : chosen.name;
+  const chosenLabel = chosen.id === 'keep' ? 'my current cover' : chosen.id === 'yours' ? 'my current choices' : chosen.name;
 
   return (
     <div className="flex flex-col gap-5">
@@ -33,13 +38,13 @@ export function ScenarioExplorer() {
         </div>
       </section>
 
-      <section aria-labelledby="grid-h" className="overflow-x-auto rounded-[16px] border border-line">
+      <section aria-labelledby="grid-h" data-tour="scenario-grid" tabIndex={0} className="overflow-x-auto rounded-[16px] border border-line">
         <h2 id="grid-h" className="sr-only">Scenarios compared across plans</h2>
-        <table className="w-full min-w-[720px] border-collapse text-left">
+        <table className={`w-full border-collapse text-left ${four ? 'min-w-[900px]' : 'min-w-[720px]'}`}>
           <caption className="px-5 pt-4 text-left text-xs text-secondary-2">Choose a plan to highlight it</caption>
           <thead>
             <tr>
-              <th scope="col" className="w-[34%] px-5 py-3 align-bottom text-[13px] font-medium text-secondary">Situation</th>
+              <th scope="col" className={`${four ? 'w-[26%]' : 'w-[34%]'} px-5 py-3 align-bottom text-[13px] font-medium text-secondary`}>Situation</th>
               {m.columns.map((c, i) => (
                 <th key={c.id} scope="col" className={`px-3 py-3 align-top ${cell(i)}`}>
                   <button
