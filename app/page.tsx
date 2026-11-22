@@ -94,12 +94,10 @@ export default function DemoRoom() {
               {
                 icon: <Wallet aria-hidden size={18} strokeWidth={1.8} className="text-brand" />, tile: 'bg-brand-tint', title: 'Your pay, explained', tour: '/pay?tour=1', notes: '/notes/pay',
                 body: 'When your payslip lands, Navigator tells you what changed and why, in plain English, line by line. Built for April 2027, when health benefits start being taxed through payroll.',
-                aside: 'Part 1 previews one cost before you choose. This explains all of your pay, every month, after.',
               },
               {
                 icon: <ReceiptText aria-hidden size={18} strokeWidth={1.8} className="text-ai-icon" />, tile: 'bg-ai-bg', title: 'Claim it', tour: '/claims?tour=1', notes: '/notes/claim',
                 body: 'Snap any receipt and Navigator works out which benefit pays. If Meridian’s allowance covers it, it’s claimed and paid in Navigator. If the insurer covers it, it’s prepared and handed to AXA with everything filled in.',
-                aside: 'Nobody needs to know which benefit covers what. The AI routes it.',
               },
             ].map((f) => (
               <article key={f.title} className="flex flex-col gap-3 rounded-[16px] border border-line px-[22px] py-5">
@@ -108,7 +106,6 @@ export default function DemoRoom() {
                   <h3 className="text-lg font-semibold">{f.title}</h3>
                 </div>
                 <p className="text-sm leading-relaxed text-ink-2">{f.body}</p>
-                <p className="text-xs text-secondary">{f.aside}</p>
                 <div className="mt-auto flex flex-wrap items-center gap-2.5 pt-1">
                   <TourButton href={f.tour}>Take the guided tour</TourButton>
                   <NotesLink href={f.notes} />
