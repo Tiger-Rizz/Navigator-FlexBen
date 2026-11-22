@@ -1,0 +1,70 @@
+'use client';
+
+import Link from 'next/link';
+import { Check, Sparkles } from 'lucide-react';
+import { Button, buttonClass } from '@/components/ui/Button';
+import { formatMonthly } from '@/lib/engine/format';
+import { acceptProposalWithFollowUp } from '@/lib/ai/client';
+import type { Proposal } from '@/lib/ai/types';
+import { usePlan } from '@/lib/store';
+
+const NUMBER_WORDS = ['', 'one', 'two', 'three', 'four', 'five', 'six'];
+
+export function ProposalCard({ proposal }: { proposal: Proposal }) {
+  const { proposal: current, proposalStatus, undoProposal } = usePlan();
+  const isCurrent = current?.id === proposal.id;
+  const accepted = isCurrent && proposalStatus === 'accepted';
+  const superseded = !isCurrent;
+  const n = proposal.lines.length;
+
+  const accept = () => {
+    if (!isCurrent) usePlan.getState().setProposal(proposal);
+    acceptProposalWithFollowUp();
+  };
+
+  return (
+    <>
+    <div data-tour="proposal" className="flex flex-col gap-3 rounded-[12px] border border-ai-highlight bg-ai-soft p-4">
+      <div className="flex items-center gap-2">
+        <Sparkles aria-hidden size={16} strokeWidth={1.8} className="text-ai-icon" />
+        <h2 className="flex-1 text-[15px]">{proposal.title}</h2>
+        <span className="text-xs font-medium text-ai-text">{n} {n === 1 ? 'change' : 'changes'}</span>
+      </div>
+      <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
+        {proposal.lines.map((l) => (
+          <li key={l.text} className="flex gap-2 text-sm">
+            <span aria-hidden className="w-4 shrink-0 text-center font-semibold text-ai-text">{l.icon}</span>
+            {l.text}
+          </li>
+        ))}
+      </ul>
+      <div className="flex flex-wrap gap-x-8 gap-y-2 border-t border-ai-border pt-3">
+        <div className="flex flex-col">
+          <span><span className="text-xl font-semibold">{formatMonthly(proposal.monthly)}</span> <span className="text-[13px] text-secondary">a month</span></span>
+          <span className="text-xs text-secondary">with these changes</span>
+        </div>
+        {proposal.alternative && (
+          <div className="flex flex-col">
+            <span><span className="text-xl font-semibold text-secondary">{formatMonthly(proposal.alternative.monthly)}</span> <span className="text-[13px] text-secondary">a month</span></span>
+            <span className="text-xs text-secondary">{proposal.alternative.label}</span>
+          </div>
+        )}
+      </div>
+      {accepted ? (
+        <div role="status" className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 font-medium text-success"><Check aria-hidden size={16} />Applied to your plan</span>
+          <button type="button" onClick={undoProposal} className="min-h-11 px-1 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
+        </div>
+      ) : superseded && proposalStatus !== null && current ? (
+        <p className="text-xs text-secondary-2">Replaced by a newer suggestion.</p>
+      ) : (
+        <div className="flex flex-wrap gap-2.5">
+          <Button onClick={accept} data-tour="accept-proposal">{n === 2 ? 'Accept both' : n > 2 ? `Accept all ${NUMBER_WORDS[n] ?? n}` : 'Accept'}</Button>
+          <Link href="/benefits/pmi/scenarios" className={buttonClass('secondary')}>Compare alternatives</Link>
+        </div>
+      )}
+    </div>
+    {proposal.taxNote && <p className="rounded-[12px] bg-surface-2 px-4 py-3 text-[13px] text-secondary">{proposal.taxNote}</p>}
+    </>
+  );
+}

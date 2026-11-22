@@ -1,0 +1,16 @@
+{
+  "id": "priya",
+  "name": "Priya Shah",
+  "firstName": "Priya",
+  "initials": "PS",
+  "age": 34,
+  "postcode": "E8",
+  "area": "London",
+  "taxRate": 0.4,
+  "band": "C",
+  "focusAreas": ["Mental health & wellbeing", "Bones, joints & muscles"],
+  "peopleOnRecord": [
+    { "id": "sam", "name": "Sam Shah", "relationship": "spouse", "source": "hr_record" }
+  ],
+  "currentSelection": { "tier": "core", "excess": 0, "outpatient": 1000, "specialist": "directory", "dependants": [] }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "tom",
+  "name": "Tom Reid",
+  "firstName": "Tom",
+  "initials": "TR",
+  "age": 47,
+  "postcode": "M20",
+  "area": "Manchester",
+  "taxRate": 0.2,
+  "band": "B",
+  "focusAreas": ["Fitness & nutrition", "Money management"],
+  "peopleOnRecord": [],
+  "currentSelection": { "tier": "core", "excess": 0, "outpatient": 1000, "specialist": "directory", "dependants": [] }
+}
