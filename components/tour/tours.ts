@@ -13,7 +13,6 @@ export interface TourIntroContent {
   scenario: string;
   people: { initials: string; name: string; detail: string; muted?: boolean }[];
   assumptions: string[];
-  notesHref: string;
 }
 
 /** Part 1 assumptions come straight from the notes, so the intro and /notes/flex always agree. */
@@ -39,7 +38,6 @@ export const TOURS: Record<TourId, Tour> = {
         { initials: 'SS', name: 'Sam Shah', detail: 'Her spouse, on her HR record · not on her cover', muted: true },
       ],
       assumptions: flexAssumptions,
-      notesHref: '/notes/flex',
     },
     steps: TOUR_STEPS,
     reset: () => usePlan.getState().resetAll(),
@@ -53,7 +51,6 @@ export const TOURS: Record<TourId, Tour> = {
       scenario: 'Priya’s first payslip since enrolment has landed. Her salary went up 3%, she started cycle to work, and Sam is now on her health cover, which is taxed through payroll from April 2027.',
       people: [],
       assumptions: [],
-      notesHref: '/notes/pay',
     },
     steps: PAY_STEPS,
     reset: () => usePart2.getState().resetPay(),
@@ -66,7 +63,6 @@ export const TOURS: Record<TourId, Tour> = {
       scenario: 'Priya has two receipts: new glasses and a physio assessment. She doesn’t know which benefit pays for which, and she doesn’t need to: Meridian’s £500 Wellbeing Allowance and her AXA cover both sit in Navigator.',
       people: [],
       assumptions: [],
-      notesHref: '/notes/claim',
     },
     steps: CLAIM_STEPS,
     reset: () => usePart2.getState().resetClaims(),
