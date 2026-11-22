@@ -8,8 +8,8 @@ import { employer } from '@/lib/data';
 import { formatAnnual, formatAnnualExact, formatMonthly, perMonth } from '@/lib/engine/format';
 import { daysLeft } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
-import { countChanges } from '@/lib/plan';
-import { baseline, usePersona, usePlan } from '@/lib/store';
+import { countChanges, leverSummary, whoLabel } from '@/lib/plan';
+import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
 
 export function StatusChip() {
   const { selection, status } = usePlan();
@@ -19,12 +19,18 @@ export function StatusChip() {
   return <Badge tone="ai">{n} {n === 1 ? 'change' : 'changes'} to confirm</Badge>;
 }
 
-export function CoverPanel() {
+/**
+ * "Your cover from 1 April". `summary` is the compact card on the benefit page (button: Adjust your cover);
+ * the full panel sits on the cover page (Review and confirm, Reset).
+ */
+export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' }) {
   const persona = usePersona();
+  const people = usePeople();
   const { selection, reset } = usePlan();
   const b = usePlanPricing(selection);
   const now = usePlanPricing(baseline);
   const taxPct = Math.round(persona.taxRate * 100);
+  const summary = variant === 'summary';
 
   const rows: [string, string][] = [
     ['Total premium', `${formatAnnualExact(b.premium)} a year`],
@@ -35,37 +41,50 @@ export function CoverPanel() {
   ];
 
   return (
-    <aside aria-labelledby="cover-panel" data-tour="cover-panel" className="flex flex-col gap-4 rounded-[16px] border border-line bg-white px-6 py-[22px]">
-      <div className="flex items-center justify-between gap-2">
-        <h2 id="cover-panel" className="text-lg">Your cover from 1 April</h2>
+    <aside aria-labelledby="cover-panel" data-tour={summary ? undefined : 'cover-panel'} className="flex flex-col gap-4 rounded-[16px] border border-line bg-white px-5 py-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 id="cover-panel" className="text-base">Your cover from 1 April</h2>
         <StatusChip />
       </div>
       <div className="flex flex-col gap-0.5" aria-live="polite">
         <span className="text-[13px] text-secondary">What it really costs you</span>
-        <span className="text-[32px] font-semibold tracking-tight">
+        <span className="text-[32px] font-semibold leading-tight tracking-tight">
           {formatMonthly(b.realMonthlyCost)} <span className="text-[15px] font-normal text-secondary">a month</span>
         </span>
         <span className="text-xs text-secondary-2">Keeping your current cover: {perMonth(now.realMonthlyCost)}</span>
       </div>
-      {[rows.slice(0, 3), rows.slice(3)].map((group, gi) => (
-        <dl key={gi} className="m-0 flex flex-col gap-2 border-t border-divider pt-3 text-[13px]">
-          {group.map(([k, v]) => (
-            <div key={k} className="flex justify-between gap-3">
-              <dt className="text-secondary">{k}</dt>
-              <dd className="m-0 whitespace-nowrap font-medium">{v}</dd>
-            </div>
+      {summary ? (
+        <>
+          <dl className="m-0 flex flex-col gap-2 border-t border-divider pt-3 text-[13px]">
+            <div className="flex justify-between gap-3"><dt className="text-secondary">Who’s covered</dt><dd className="m-0 font-medium">{whoLabel(selection, people)}</dd></div>
+            <div className="flex justify-between gap-3"><dt className="shrink-0 text-secondary">Your choices</dt><dd className="m-0 text-right font-medium">{leverSummary(selection).replace(/^./, (c) => c.toUpperCase())}</dd></div>
+          </dl>
+          <p className="text-xs font-medium text-warning">Closes 31 March: {daysLeft(employer.demoToday)} days left</p>
+          <Link href="/benefits/pmi/cover" className={buttonClass('secondary', 'w-full')}>Adjust your cover</Link>
+        </>
+      ) : (
+        <>
+          {[rows.slice(0, 3), rows.slice(3)].map((group, gi) => (
+            <dl key={gi} className="m-0 flex flex-col gap-2 border-t border-divider pt-3 text-[13px]">
+              {group.map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-3">
+                  <dt className="text-secondary">{k}</dt>
+                  <dd className="m-0 whitespace-nowrap font-medium">{v}</dd>
+                </div>
+              ))}
+            </dl>
           ))}
-        </dl>
-      ))}
-      <FundBar used={b.fromFund} total={b.flexFund} fundAsCashMonthly={b.fundAsCashMonthly} unused={b.unusedFund} />
-      <p className="text-xs font-medium text-warning">Closes 31 March: {daysLeft(employer.demoToday)} days left</p>
-      <Link href="/benefits/pmi/review" className={buttonClass('primary', 'w-full')}>Review and confirm</Link>
-      <button type="button" onClick={reset} className="min-h-11 text-sm font-medium text-secondary underline-offset-2 hover:underline cursor-pointer">
-        Reset to my current cover
-      </button>
-      <p className="text-xs text-secondary-2">
-        Guidance, not financial advice. Illustrative prices. Tax shown at your {taxPct}% rate. No AXA login needed: we update AXA and payroll for you.
-      </p>
+          <FundBar used={b.fromFund} total={b.flexFund} fundAsCashMonthly={b.fundAsCashMonthly} unused={b.unusedFund} />
+          <p className="text-xs font-medium text-warning">Closes 31 March: {daysLeft(employer.demoToday)} days left</p>
+          <Link href="/benefits/pmi/review" className={buttonClass('primary', 'w-full')}>Review and confirm</Link>
+          <button type="button" onClick={reset} className="-my-1 min-h-11 text-sm font-medium text-secondary underline-offset-2 hover:underline cursor-pointer">
+            Reset to my current cover
+          </button>
+          <p className="text-xs text-secondary-2">
+            Guidance, not financial advice. Illustrative prices. Tax shown at your {taxPct}% rate. No AXA login needed: we update AXA and payroll for you.
+          </p>
+        </>
+      )}
     </aside>
   );
 }

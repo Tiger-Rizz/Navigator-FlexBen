@@ -77,7 +77,7 @@ function ReviewForm() {
             <div className="flex flex-wrap items-center gap-3">
               <Button onClick={submit} data-tour="confirm">Confirm my choices</Button>
               <span className="inline-flex items-center gap-1.5 text-[13px] text-secondary"><Lock aria-hidden size={13} />Done here. No AXA login needed.</span>
-              <Link href="/benefits/pmi" className={buttonClass('secondary')}>Go back and change</Link>
+              <Link href="/benefits/pmi/cover" className={buttonClass('secondary')}>Go back and change</Link>
             </div>
           </div>
           <div className="flex w-full shrink-0 flex-col gap-5 lg:w-[360px]">
@@ -202,7 +202,7 @@ function Confirmed() {
         </div>
         <div className="flex flex-wrap gap-2.5">
           <Button onClick={calendar}><CalendarPlus aria-hidden size={16} />Add 1 April to my calendar</Button>
-          <Link href="/benefits/pmi" className={buttonClass('secondary')}>See my cover</Link>
+          <Link href="/benefits/pmi" className={buttonClass('secondary')}>Back to Private Medical Insurance</Link>
           <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
         </div>
         {partner && (

@@ -68,7 +68,7 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
   return (
     <div className="flex flex-col gap-3" data-tour="whos-covered">
       <div className="flex items-center gap-2">
-        <h3 className="text-[15px]">Who’s covered</h3>
+        <h2 className="text-lg">Who’s covered</h2>
         {changed && <Badge tone="ai">Changed</Badge>}
       </div>
 
@@ -97,11 +97,11 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
           ) : (
             <li key={p.id} className="flex flex-wrap items-center gap-3 border-t border-divider px-3.5 py-2.5">
               <Avatar initials={initialsOf(p.name)} muted />
-              <span className="flex flex-1 flex-col">
+              <span className="flex min-w-[140px] flex-1 flex-col">
                 <span className="font-medium text-secondary">{p.name}</span>
                 <span className="text-xs text-secondary-2">{personLabel(p)} · not covered</span>
               </span>
-              <Button variant="secondary" onClick={() => cover(p.id)} data-tour="add-sam">
+              <Button variant="secondary" className="w-full sm:w-auto xl:w-full" onClick={() => cover(p.id)} data-tour="add-sam">
                 Add · {perMonth(costToAdd(p.id))}
               </Button>
             </li>

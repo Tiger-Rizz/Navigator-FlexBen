@@ -22,7 +22,7 @@ export function ActionCard() {
   const side = (
     <div className="flex flex-col gap-3 border-line max-[860px]:border-t max-[860px]:pt-4 min-[860px]:w-[300px] min-[860px]:border-l min-[860px]:pl-6">
       <p className="text-xs font-medium text-secondary-2">Also for you</p>
-      <Link href="/benefits/pmi#whats-changed" className="flex items-start gap-2.5 no-underline">
+      <Link href="/benefits/pmi/cover#whats-changed" className="flex items-start gap-2.5 no-underline">
         <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-full bg-ai-icon" />
         <span className="leading-normal">What’s changed in your health cover for 2027–28: a higher mental health limit and a new lower-cost option</span>
       </Link>
