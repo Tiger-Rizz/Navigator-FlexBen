@@ -243,10 +243,7 @@ function ConfirmedSheet() {
 
           <div className="relative -mt-9 flex flex-col gap-3 px-4 pb-6 sm:px-6">
             <div className="flex flex-col gap-3 rounded-[16px] border border-line bg-white px-5 py-4">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <span className="text-[13px] text-secondary">What it really costs you</span>
-                <span className="text-xs text-secondary-2">From 1 April, including tax</span>
-              </div>
+              <span className="text-[13px] text-secondary">What it really costs you</span>
               <span className="text-[30px] font-semibold leading-none tracking-tight">{formatMonthly(b.realMonthlyCost)} <span className="text-sm font-normal text-secondary">a month</span></span>
               <div className="flex h-2 overflow-hidden rounded" role="img" aria-label={`Meridian ${formatAnnual(b.employerPays)}, Flex Fund ${formatAnnual(b.fromFund)}, your pay ${formatAnnual(b.fromPay)} a year`}>
                 <div className="bg-fund" style={{ width: pct(b.employerPays) }} />
