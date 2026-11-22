@@ -5,7 +5,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { usePlan } from '@/lib/store';
-import { TOUR_STEPS, type TourHelpers } from './steps';
+import type { TourHelpers } from './steps';
+import { TOURS, tourForPath, type TourId } from './tours';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const waitFor: TourHelpers['waitFor'] = async (fn, timeoutMs = 6000) => {
@@ -28,16 +29,19 @@ function overlap(a: Rect, b: Rect) {
   return x * y;
 }
 
-/** Starts the tour from ?tour=1 on any page. */
-function TourQueryStarter({ start }: { start: () => void }) {
+/** Starts the right tour from ?tour=1 (tour A on Navigator pages, P on /pay, C on /claims), then strips the parameter. */
+function TourQueryStarter({ start }: { start: (id: TourId) => void }) {
   const params = useSearchParams();
-  const started = useRef(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const handled = useRef<string | null>(null);
   useEffect(() => {
-    if (params.get('tour') === '1' && !started.current) {
-      started.current = true;
-      start();
-    }
-  }, [params, start]);
+    const key = `${pathname}?${params.toString()}`;
+    if (params.get('tour') !== '1' || handled.current === key) return;
+    handled.current = key;
+    router.replace(pathname);
+    start(tourForPath(pathname));
+  }, [params, pathname, router, start]);
   return null;
 }
 
@@ -45,6 +49,8 @@ export function TourProvider() {
   const router = useRouter();
   const pathname = usePathname();
   const step = usePlan((s) => s.tourStep);
+  const tourId = usePlan((s) => s.tourId);
+  const steps = TOURS[tourId].steps;
   const [running, setRunning] = useState(false);
   const [rect, setRect] = useState<Rect | null>(null);
   const [wide, setWide] = useState(false);
@@ -62,7 +68,7 @@ export function TourProvider() {
 
   const runStep = useCallback(async (i: number) => {
     const id = ++runId.current;
-    const s = TOUR_STEPS[i];
+    const s = TOURS[usePlan.getState().tourId].steps[i];
     setRunning(true);
     setRect(null);
     usePlan.getState().setTourStep(i);
@@ -86,10 +92,10 @@ export function TourProvider() {
     }
   }, [go]);
 
-  const start = useCallback(() => {
+  const start = useCallback((id: TourId) => {
     const s = usePlan.getState();
-    s.resetAll();
-    s.dismissTour();
+    TOURS[id].reset();
+    s.setTourId(id);
     s.setTourActive(true);
     void runStep(0);
   }, [runStep]);
@@ -105,9 +111,9 @@ export function TourProvider() {
 
   const next = useCallback(() => {
     if (step === null || running) return;
-    if (step >= TOUR_STEPS.length - 1) return exit();
+    if (step >= steps.length - 1) return exit();
     void runStep(step + 1);
-  }, [step, running, runStep, exit]);
+  }, [step, steps, running, runStep, exit]);
 
   const back = useCallback(() => {
     if (step === null || running || step === 0) return;
@@ -118,7 +124,8 @@ export function TourProvider() {
   useEffect(() => {
     setWide(window.innerWidth >= 1280);
     if (step === null || running) return;
-    const target = TOUR_STEPS[step].target;
+    const target = steps[step]?.target;
+    if (!target) return;
     const measure = () => {
       setWide(window.innerWidth >= 1280);
       const el = document.querySelector(target);
@@ -131,7 +138,7 @@ export function TourProvider() {
     window.addEventListener('scroll', measure, true);
     window.addEventListener('resize', measure);
     return () => { clearInterval(t); window.removeEventListener('scroll', measure, true); window.removeEventListener('resize', measure); };
-  }, [step, running, pathname]);
+  }, [step, steps, running, pathname]);
 
   // Keyboard: → next, ← back, Esc exit.
   useEffect(() => {
@@ -151,8 +158,9 @@ export function TourProvider() {
 
   if (step === null) return query;
 
-  const s = TOUR_STEPS[step];
-  const last = step === TOUR_STEPS.length - 1;
+  const s = steps[step];
+  if (!s) return query;
+  const last = step === steps.length - 1;
   const pad = 8;
   // Caption bottom-right, unless the spotlight sits there (e.g. the Ask panel); then bottom-left.
   const captionOnLeft = wide && !!rect && overlap(rect, rightBox(captionSize)) > overlap(rect, leftBox(captionSize));
@@ -176,13 +184,14 @@ export function TourProvider() {
         data-testid="tour-caption"
         className={`fixed bottom-4 z-[70] flex w-[calc(100%-2rem)] flex-col gap-3 rounded-[16px] border border-line bg-white p-5 shadow-[var(--shadow-float)] sm:w-[400px] ${captionOnLeft ? 'left-4 min-[900px]:left-[248px]' : 'right-4'}`}
       >
-        <span className="text-xs font-medium text-ai-text" aria-live="polite">Step {step + 1} of {TOUR_STEPS.length}</span>
+        <span data-testid="tour-label" className="text-xs font-medium text-ai-text" aria-live="polite">Guided tour · Step {step + 1} of {steps.length}</span>
         <p id="tour-what" className="font-semibold leading-snug">{running ? 'Loading this step…' : s.what()}</p>
         {!running && <p className="text-[13px] text-secondary"><span className="font-medium text-ink">Why it matters: </span>{s.why}</p>}
         {last && !running && (
           <div className="flex flex-wrap gap-x-4">
-            <Link href="/notes/flex" onClick={exit} className="inline-flex min-h-11 items-center text-sm font-medium text-ai-text underline underline-offset-2">Read my notes</Link>
-            <Link href="/" onClick={exit} className="inline-flex min-h-11 items-center text-sm font-medium text-ai-text underline underline-offset-2">Back to demo room</Link>
+            {TOURS[tourId].end.map((l) => (
+              <Link key={l.href} href={l.href} onClick={exit} className="inline-flex min-h-11 items-center text-sm font-medium text-ai-text underline underline-offset-2">{l.label}</Link>
+            ))}
           </div>
         )}
         <div className="flex flex-wrap items-center gap-2">

@@ -141,3 +141,12 @@ describe('check_eligibility for someone already on record', () => {
     expect((runTool('check_eligibility', { relationship: 'cohabiting_partner' }, ctx()) as { eligible: boolean }).eligible).toBe(false);
   });
 });
+
+describe('payslip questions are scripted (PART2.md §3)', () => {
+  it('tax code answer, word for word', () => {
+    expect(text(scriptedReply('Why did my tax code change?', ctx()))).toBe('Until April, the £900 value of your health cover was taken off your tax-free allowance, giving 1167L. Now that the tax is collected through payroll each month, the adjustment is gone and you’re back on 1257L.');
+  });
+  it('bike payments answer, word for word', () => {
+    expect(text(scriptedReply('When do my bike payments end?', ctx()))).toBe('Your last payment is in March 2028, the 12th month. After that, your take-home goes up by £48.33 a month.');
+  });
+});

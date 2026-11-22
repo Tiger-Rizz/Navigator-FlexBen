@@ -4,7 +4,7 @@
 import { usePlan } from '@/lib/store';
 import { resolveContext } from './context';
 import { scenarioMentions } from './health';
-import { paced, scriptedReply } from './scripted';
+import { paced, payAnswer, scriptedReply } from './scripted';
 import type { ChatMessage, PlanContext, StreamEvent } from './types';
 
 let seq = 0;
@@ -81,7 +81,8 @@ export async function sendMessage(text: string): Promise<void> {
 
   let received = false;
   try {
-    const stream = usePlan.getState().tourActive ? local(trimmed) : fromServer(usePlan.getState().messages.slice(0, -1));
+    const scriptedOnly = usePlan.getState().tourActive || payAnswer(trimmed) !== null;
+    const stream = scriptedOnly ? local(trimmed) : fromServer(usePlan.getState().messages.slice(0, -1));
     for await (const ev of stream) {
       received = true;
       apply(ev);
