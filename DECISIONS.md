@@ -49,3 +49,13 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 28. **"Notes for reviewers" is linked from the sidebar footer**, above the user, as §9 describes.
 29. **Main-flow pages are labelled placeholders** ("Placeholder · built in step N") until their build step. The PMI placeholder already reads its £30.00 from the engine to prove the wiring. `/api/chat` returns 501 until step 4.
 30. **Icons:** lucide equivalents of the canvas's hand-drawn nav icons (House, Badge, Tag, PartyPopper, Bookmark, CirclePlus, Heart) at 1.8 stroke.
+
+## Step 3: PMI page and store
+
+31. **The store is rehydrated after mount** (`skipHydration` plus `<StoreHydrator/>`). Reading sessionStorage during the first render would make the server and client HTML differ and log hydration errors. The cost is one frame showing the default plan.
+32. **The store holds no money.** Every screen prices `selection` through `usePlanPricing`, so the PMI page, chat and review can't drift apart.
+33. **"Keep my current cover" counts as confirmed** ("Confirmed" chip, saved to My choices), as in the canvas. Undo restores whatever the plan was before the tap, including added children.
+34. **The child form asks for name and date of birth** (the canvas asks for name only), plus an "In full-time education" tick box so the under-25 rule can be applied. Eligibility is checked on the age at cover start, 1 April 2027.
+35. **"Add family" opens the add-someone picker** in Who's covered and moves focus there, rather than opening a separate screen.
+36. **The Flex Fund bar reads "£X of £{fund}"**, where the fund includes any downgrade saving, instead of a fixed "of £500".
+37. **Radix and Framer Motion are not used yet.** Fine-tune uses a native `aria-expanded` disclosure and the Ask panel a hand-rolled non-modal dialog. Both are lighter, accessible, and enough for the prototype.
