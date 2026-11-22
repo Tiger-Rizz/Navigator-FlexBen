@@ -7,7 +7,7 @@ import { sameSelection } from '@/lib/plan';
 import { sendMessage } from '@/lib/ai/client';
 import { CANONICAL_OPENING, COMMON_QUESTIONS } from '@/lib/ai/questions';
 import { memberPays } from '@/lib/engine/claims';
-import { price } from '@/lib/engine/pricing';
+import { monthlyDifference, price } from '@/lib/engine/pricing';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
 import { scenarioModel } from '@/lib/scenarioView';
 import { baseline, usePlan } from '@/lib/store';
@@ -84,10 +84,21 @@ export const TOUR_STEPS: TourStep[] = [
     why: 'Answers come from the pricing engine, link to the benefit features and cite their sources.',
   },
   {
+    route: '/benefits/pmi/cover',
+    target: '[data-tour="fine-tune"]',
+    enter: () => state().setAskOpen(false),
+    what: () => {
+      const s = state().selection;
+      const save = -monthlyDifference(s, { ...s, excess: 250 }, people(), persona.taxRate);
+      return `With that answer, Priya can decide for herself. Every option shows its effect on her monthly cost (a £250 excess would save ${formatMonthly(save)} a month), and what she gets updates alongside.`;
+    },
+    why: 'Informed choices, not guesses. If she’d rather talk it through, “Help me choose” is one tap away.',
+  },
+  {
     route: '/benefits/pmi/chat',
     target: '[data-tour="member-context"]',
     enter: () => state().setAskOpen(false),
-    what: () => '“Help me choose” opens the plan builder, starting from what Navigator already knows.',
+    what: () => 'Or she taps “Help me choose”: the plan builder starts from what Navigator already knows.',
     why: 'No form to fill in: Priya only corrects what’s wrong.',
   },
   {
@@ -121,7 +132,7 @@ export const TOUR_STEPS: TourStep[] = [
       const more = Math.round(row('enhanced').totals.allInOneYear) - Math.round(row('lean').totals.allInOneYear);
       return `Before choosing, Priya compares plans on real situations: today’s cover, her choices so far, the lean suggestion and Enhanced. Even if ${m.countWord} happened, Enhanced would cost ${formatAnnual(more)} more than lean.`;
     },
-    why: 'She chooses by consequences, not by premium alone, and can come back to compare at any point.',
+    why: 'She chooses by consequences, not by premium alone. From here she can continue with a plan, or go back to fine-tune her cover herself.',
   },
   {
     route: '/benefits/pmi/review',

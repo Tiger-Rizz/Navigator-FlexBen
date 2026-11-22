@@ -20,7 +20,8 @@ export function AskPanel() {
   const bodyRef = useRef<HTMLDivElement>(null);
   const onPay = pathname.startsWith('/pay');
   const onChat = pathname.startsWith('/benefits/pmi/chat');
-  const showPill = pathname.startsWith('/benefits/pmi') && !onChat && !pathname.startsWith('/benefits/pmi/review');
+  // The comparison has its own what-if box and a decision bar, so the pill steps aside there.
+  const showPill = pathname.startsWith('/benefits/pmi') && !onChat && !pathname.startsWith('/benefits/pmi/review') && !pathname.startsWith('/benefits/pmi/scenarios');
 
   // Ask a queued question (from Common questions or a tour step).
   useEffect(() => {

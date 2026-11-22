@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { sendMessage } from '@/lib/ai/client';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
@@ -102,24 +103,36 @@ export function ScenarioExplorer() {
         </table>
       </section>
 
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
-        <form
-          className="flex flex-1 flex-col gap-1.5"
-          onSubmit={(e) => { e.preventDefault(); if (!whatIf.trim()) return; void sendMessage(whatIf); router.push('/benefits/pmi/chat'); }}
-        >
-          <label htmlFor="what-if" className="text-[13px] font-medium">Ask your own what-if</label>
-          <div className="flex gap-2">
-            <input id="what-if" value={whatIf} onChange={(e) => setWhatIf(e.target.value)} placeholder="Ask your own, like “what if Sam needed a hernia operation?”" className="min-h-11 flex-1 rounded-[10px] border border-line-control px-3" />
-            <Button type="submit" variant="secondary">Add scenario</Button>
-          </div>
-        </form>
-        <Button onClick={() => { applySelection(chosen.selection); router.push('/benefits/pmi/review'); }} data-tour="continue-plan">
-          Continue with {chosenLabel} <ArrowRight aria-hidden size={16} />
-        </Button>
-      </div>
+      <form
+        className="flex flex-col gap-1.5"
+        onSubmit={(e) => { e.preventDefault(); if (!whatIf.trim()) return; void sendMessage(whatIf); router.push('/benefits/pmi/chat'); }}
+      >
+        <label htmlFor="what-if" className="text-[13px] font-medium">Ask your own what-if</label>
+        <div className="flex max-w-[720px] gap-2">
+          <input id="what-if" value={whatIf} onChange={(e) => setWhatIf(e.target.value)} placeholder="Ask your own, like “what if Sam needed a hernia operation?”" className="min-h-11 min-w-0 flex-1 rounded-[10px] border border-line-control px-3" />
+          <Button type="submit" variant="secondary">Add scenario</Button>
+        </div>
+      </form>
       <p className="text-xs text-secondary-2">
         Illustrative costs, worked out from your plan’s rules: the excess is paid once per person each year and counts towards the outpatient allowance; MRI, CT and PET scans are paid in full at AXA scanning centres. Not a prediction of what will happen, and not financial advice.
       </p>
+
+      <div role="region" aria-label="Choose a plan" className="sticky bottom-0 z-20 -mx-4 mt-2 border-t border-line bg-white/95 px-4 py-3 backdrop-blur min-[900px]:-mx-12 min-[900px]:px-12">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5">
+          <div className="flex min-w-0 flex-1 flex-col">
+            <span className="text-xs text-secondary">Highlighted plan</span>
+            <span className="truncate font-semibold">{chosen.name} · {formatMonthly(m.rows[sel].realMonthlyCost)} <span className="font-normal text-secondary">a month</span></span>
+          </div>
+          <div className="flex w-full flex-wrap gap-2.5 sm:w-auto">
+            <Link href="/benefits/pmi/cover#fine-tune" data-tour="back-to-cover" className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-[10px] border border-line-control bg-white px-4 text-sm font-medium no-underline hover:bg-surface-2 sm:flex-none">
+              <ArrowLeft aria-hidden size={16} />Back to my cover
+            </Link>
+            <Button className="flex-1 sm:flex-none" onClick={() => { applySelection(chosen.selection); router.push('/benefits/pmi/review'); }} data-tour="continue-plan">
+              Continue with {chosenLabel} <ArrowRight aria-hidden size={16} />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

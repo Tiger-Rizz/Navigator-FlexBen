@@ -21,7 +21,7 @@ export function FineTune() {
     <section aria-labelledby="fine-tune" data-tour="fine-tune" className="flex flex-col gap-5 rounded-[16px] border border-line bg-white px-6 py-[22px]">
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <h2 id="fine-tune" className="text-lg">Fine-tune your cover</h2>
+          <h2 id="fine-tune" className="scroll-mt-10 text-lg">Fine-tune your cover</h2>
           {changed.length > 0 && <Badge tone="ai">Changed</Badge>}
         </div>
         <p className="text-[13px] text-secondary">Optional. Each option shows what it does to your real monthly cost, and the list alongside shows what you’d get.</p>
