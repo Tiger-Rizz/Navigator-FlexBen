@@ -71,7 +71,7 @@ export const CLAIM_STEPS: TourStep[] = [
       if (p2().receipt !== 'glasses' || p2().submitted) await p2().pickReceipt('glasses');
       await ready(h);
     },
-    what: () => 'Navigator reads the receipt and asks Priya to check what it found.',
+    what: () => 'Navigator scans the receipt, highlights the four details it read, and asks Priya to check them.',
     why: 'The AI reads; the person confirms every detail before anything is claimed.',
   },
   {
