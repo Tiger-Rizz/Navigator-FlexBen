@@ -7,9 +7,9 @@ import { Badge } from '@/components/ui/Badge';
 import { usePersona, usePlan } from '@/lib/store';
 
 type Category = 'insurance' | 'non-insurance' | 'company';
-interface Benefit { id: string; provider: string; name: string; text: string; category: Category; band: string; tile: string; tileClass: string; href?: string; features?: string }
+export interface Benefit { id: string; provider: string; name: string; text: string; category: Category; band: string; tile: string; tileClass: string; href?: string; features?: string }
 
-const BENEFITS: Benefit[] = [
+export const BENEFITS: Benefit[] = [
   { id: 'pmi', provider: 'AXA Health', name: 'Private Medical Insurance', text: 'Fast access to specialists, tests and treatment, with a virtual GP day or night.', category: 'insurance', band: 'bg-[#DCE3F5]', tile: 'AXA', tileClass: 'bg-axa text-white', href: '/benefits/pmi', features: '8 features' },
   { id: 'dental', provider: 'Meridian Dental Plan', name: 'Dental Insurance', text: 'Money back on check-ups and treatment with the dentist of your choice.', category: 'insurance', band: 'bg-[#D9ECF7]', tile: 'MD', tileClass: 'bg-[#1B6FA8] text-white' },
   { id: 'ci', provider: 'Legal & General', name: 'Critical Illness Insurance', text: 'A tax-free lump sum if you’re diagnosed with one of a range of serious conditions.', category: 'insurance', band: 'bg-[#E6E6E3]', tile: 'L&G', tileClass: 'bg-white text-ink-2' },
@@ -53,32 +53,31 @@ export function BenefitsBrowser() {
       </div>
       <h1 className="text-[22px]">{filter === 'all' ? 'All benefits' : heading} <span className="font-normal text-secondary">({shown.length})</span></h1>
       <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {shown.map((b) => {
-          const inner = (
-            <>
-              <div className={`relative flex h-[104px] items-center justify-center ${b.band}`}>
-                {b.features && <span className="absolute left-2.5 top-2.5 rounded-[6px] bg-white/90 px-2 py-0.5 text-[11px]">{b.features}</span>}
-                <span aria-hidden className={`flex size-[60px] items-center justify-center rounded-[10px] text-[15px] font-bold ${b.tileClass}`}>{b.tile}</span>
-              </div>
-              <div className="flex flex-1 flex-col gap-1 px-4 py-3.5">
-                <span className="text-xs text-secondary-2">{b.provider}</span>
-                <span className="font-semibold">{b.name}</span>
-                <span className="text-[13px] leading-snug text-secondary">{b.text}</span>
-                {b.id === 'pmi' && actionNeeded && <Badge tone="warning" className="mt-1 self-start">Action needed</Badge>}
-              </div>
-            </>
-          );
-          return (
-            <li key={b.id}>
-              {b.href ? (
-                <Link href={b.href} className="flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-white no-underline transition-shadow hover:border-line-control hover:shadow-[0_2px_12px_rgba(20,20,20,0.06)]">{inner}</Link>
-              ) : (
-                <div className="flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-white">{inner}</div>
-              )}
-            </li>
-          );
-        })}
+        {shown.map((b) => <li key={b.id}><BenefitCard b={b} actionNeeded={b.id === 'pmi' && actionNeeded} /></li>)}
       </ul>
     </div>
+  );
+}
+
+/** The Navigator benefit card: colour band with the provider tile, then provider, name and one line. */
+export function BenefitCard({ b, actionNeeded = false }: { b: Benefit; actionNeeded?: boolean }) {
+  const inner = (
+    <>
+      <div className={`relative flex h-[104px] items-center justify-center ${b.band}`}>
+        {b.features && <span className="absolute left-2.5 top-2.5 rounded-[6px] bg-white/90 px-2 py-0.5 text-[11px]">{b.features}</span>}
+        <span aria-hidden className={`flex size-[60px] items-center justify-center rounded-[10px] text-[15px] font-bold transition-transform group-hover:scale-[1.04] ${b.tileClass}`}>{b.tile}</span>
+      </div>
+      <div className="flex flex-1 flex-col gap-1 px-4 py-3.5">
+        <span className="text-xs text-secondary-2">{b.provider}</span>
+        <span className="font-semibold">{b.name}</span>
+        <span className="text-[13px] leading-snug text-secondary">{b.text}</span>
+        {actionNeeded && <Badge tone="warning" className="mt-1 self-start">Action needed</Badge>}
+      </div>
+    </>
+  );
+  return b.href ? (
+    <Link href={b.href} className="group flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-white no-underline transition-shadow hover:border-line-control hover:shadow-[0_2px_12px_rgba(20,20,20,0.06)]">{inner}</Link>
+  ) : (
+    <div className="flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-white">{inner}</div>
   );
 }
