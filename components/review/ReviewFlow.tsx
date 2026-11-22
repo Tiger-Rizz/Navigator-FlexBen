@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
-import { AlertTriangle, CalendarPlus, Check, Lock, Sparkles, X } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CalendarPlus, Check, Lock, Receipt, Sparkles, Undo2, UserRoundSearch, Wallet, X } from 'lucide-react';
 import { Button, buttonClass } from '@/components/ui/Button';
-import { PageBody, PageHeader } from '@/components/shell/PageHeader';
+import { BenefitHeader } from '@/components/pmi/BenefitHeader';
 import type { Dependant } from '@/lib/data';
-import { formatAnnual } from '@/lib/engine/format';
+import { formatAnnual, formatMonthly } from '@/lib/engine/format';
 import { relationshipLabel, validateDob } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
 import { coveredPeople, firstName, whoLabel, lowerFirst, leverSummary } from '@/lib/plan';
@@ -15,6 +15,7 @@ import { addedPeople, beforeYouConfirm, confirmedSummary, coveredHeadline, nameL
 import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
 import { ChangesTable } from './ChangesTable';
 import { PayslipPreview } from './PayslipPreview';
+import { Timeline } from './Timeline';
 
 const isoToUk = (iso: string) => iso.split('-').reverse().join('/');
 
@@ -29,84 +30,88 @@ export function ReviewFlow() {
   );
 }
 
+const WARNING_ICON = { undo: Undo2, excess: Receipt, fund: Wallet, guided: UserRoundSearch } as const;
+
 function ReviewForm() {
   const persona = usePersona();
   const people = usePeople();
   const { selection, dobs, reviewAgreed, setReviewAgreed, confirm } = usePlan();
   const [tried, setTried] = useState(false);
+  const b = usePlanPricing(selection);
   const needDob = coveredPeople(selection, people).filter((p) => !p.dob);
   const missing = needDob.filter((p) => !dobs[p.id]);
   const warnings = beforeYouConfirm(baseline, selection, people, persona.taxRate);
-  const added = addedPeople(baseline, selection, people);
+  const agreeErr = tried && !reviewAgreed;
 
   const submit = () => {
     setTried(true);
-    if (missing.length === 0 && reviewAgreed) {
-      confirm();
-    }
+    if (missing.length === 0 && reviewAgreed) { confirm(); return; }
+    // Take the member to the first thing that needs attention.
+    const target = missing.length ? document.querySelector<HTMLInputElement>('[data-tour="dependant-details"] input[inputmode="numeric"]') : document.getElementById('agree');
+    target?.focus();
   };
 
   return (
     <>
-      <PageHeader
-        title="Review your health cover"
-        intro="Check the details, then confirm. You can still change your mind until 31 March."
-        crumbs={[{ href: '/benefits/pmi', label: 'Private Medical Insurance' }, { label: 'Review' }]}
-      />
-      <PageBody>
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-start">
+      <BenefitHeader page="review" />
+      <div className="rise relative px-4 pb-24 pt-6 min-[900px]:px-12 lg:-mt-14 lg:pt-0">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-5 lg:flex-row lg:items-start">
           <div className="flex min-w-0 flex-1 flex-col gap-5">
             <ChangesTable base={baseline} selection={selection} />
             {needDob.map((p) => <DependantDetails key={p.id} person={p} showError={tried} />)}
+            <PayslipPreview base={baseline} selection={selection} />
             <section aria-labelledby="before" data-tour="before-confirm" className="flex flex-col gap-3 rounded-[16px] border border-[#F2D9A6] bg-warning-soft px-6 py-[22px]">
               <h2 id="before" className="flex items-center gap-2 text-lg"><AlertTriangle aria-hidden size={18} className="text-warning" />Before you confirm</h2>
-              <ul className="m-0 flex list-none flex-col gap-2.5 p-0 text-[14px] leading-relaxed">
-                {warnings.map((w) => (
-                  <li key={w.title}><strong className="font-semibold">{w.title}</strong> {w.text}</li>
-                ))}
+              <ul className="m-0 flex list-none flex-col gap-3 p-0">
+                {warnings.map((w) => {
+                  const Icon = WARNING_ICON[w.kind];
+                  return (
+                    <li key={w.kind} className="flex gap-3">
+                      <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-[8px] bg-white text-warning"><Icon size={16} strokeWidth={1.8} /></span>
+                      <p className="text-[13px] leading-relaxed text-ink-2"><strong className="font-semibold text-ink">{w.title.replace(/\.$/, '')}</strong><br />{w.text}</p>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
-            <div className="flex flex-col gap-2">
-              <label className="flex min-h-11 items-start gap-2.5">
-                <input
-                  type="checkbox"
-                  className="mt-0.5 size-5 shrink-0"
-                  checked={reviewAgreed}
-                  onChange={(e) => setReviewAgreed(e.target.checked)}
-                  aria-invalid={tried && !reviewAgreed}
-                  aria-describedby={tried && !reviewAgreed ? 'agree-err' : undefined}
-                />
-                I understand this is guidance, not financial advice, and these choices are mine.
-              </label>
-              {tried && !reviewAgreed && <p id="agree-err" className="text-[13px] text-error">Tick the box to confirm you’ve read this.</p>}
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button onClick={submit} data-tour="confirm">Confirm my choices</Button>
-              <span className="inline-flex items-center gap-1.5 text-[13px] text-secondary"><Lock aria-hidden size={13} />Done here. No AXA login needed.</span>
-              <Link href="/benefits/pmi/cover" className={buttonClass('secondary')}>Go back and change</Link>
-            </div>
           </div>
-          <div className="flex w-full shrink-0 flex-col gap-5 lg:w-[360px]">
-            <PayslipPreview base={baseline} selection={selection} />
-            <section aria-labelledby="next" className="flex flex-col gap-3 rounded-[16px] border border-line px-6 py-[22px]">
-              <h2 id="next" className="text-lg">What happens next</h2>
-              <ol className="m-0 flex list-none flex-col gap-3 p-0 text-[13px]">
-                {[
-                  ['Today', 'You get a summary by email. We update AXA and payroll for you. No AXA login needed.'],
-                  ...(added.length ? [['By 25 March', `AXA sets up ${nameList(added)}’s membership and sends ${added.length > 1 ? 'their' : 'his'} app invite.`]] : []),
-                  ['1 April', coveredPeople(selection, people).length ? `Cover starts for ${coveredPeople(selection, people).length > 1 ? 'you all' : 'you both'}.` : 'Your cover continues.'],
-                  ['30 April', 'First payslip with the new amounts.'],
-                ].map(([when, what]) => (
-                  <li key={when} className="flex gap-3">
-                    <span className="w-[84px] shrink-0 font-semibold">{when}</span>
-                    <span className="text-secondary">{what}</span>
-                  </li>
-                ))}
-              </ol>
+
+          <div className="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-6 lg:w-[320px]">
+            <section aria-labelledby="confirm-h" className="flex flex-col gap-4 rounded-[16px] border border-line bg-white px-5 py-5">
+              <h2 id="confirm-h" className="text-base">Ready to confirm?</h2>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[13px] text-secondary">What it really costs you</span>
+                <span className="text-[32px] font-semibold leading-tight tracking-tight">{formatMonthly(b.realMonthlyCost)} <span className="text-[15px] font-normal text-secondary">a month</span></span>
+                <span className="text-xs text-secondary-2">From 1 April 2027, including tax</span>
+              </div>
+              {missing.length > 0 && tried && (
+                <p className="text-[13px] text-error">Add {nameList(missing)}’s date of birth to confirm.</p>
+              )}
+              <div className="flex flex-col gap-1.5 border-t border-divider pt-3">
+                <label className="flex items-start gap-2.5 text-[13px] leading-snug">
+                  <input
+                    id="agree"
+                    type="checkbox"
+                    className="mt-0.5 size-5 shrink-0"
+                    checked={reviewAgreed}
+                    onChange={(e) => setReviewAgreed(e.target.checked)}
+                    aria-invalid={agreeErr}
+                    aria-describedby={agreeErr ? 'agree-err' : undefined}
+                  />
+                  I understand this is guidance, not financial advice, and these choices are mine.
+                </label>
+                {agreeErr && <p id="agree-err" className="text-[13px] text-error">Tick the box to confirm you’ve read this.</p>}
+              </div>
+              <Button onClick={submit} data-tour="confirm" className="w-full">Confirm my choices</Button>
+              <span className="-mt-1 inline-flex items-center justify-center gap-1.5 text-xs text-secondary"><Lock aria-hidden size={12} />Done here. No AXA login needed.</span>
+              <Link href="/benefits/pmi/cover" className="-my-1 inline-flex min-h-11 items-center justify-center gap-1.5 text-sm font-medium text-secondary no-underline hover:text-ink">
+                <ArrowLeft aria-hidden size={15} />Back to your cover
+              </Link>
             </section>
+            <Timeline base={baseline} selection={selection} people={people} />
           </div>
         </div>
-      </PageBody>
+      </div>
     </>
   );
 }
@@ -129,9 +134,9 @@ function DependantDetails({ person, showError }: { person: Dependant; showError:
     : null;
 
   return (
-    <section aria-labelledby={`${id}-h`} data-tour="dependant-details" className="flex flex-col gap-3 rounded-[16px] border border-line px-6 py-[22px]">
+    <section aria-labelledby={`${id}-h`} data-tour="dependant-details" className="flex flex-col gap-3 rounded-[16px] border border-line bg-white px-6 py-[22px]">
       <h2 id={`${id}-h`} className="text-lg">{name}’s details</h2>
-      <p className="text-[13px] text-secondary">Meridian doesn’t hold {name}’s date of birth, and AXA needs it to set up his membership. Everything else is filled in from your HR record.</p>
+      <p className="text-[13px] text-secondary">AXA needs {name}’s date of birth to set up his membership. Everything else comes from your HR record.</p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <label className="flex flex-col gap-1.5 text-[13px] font-medium">
           Full name

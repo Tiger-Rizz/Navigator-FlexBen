@@ -41,26 +41,28 @@ export function stayingTheSame(base: Selection, s: Selection) {
   return `Staying the same: ${list}. MRI, CT and PET scans stay paid in full.`;
 }
 
-export interface Warning { title: string; text: string }
+export interface Warning { kind: 'undo' | 'excess' | 'fund' | 'guided'; title: string; text: string }
 
 export function beforeYouConfirm(base: Selection, s: Selection, people: Dependant[], taxRate: number): Warning[] {
   const b = price(s, people, taxRate);
   const added = addedPeople(base, s, people);
   const out: Warning[] = [];
   out.push({
+    kind: 'undo',
     title: 'Hard to undo.',
     text: 'After 31 March you can only change this after another life event.' +
       (added.length ? ` Under Meridian’s scheme rules, if ${nameList(added)} ${added.length > 1 ? 'leave' : 'leaves'} and ${added.length > 1 ? 'rejoin' : 'rejoins'} later, ${added.length > 1 ? 'their' : 'his'} medical history may no longer be ignored.` : ''),
   });
-  if (s.excess > 0) out.push({ title: 'The excess.', text: `You’ll pay the first ${formatAnnual(s.excess)} of claims, once per person each year you claim.` });
+  if (s.excess > 0) out.push({ kind: 'excess', title: 'The excess.', text: `You’ll pay the first ${formatAnnual(s.excess)} of claims, once per person each year you claim.` });
   if (b.fromFund > 0) {
     out.push({
+      kind: 'fund',
       title: 'Your Flex Fund.',
       text: b.unusedFund <= 0
         ? `All ${formatAnnual(b.fromFund)} goes on health cover, so none is left for other benefits or to take as cash (about ${formatMonthly(b.fundAsCashMonthly)} a month after tax).`
         : `${formatAnnual(b.fromFund)} of your ${formatAnnual(b.flexFund)} goes on health cover. ${formatAnnual(b.unusedFund)} is left for other benefits or to take as cash.`,
     });
   }
-  if (s.specialist === 'guided') out.push({ title: 'Guided by AXA.', text: 'When you need a specialist, AXA arranges one from its shortlist, so you can’t ask for a named consultant.' });
+  if (s.specialist === 'guided') out.push({ kind: 'guided', title: 'Guided by AXA.', text: 'When you need a specialist, AXA arranges one from its shortlist, so you can’t ask for a named consultant.' });
   return out;
 }
