@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { usePlan } from '@/lib/store';
 import type { TourHelpers } from './steps';
 import { TOURS, tourForPath, type TourId } from './tours';
+import { TourIntro } from './TourIntro';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const waitFor: TourHelpers['waitFor'] = async (fn, timeoutMs = 6000) => {
@@ -49,6 +50,7 @@ export function TourProvider() {
   const router = useRouter();
   const pathname = usePathname();
   const step = usePlan((s) => s.tourStep);
+  const [intro, setIntro] = useState<TourId | null>(null);
   const tourId = usePlan((s) => s.tourId);
   const steps = TOURS[tourId].steps;
   const [running, setRunning] = useState(false);
@@ -100,6 +102,16 @@ export function TourProvider() {
     TOURS[id].reset();
     s.setTourId(id);
     s.setTourActive(true);
+    s.setTourStep(null);
+    if (TOURS[id].intro) {
+      // Step 0: set the scene on the first page of the journey, then wait for "Start the journey".
+      setIntro(id);
+      void go(TOURS[id].steps[0].route);
+    } else void runStep(0);
+  }, [runStep, go]);
+
+  const begin = useCallback(() => {
+    setIntro(null);
     void runStep(0);
   }, [runStep]);
 
@@ -108,6 +120,7 @@ export function TourProvider() {
     const s = usePlan.getState();
     s.setTourStep(null);
     s.setTourActive(false);
+    setIntro(null);
     setRunning(false);
     setRect(null);
   }, []);
@@ -124,7 +137,17 @@ export function TourProvider() {
   }, [step, steps, running, runStep, exit, router]);
 
   const back = useCallback(() => {
-    if (step === null || running || step === 0) return;
+    if (step === null || running) return;
+    if (step === 0) {
+      // Back from step 1 returns to the scenario.
+      const id = usePlan.getState().tourId;
+      if (!TOURS[id].intro) return;
+      runId.current++;
+      usePlan.getState().setTourStep(null);
+      setRect(null);
+      setIntro(id);
+      return;
+    }
     void runStep(step - 1);
   }, [step, running, runStep]);
 
@@ -163,6 +186,16 @@ export function TourProvider() {
   }, [step, next, back, exit]);
 
   const query = <Suspense fallback={null}><TourQueryStarter start={start} /></Suspense>;
+
+  if (intro) {
+    const t = TOURS[intro];
+    return (
+      <>
+        {query}
+        <TourIntro intro={t.intro!} total={t.steps.length} onStart={begin} onExit={exit} />
+      </>
+    );
+  }
 
   if (step === null) return query;
 
@@ -203,7 +236,7 @@ export function TourProvider() {
           </div>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant="secondary" onClick={back} disabled={step === 0 || running}>Back</Button>
+          <Button variant="secondary" onClick={back} disabled={(step === 0 && !TOURS[tourId].intro) || running}>Back</Button>
           <Button ref={nextRef} onClick={next} disabled={running} data-testid="tour-next">{last ? 'Finish' : 'Next'}</Button>
           <button type="button" onClick={exit} className="ml-auto min-h-11 px-2 text-sm text-secondary underline-offset-2 hover:underline cursor-pointer">Exit tour</button>
         </div>
