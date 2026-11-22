@@ -177,13 +177,10 @@ function Changes() {
                       <dd className={`m-0 font-semibold tabular-nums ${up ? 'text-success' : ''}`}>{signedMoney(r.takeHome)} a month</dd>
                     </div>
                   </dl>
-                  <div className="flex flex-wrap items-center gap-x-3">
-                    <Link href={r.link.href} className="inline-flex min-h-11 items-center gap-1.5 text-[13px] font-medium">
-                      <span aria-hidden className="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded px-[3px] text-[8px] font-bold" style={{ background: r.link.tileBg, color: r.link.tileFg }}>{r.link.tile}</span>
-                      <span className="underline underline-offset-2">{r.link.label}</span>
-                    </Link>
-                    <span className="text-xs text-secondary-2">{r.source}</span>
-                  </div>
+                  <Link href={r.link.href} className="-mt-1 inline-flex min-h-11 items-center gap-1.5 self-start text-[13px] font-medium">
+                    <span aria-hidden className="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded px-[3px] text-[8px] font-bold" style={{ background: r.link.tileBg, color: r.link.tileFg }}>{r.link.tile}</span>
+                    <span className="underline underline-offset-2">{r.link.label}</span>
+                  </Link>
                 </div>
               )}
             </li>
