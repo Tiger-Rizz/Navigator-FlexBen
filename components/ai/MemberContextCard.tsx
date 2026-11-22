@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { employer } from '@/lib/data';
 import { formatAnnual } from '@/lib/engine/format';
 import { sendMessage } from '@/lib/ai/client';
-import { firstName, leverSummary, whoLabel } from '@/lib/plan';
+import { firstName, leverSummary, whoLabel, lowerFirst } from '@/lib/plan';
 import { relationshipLabel } from '@/lib/engine/rules';
 import { usePersona, usePlan } from '@/lib/store';
 
@@ -14,7 +14,7 @@ export function MemberContextCard() {
   const persona = usePersona();
   const { contextConfirmed, setContextConfirmed, busy } = usePlan();
   const family = persona.peopleOnRecord.map((p) => `${firstName(p)} (${relationshipLabel(p.relationship)})`).join(', ') || 'No one';
-  const cover = `${leverSummary(persona.currentSelection).split(' · ')[0]}, ${whoLabel(persona.currentSelection, persona.peopleOnRecord).toLowerCase()}`;
+  const cover = `${leverSummary(persona.currentSelection).split(' · ')[0]}, ${lowerFirst(whoLabel(persona.currentSelection, persona.peopleOnRecord))}`;
   const facts: [string, string][] = [
     ['Age', String(persona.age)],
     ['Home postcode', `${persona.postcode}, ${persona.area}`],

@@ -90,3 +90,13 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 57. **The opening chat chip sends the full canonical message**, which mentions Sam's asthma. Bug found in testing: a shorter chip got an asthma-specific reply without ever mentioning asthma. The scripted reply now mentions asthma (and adds the privacy note) only when the member did.
 58. **"Ask your own what-if" sends the question to the plan builder** and opens it, rather than adding a custom row. Custom scenarios would need the AI to invent costs, which §2.2 rules out.
 59. **"Continue with {plan}" applies that plan as the draft** and goes to review. Nothing is confirmed until the member confirms there.
+
+## Step 7: Review, confirmed state and My choices
+
+60. **Dates of birth and the guidance tick live in the store**, so a confirmed plan keeps Sam's date of birth if the member undoes and re-confirms. The tour can also fill them in like a member would.
+61. **The review asks for a date of birth only for covered people without one** (Sam, from the HR record). Children added on the PMI page already gave theirs. Validation: DD/MM/YYYY, a real date, not in the future.
+62. **"Before you confirm" is generated from the plan:** hard to undo (always, plus the rejoining rule for anyone newly added), the excess if any, the Flex Fund if used (with the cash equivalent from the engine), and Guided if chosen.
+63. **The payslip preview shows "Now" as today's cover and "April" as the plan being confirmed**, all monthly, from the engine (taxable benefit £75.00 → £116.67).
+64. **"Keep my current cover" counts as confirmed**, so the review screen then shows the confirmed state. Undo there restores whatever the plan was before.
+65. **"Add 1 April to my calendar" downloads a small .ics file.** "Review my life assurance" links to Benefits, because life assurance is outside this prototype.
+66. **My choices lists the confirmed election only**, with the real monthly cost and "Change until 31 March". Unconfirmed drafts don't appear there.

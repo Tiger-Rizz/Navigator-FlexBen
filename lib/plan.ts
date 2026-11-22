@@ -39,6 +39,9 @@ export function whoLabel(selection: Selection, people: Dependant[]): string {
   return `You, ${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
 }
 
+/** Lower-cases only the first letter: "You and Sam" → "you and Sam". */
+export const lowerFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+
 /** "Core · £0 excess · £1,000 outpatient allowance · your choice of specialist" */
 export function leverSummary(s: Selection): string {
   return LEVERS.map((l) => optionFor(l, s[l]).summary).join(' · ');

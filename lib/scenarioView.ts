@@ -3,7 +3,7 @@ import { scenarioLibrary, type Dependant, type Persona, type Selection } from '@
 import { comparePlans, displayedDifference, type PlanComparison } from '@/lib/engine/claims';
 import { formatAnnual } from '@/lib/engine/format';
 import { chooseScenarios } from '@/lib/engine/rules';
-import { firstName, leverSummary, sameSelection, whoLabel } from '@/lib/plan';
+import { firstName, leverSummary, sameSelection, whoLabel, lowerFirst } from '@/lib/plan';
 
 export interface PlanColumn {
   id: string;
@@ -26,7 +26,7 @@ export function scenarioColumns(selection: Selection, people: Dependant[]): Plan
     ? { ...lean, ai: true }
     : {
         id: 'yours', tag: 'Your plan', name: 'Your current choices', ai: true, selection,
-        sub: `${leverSummary(selection).replace(/^./, (c) => c.toUpperCase())}, ${whoLabel(selection, people).toLowerCase()}`,
+        sub: `${leverSummary(selection).replace(/^./, (c) => c.toUpperCase())}, ${lowerFirst(whoLabel(selection, people))}`,
       };
   return [{ ...keep, ai: false }, middle, { ...enhanced, ai: false }];
 }
