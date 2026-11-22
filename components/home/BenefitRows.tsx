@@ -34,10 +34,7 @@ function ComingUp() {
 
   return (
     <section aria-labelledby="coming-up" className="flex flex-col gap-3 rounded-[16px] border border-line bg-white px-4 py-5 sm:px-5">
-      <div className="flex flex-wrap items-baseline justify-between gap-2 px-1">
-        <h2 id="coming-up" className="text-lg">Coming up</h2>
-        <span className="text-xs text-secondary-2">From your enrolment and payroll calendar</span>
-      </div>
+      <h2 id="coming-up" className="px-1 text-lg">Coming up</h2>
       <ol className="m-0 grid list-none grid-cols-1 gap-1 p-0 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it) => (
           <li key={it.day + it.month}>
