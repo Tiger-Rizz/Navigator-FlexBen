@@ -10,7 +10,7 @@ import type { Dependant } from '@/lib/data';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
 import { relationshipLabel, validateDob } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
-import { coveredPeople, firstName, whoLabel, lowerFirst, optionFor } from '@/lib/plan';
+import { coveredPeople, firstName, whoLabel, lowerFirst, optionFor, planChips } from '@/lib/plan';
 import { addedPeople, beforeYouConfirm, coveredHeadline, nameList } from '@/lib/reviewView';
 import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
 import { ChangesTable } from './ChangesTable';
@@ -170,8 +170,6 @@ function DependantDetails({ person, showError }: { person: Dependant; showError:
   );
 }
 
-const upperFirst = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
-
 /** The confirmation slides in over the review page; closing it returns to the benefit page. */
 function ConfirmedSheet() {
   const router = useRouter();
@@ -215,12 +213,7 @@ function ConfirmedSheet() {
     URL.revokeObjectURL(a.href);
   };
 
-  const chips = [
-    `${optionFor('tier', s.tier).label} cover`,
-    `${optionFor('excess', s.excess).label} excess`,
-    s.outpatient === 'full' ? 'Outpatient in full' : `${optionFor('outpatient', s.outpatient).label} outpatient`,
-    upperFirst(optionFor('specialist', s.specialist).summary),
-  ];
+  const chips = planChips(s);
   const pct = (n: number) => `${b.premium > 0 ? (n / b.premium) * 100 : 0}%`;
 
   return (

@@ -8,8 +8,12 @@ import { employer } from '@/lib/data';
 import { formatAnnual, formatAnnualExact, formatMonthly, perMonth } from '@/lib/engine/format';
 import { daysLeft } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
-import { countChanges, leverSummary, whoLabel } from '@/lib/plan';
-import { baseline, usePeople, usePlan } from '@/lib/store';
+import { countChanges, coveredPeople, planChips, whoLabel } from '@/lib/plan';
+import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
+
+const initialsOf = (name: string) => name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
+/** "+£21.50 a month on today", or "Same as today". */
+const diffLabel = (d: number) => (Math.abs(d) < 0.005 ? 'Same as today' : `${d > 0 ? '+' : '−'}${formatMonthly(Math.abs(d))} a month on today`);
 
 export function StatusChip() {
   const { selection, status } = usePlan();
@@ -25,7 +29,8 @@ export function StatusChip() {
  */
 export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' }) {
   const people = usePeople();
-  const { selection, reset } = usePlan();
+  const persona = usePersona();
+  const { selection, reset, status } = usePlan();
   const b = usePlanPricing(selection);
   const now = usePlanPricing(baseline);
   const summary = variant === 'summary';
@@ -49,15 +54,28 @@ export function CoverPanel({ variant = 'full' }: { variant?: 'full' | 'summary' 
         <span className="text-[32px] font-semibold leading-tight tracking-tight">
           {formatMonthly(b.realMonthlyCost)} <span className="text-[15px] font-normal text-secondary">a month</span>
         </span>
-        <span className="text-xs text-secondary-2">Keeping your current cover: {perMonth(now.realMonthlyCost)}</span>
+        {summary ? (
+          <span className="text-xs text-secondary-2">{diffLabel(b.realMonthlyCost - now.realMonthlyCost)}</span>
+        ) : (
+          <span className="text-xs text-secondary-2">Keeping your current cover: {perMonth(now.realMonthlyCost)}</span>
+        )}
       </div>
       {summary ? (
         <>
-          <dl className="m-0 flex flex-col gap-2 border-t border-divider pt-3 text-[13px]">
-            <div className="flex justify-between gap-3"><dt className="text-secondary">Who’s covered</dt><dd className="m-0 font-medium">{whoLabel(selection, people)}</dd></div>
-            <div className="flex justify-between gap-3"><dt className="shrink-0 text-secondary">Your choices</dt><dd className="m-0 text-right font-medium">{leverSummary(selection).replace(/^./, (c) => c.toUpperCase())}</dd></div>
-          </dl>
-          <p className="text-xs font-medium text-warning">Closes 31 March: {daysLeft(employer.demoToday)} days left</p>
+          <div className="flex flex-col gap-3 border-t border-divider pt-4">
+            <div className="flex items-center gap-2.5">
+              <span aria-hidden className="flex -space-x-2">
+                {[persona.name, ...coveredPeople(selection, people).map((p) => p.name)].map((n) => (
+                  <span key={n} className="flex size-8 items-center justify-center rounded-full border-2 border-white bg-avatar text-[11px] font-semibold text-avatar-text">{initialsOf(n)}</span>
+                ))}
+              </span>
+              <span className="text-sm font-medium"><span className="sr-only">Who’s covered: </span>{whoLabel(selection, people)}</span>
+            </div>
+            <ul aria-label="Your choices" className="m-0 flex list-none flex-wrap gap-1.5 p-0">
+              {planChips(selection).map((c) => <li key={c} className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium text-ink-2">{c}</li>)}
+            </ul>
+          </div>
+          {status === 'editing' && <p className="text-xs font-medium text-warning">Closes 31 March: {daysLeft(employer.demoToday)} days left</p>}
           <Link href="/benefits/pmi/cover" className={buttonClass('secondary', 'w-full')}>Adjust your cover</Link>
         </>
       ) : (
