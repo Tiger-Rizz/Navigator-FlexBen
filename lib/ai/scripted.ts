@@ -45,19 +45,22 @@ function kneeCard(sel: Selection, ctx: ResolvedContext) {
 
 // ---- Intents ----
 
-function canonicalOpening(ctx: ResolvedContext): StreamEvent[] {
+function canonicalOpening(ctx: ResolvedContext, text: string): StreamEvent[] {
   const partner = partnerOnRecord(ctx);
   if (!partner) return generic();
   const name = firstName(partner);
-  const ev: StreamEvent[] = [
-    t(`Enrolment is open until 31 March, so you can add ${name} now. And good news on the asthma: under Meridian’s scheme rules, anyone added at enrolment joins with their medical history ignored, so it won’t be excluded. Worth knowing: PMI covers flare-ups and diagnosis, not routine ongoing care. That stays with his GP.`),
-    part({ type: 'privacy' }),
-  ];
+  const asthma = /asthma/i.test(text);
+  const ev: StreamEvent[] = asthma
+    ? [
+        t(`Enrolment is open until 31 March, so you can add ${name} now. And good news on the asthma: under Meridian’s scheme rules, anyone added at enrolment joins with their medical history ignored, so it won’t be excluded. Worth knowing: PMI covers flare-ups and diagnosis, not routine ongoing care. That stays with his GP.`),
+        part({ type: 'privacy' }),
+      ]
+    : [t(`Enrolment is open until 31 March, so you can add ${name} now. Under Meridian’s scheme rules, anyone added at enrolment joins with their medical history ignored, so existing conditions won’t be excluded.`)];
   if (ctx.selection.dependants.includes(partner.id) && ctx.selection.excess === 250 && ctx.selection.specialist === 'guided') {
     ev.push(t(`${name} is already on your plan the lean way, at ${formatMonthly(price(ctx.selection, ctx.people, ctx.persona.taxRate).realMonthlyCost)} a month.`));
     return ev;
   }
-  const from = { ...ctx.selection, dependants: ctx.selection.dependants.filter((d) => d !== partner.id) };
+  const from = ctx.selection;
   ev.push(t(`Here’s the lowest-cost sensible way to add ${name}. I’ve put it on your plan so you can check it:`));
   ev.push(part({ type: 'proposal', proposal: leanAddProposal(from, ctx.people, ctx.persona.taxRate, partner.id, 'lean-add') }));
   return ev;
@@ -185,8 +188,8 @@ export function limitReached(): StreamEvent[] {
 /** Deterministic reply for a message. */
 export function scriptedReply(text: string, ctx: ResolvedContext): StreamEvent[] {
   const q = norm(text);
-  if (/asthma/.test(q) || (/\bsam\b/.test(q) && /(fortune|cheap|lean|without it costing|keep it)/.test(q))) return canonicalOpening(ctx);
-  if (/without it costing a fortune/.test(q)) return canonicalOpening(ctx);
+  if (/asthma/.test(q) || (/\bsam\b/.test(q) && /(fortune|cheap|lean|without it costing|keep it)/.test(q))) return canonicalOpening(ctx, text);
+  if (/without it costing a fortune/.test(q)) return canonicalOpening(ctx, text);
   if (/^can i add\b/.test(q) || /\badd (sam|my (husband|wife|partner|spouse))\b/.test(q)) return canIAdd(ctx);
   if (/\bknee\b/.test(q)) return knee(ctx);
   if (/(what's changed|whats changed|what has changed).*(year)|since last year/.test(q)) return whatsChanged();

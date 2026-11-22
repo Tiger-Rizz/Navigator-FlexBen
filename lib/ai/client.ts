@@ -98,3 +98,14 @@ export async function sendMessage(text: string): Promise<void> {
 export function addAssistantMessage(parts: ChatMessage['parts']) {
   usePlan.getState().addMessage({ id: newId('a'), role: 'assistant', parts });
 }
+
+/** Accepts the pending proposal and adds the deterministic follow-up (same in live and scripted modes). */
+export function acceptProposalWithFollowUp() {
+  const s = usePlan.getState();
+  if (!s.proposal || s.proposalStatus !== 'pending') return;
+  s.acceptProposal();
+  addAssistantMessage([
+    { type: 'text', text: 'Done. Before you confirm, want to see how this plan would handle a few real situations, like a knee operation or a flare-up for Sam?' },
+    { type: 'actions', items: [{ label: 'Show me scenarios', href: '/benefits/pmi/scenarios' }, { label: 'Go to review', href: '/benefits/pmi/review' }] },
+  ]);
+}

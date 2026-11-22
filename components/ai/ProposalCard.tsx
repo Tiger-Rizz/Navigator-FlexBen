@@ -4,14 +4,14 @@ import Link from 'next/link';
 import { Check, Sparkles } from 'lucide-react';
 import { Button, buttonClass } from '@/components/ui/Button';
 import { formatMonthly } from '@/lib/engine/format';
-import { addAssistantMessage } from '@/lib/ai/client';
+import { acceptProposalWithFollowUp } from '@/lib/ai/client';
 import type { Proposal } from '@/lib/ai/types';
 import { usePlan } from '@/lib/store';
 
 const NUMBER_WORDS = ['', 'one', 'two', 'three', 'four', 'five', 'six'];
 
 export function ProposalCard({ proposal }: { proposal: Proposal }) {
-  const { proposal: current, proposalStatus, acceptProposal, undoProposal } = usePlan();
+  const { proposal: current, proposalStatus, undoProposal } = usePlan();
   const isCurrent = current?.id === proposal.id;
   const accepted = isCurrent && proposalStatus === 'accepted';
   const superseded = !isCurrent;
@@ -19,11 +19,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
 
   const accept = () => {
     if (!isCurrent) usePlan.getState().setProposal(proposal);
-    acceptProposal();
-    addAssistantMessage([
-      { type: 'text', text: 'Done. Before you confirm, want to see how this plan would handle a few real situations, like a knee operation or a flare-up for Sam?' },
-      { type: 'actions', items: [{ label: 'Show me scenarios', href: '/benefits/pmi/scenarios' }, { label: 'Go to review', href: '/benefits/pmi/review' }] },
-    ]);
+    acceptProposalWithFollowUp();
   };
 
   return (
@@ -62,7 +58,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
         <p className="text-xs text-secondary-2">Replaced by a newer suggestion.</p>
       ) : (
         <div className="flex flex-wrap gap-2.5">
-          <Button onClick={accept} data-tour="accept-proposal">{n > 1 ? `Accept all ${NUMBER_WORDS[n] ?? n}` : 'Accept'}</Button>
+          <Button onClick={accept} data-tour="accept-proposal">{n === 2 ? 'Accept both' : n > 2 ? `Accept all ${NUMBER_WORDS[n] ?? n}` : 'Accept'}</Button>
           <Link href="/benefits/pmi/scenarios" className={buttonClass('secondary')}>Compare alternatives</Link>
         </div>
       )}

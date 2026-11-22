@@ -90,3 +90,17 @@ describe('headlines the AI states (§8)', () => {
     expect(displayedDifference(l, e)).toBe(230);
   });
 });
+
+describe('scenario explorer model', async () => {
+  const { scenarioModel } = await import('@/lib/scenarioView');
+  it('states the §8 headline once Sam’s asthma is mentioned', () => {
+    const m = scenarioModel(priya, people, lean, ['asthma']);
+    expect(m.columns.map((c) => c.id)).toEqual(['keep', 'lean', 'enhanced']);
+    expect(m.headline[0]).toContain('costs you £258 a year more than today');
+    expect(m.headline[0]).toContain('Even if all four of these happened in one year, Enhanced would still cost you £230 more overall');
+  });
+  it('uses the plan on screen as the middle column when it isn’t one of the three', () => {
+    const custom = { ...lean, excess: 100 as const };
+    expect(scenarioModel(priya, people, custom, []).columns[1].id).toBe('yours');
+  });
+});

@@ -31,6 +31,11 @@ export interface PlanState {
   /** A question waiting to be asked in the Ask AI panel. */
   askQuery: string | null;
   busy: boolean;
+  /** Dates of birth entered on the review screen, by dependant id (ISO). */
+  dobs: Record<string, string>;
+  reviewAgreed: boolean;
+  tourStep: number | null;
+  tourDismissed: boolean;
   /** Set while the guided tour runs: the AI is always scripted then. */
   tourActive: boolean;
 
@@ -57,6 +62,11 @@ export interface PlanState {
   openAsk: (question?: string) => void;
   takeAskQuery: () => string | null;
   setBusy: (v: boolean) => void;
+  setDob: (id: string, iso: string) => void;
+  setReviewAgreed: (v: boolean) => void;
+  unconfirm: () => void;
+  setTourStep: (n: number | null) => void;
+  dismissTour: () => void;
   setTourActive: (v: boolean) => void;
   resetAll: () => void;
 }
@@ -79,6 +89,10 @@ const initial = () => ({
   askOpen: false,
   askQuery: null as string | null,
   busy: false,
+  dobs: {} as Record<string, string>,
+  reviewAgreed: false,
+  tourStep: null as number | null,
+  tourDismissed: false,
   tourActive: false,
 });
 
@@ -146,6 +160,11 @@ export const usePlan = create<PlanState>()(
       setContextConfirmed: (v) => set({ contextConfirmed: v }),
       setAskOpen: (v) => set({ askOpen: v }),
       setBusy: (v) => set({ busy: v }),
+      setDob: (id, iso) => set({ dobs: { ...get().dobs, [id]: iso } }),
+      setReviewAgreed: (v) => set({ reviewAgreed: v }),
+      unconfirm: () => set({ status: 'editing', confirmedSelection: null }),
+      setTourStep: (n) => set({ tourStep: n }),
+      dismissTour: () => set({ tourDismissed: true }),
       setTourActive: (v) => set({ tourActive: v }),
       openAsk: (question) => set({ askOpen: true, askQuery: question ?? null }),
       takeAskQuery: () => {
@@ -153,13 +172,13 @@ export const usePlan = create<PlanState>()(
         if (q) set({ askQuery: null });
         return q;
       },
-      resetAll: () => set(initial()),
+      resetAll: () => set({ ...initial(), tourDismissed: get().tourDismissed }),
     }),
     {
       name: 'navigator-flex-plan',
       storage: createJSONStorage(() => sessionStorage),
       skipHydration: true, // rehydrated in <StoreHydrator/> after mount, to avoid SSR mismatches
-      partialize: ({ askOpen, askQuery, busy, ...rest }) => rest,
+      partialize: ({ askOpen, askQuery, busy, tourStep, tourActive, ...rest }) => rest,
     },
   ),
 );

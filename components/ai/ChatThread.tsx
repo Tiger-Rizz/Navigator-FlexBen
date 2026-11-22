@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { sendMessage } from '@/lib/ai/client';
-import { BUILDER_CHIPS } from '@/lib/ai/questions';
+import { BUILDER_CHIPS, CANONICAL_OPENING } from '@/lib/ai/questions';
 import { firstName } from '@/lib/plan';
 import { usePersona, usePlan } from '@/lib/store';
 import { MemberContextCard } from './MemberContextCard';
@@ -22,10 +22,11 @@ export function ChatThread() {
   const partner = persona.peopleOnRecord[0];
   const asked = new Set(messages.filter((m) => m.role === 'user').map((m) => (m.parts[0]?.type === 'text' ? m.parts[0].text : '')));
   const partnerProposed = !!partner && !!proposal?.selection.dependants.includes(partner.id);
+  // The opening chip sends the full canonical message (CLAUDE.md §11); other chips send their label.
   const chips = [
-    ...(partner && !selection.dependants.includes(partner.id) && !partnerProposed ? [`Add ${firstName(partner)} without it costing a fortune`] : []),
-    ...BUILDER_CHIPS,
-  ].filter((c) => !asked.has(c));
+    ...(partner && !selection.dependants.includes(partner.id) && !partnerProposed ? [{ label: `Add ${firstName(partner)} without it costing a fortune`, text: CANONICAL_OPENING }] : []),
+    ...BUILDER_CHIPS.map((c) => ({ label: c, text: c })),
+  ].filter((c) => !asked.has(c.text));
   const send = (t: string) => { setText(''); void sendMessage(t); };
 
   return (
@@ -54,8 +55,8 @@ export function ChatThread() {
       <div className="sticky bottom-0 flex flex-col gap-2.5 bg-white pb-4 pt-2">
         {chips.length > 0 && <div className="-mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
           {chips.map((c) => (
-            <button key={c} type="button" disabled={busy} onClick={() => send(c)} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-ai-border bg-ai-soft px-3.5 text-[13px] font-medium text-ai-text cursor-pointer hover:bg-ai-bg disabled:opacity-60">
-              <Sparkles aria-hidden size={13} strokeWidth={1.8} />{c}
+            <button key={c.label} type="button" disabled={busy} onClick={() => send(c.text)} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-ai-border bg-ai-soft px-3.5 text-[13px] font-medium text-ai-text cursor-pointer hover:bg-ai-bg disabled:opacity-60">
+              <Sparkles aria-hidden size={13} strokeWidth={1.8} />{c.label}
             </button>
           ))}
         </div>}

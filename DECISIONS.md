@@ -81,3 +81,12 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 51. **"Worth knowing before you commit"** is built from the plan shown, not from the model: the excess with its engine saving and break-even, Guided if chosen, and the Flex Fund given up if all of it is used.
 52. **Suggestion chips:** the opening chip "Add Sam without it costing a fortune" goes through the same intent as the canonical message. Chips already sent are hidden, and on phones they scroll in one row so the composer stays visible.
 53. **Not tested against a real model:** no Anthropic key is available in the build environment. The keyed path was exercised with an invalid key: the request reached Anthropic, was rejected, and fell back to the scripted reply with identical cards and numbers. Run one real-key check before submitting (see the summary).
+
+## Step 6: Scenario explorer
+
+54. **The middle column is the lean plan**, unless the plan on screen is none of the three library plans. Then it becomes "Your plan · Your current choices" (§9).
+55. **Scenario rows follow §8's rule literally:** focus-area scenarios always appear; Sam's asthma appears only once asthma has been mentioned in chat. Totals and the headline adapt ("all three" / "all four"). In the tour, asthma is mentioned, so the page shows exactly the §8 table.
+56. **The headline is generated from the engine** with whole-pound differences (£258, £230), so it can never disagree with the table.
+57. **The opening chat chip sends the full canonical message**, which mentions Sam's asthma. Bug found in testing: a shorter chip got an asthma-specific reply without ever mentioning asthma. The scripted reply now mentions asthma (and adds the privacy note) only when the member did.
+58. **"Ask your own what-if" sends the question to the plan builder** and opens it, rather than adding a custom row. Custom scenarios would need the AI to invent costs, which §2.2 rules out.
+59. **"Continue with {plan}" applies that plan as the draft** and goes to review. Nothing is confirmed until the member confirms there.

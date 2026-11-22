@@ -69,6 +69,8 @@ export function buildProposal(args: {
   title?: string;
   rationale?: string;
   id?: string;
+  /** Overrides the comparison label, e.g. "if you just add Sam" when Sam is already on the draft plan. */
+  alternativeLabel?: string;
 }): Proposal {
   const { from, changes, people, taxRate } = args;
   if (changes.length === 0) throw new ProposalError('A proposal needs at least one change.');
@@ -89,6 +91,8 @@ export function buildProposal(args: {
   } else if (leverChanges.length) {
     alternative = { label: 'if you keep things as they are', monthly: price(from, people, taxRate).realMonthlyCost, selection: from };
   }
+
+  if (alternative && args.alternativeLabel) alternative = { ...alternative, label: args.alternativeLabel };
 
   let taxNote: string | null = null;
   if (alternative) {
@@ -111,12 +115,14 @@ export function buildProposal(args: {
 
 /** The canonical "Add Sam, keep it lean" proposal (CLAUDE.md §11). */
 export function leanAddProposal(from: Selection, people: Dependant[], taxRate: number, partnerId: string, id?: string) {
-  const changes: Change[] = [{ field: 'add_dependant', value: partnerId }];
+  const alreadyAdded = from.dependants.includes(partnerId);
+  const changes: Change[] = alreadyAdded ? [] : [{ field: 'add_dependant', value: partnerId }];
   if (from.excess !== 250) changes.push({ field: 'excess', value: 250 });
   if (from.specialist !== 'guided') changes.push({ field: 'specialist', value: 'guided' });
   const name = firstName(people.find((p) => p.id === partnerId)!);
   return buildProposal({
     from, changes, people, taxRate, id,
+    alternativeLabel: alreadyAdded ? `if you just add ${name}` : undefined,
     title: `Add ${name}, keep it lean`,
     rationale: `The lowest-cost sensible way to add ${name}: a £250 excess and Guided by AXA.`,
   });

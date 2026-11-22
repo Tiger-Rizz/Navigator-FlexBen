@@ -106,3 +106,28 @@ describe('tools', () => {
     expect(formatMonthly(p.alternative!.monthly)).toBe('£30.00');
   });
 });
+
+describe('canonical opening when Sam is already on the draft plan (tour path)', () => {
+  const withSam = { ...priya.currentSelection, dependants: ['sam'] };
+  const ev = scriptedReply(CANONICAL_OPENING, ctx({ selection: withSam }));
+  const proposal = (parts(ev).find((p) => p.type === 'proposal') as { proposal: Proposal }).proposal;
+  it('proposes only the two lean changes, still £51.50 vs £80.00 if you just add Sam', () => {
+    expect(proposal.lines.map((l) => l.text)).toEqual([
+      'Excess from £0 to £250',
+      'Specialist choice from “Your choice” to “Guided by AXA”, where AXA arranges your specialist',
+    ]);
+    expect(formatMonthly(proposal.monthly)).toBe('£51.50');
+    expect(formatMonthly(proposal.alternative!.monthly)).toBe('£80.00');
+    expect(proposal.alternative!.label).toBe('if you just add Sam');
+    expect(proposal.taxNote).toBe(TAX_NOTE);
+  });
+});
+
+describe('the scripted reply only mentions what the member said', () => {
+  it('no asthma in the message → no asthma or privacy note in the reply, but still the lean proposal', () => {
+    const ev = scriptedReply('Add Sam without it costing a fortune', ctx());
+    expect(text(ev)).not.toMatch(/asthma/i);
+    expect(parts(ev).some((p) => p.type === 'privacy')).toBe(false);
+    expect(parts(ev).some((p) => p.type === 'proposal')).toBe(true);
+  });
+});
