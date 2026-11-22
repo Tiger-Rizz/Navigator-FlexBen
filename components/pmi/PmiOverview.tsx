@@ -7,9 +7,9 @@ import { relationshipLabel } from '@/lib/engine/rules';
 import { countChanges, featureViews, firstName } from '@/lib/plan';
 import { coveredHeadline } from '@/lib/reviewView';
 import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
-import { CommonQuestions } from './CommonQuestions';
 import { CoverPanel } from './CoverPanel';
 import { FEATURE_ICON } from './FeatureGrid';
+import { Faqs } from './Faqs';
 
 /** Where Navigator shows "Plan information · Manage benefit", the flex prompt lives instead. */
 function FlexPrompt() {
@@ -97,7 +97,7 @@ export function PmiOverview() {
               </ul>
             </div>
           </section>
-          <CommonQuestions />
+          <Faqs />
         </div>
         <div data-tour="pmi-flex" className="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-6 lg:w-[340px]">
           <FlexPrompt />

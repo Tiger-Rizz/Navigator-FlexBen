@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { scenarioLibrary } from '@/lib/data';
+import { scenarioLibrary, scheme } from '@/lib/data';
 import { ageOn, checkEligibility, chooseScenarios, daysLeft, isWindowOpen, parseDob, validateDob } from './rules';
 import { priya } from './fixtures';
 
@@ -70,5 +70,18 @@ describe('scenario choice', () => {
   });
   it('adds Sam’s asthma once it has been mentioned in chat', () => {
     expect(chooseScenarios(all, priya.focusAreas, ['asthma'], ['sam']).map((s) => s.id)).toEqual(['knee', 'sam-asthma', 'therapy', 'back-physio']);
+  });
+});
+
+describe('benefit page FAQs agree with the scheme', () => {
+  const faq = (id: string) => scheme.faqs.find((f) => f.id === id)!.a;
+  it('physio sessions match the per-tier limits', () => {
+    const { core, enhanced, premium } = scheme.limits.physioSessions;
+    expect(faq('physio-sessions')).toContain(`up to ${core} sessions on Core, ${enhanced} on Enhanced`);
+    expect(premium).toBeNull();
+    expect(faq('physio-sessions')).toContain('unlimited on Premium');
+  });
+  it('payrolling starts on 6 April 2027', () => {
+    expect(faq('tax')).toContain('6 April 2027');
   });
 });
