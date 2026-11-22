@@ -1,54 +1,70 @@
 'use client';
 
-import { Bone, Brain, Glasses, HandHeart, HeartPulse, Ribbon, ScanLine, Stethoscope, type LucideIcon } from 'lucide-react';
+import { Bone, Brain, Check, Glasses, HandHeart, HeartPulse, Ribbon, ScanLine, Sparkles, Stethoscope, type LucideIcon } from 'lucide-react';
 import { featureViews } from '@/lib/plan';
 import { baseline, usePersona, usePlan } from '@/lib/store';
-import type { FeatureStatus } from '@/lib/data';
 
 export const FEATURE_ICON: Record<string, LucideIcon> = {
   'mental-health': Brain, physio: Bone, 'virtual-gp': Stethoscope, cancer: Ribbon,
   outpatient: HeartPulse, scans: ScanLine, therapies: HandHeart, 'dental-optical': Glasses,
 };
-const DOT: Record<FeatureStatus, string> = { Included: 'bg-[#1D8A4F]', Limited: 'bg-[#B5651D]', 'Not on your plan': 'bg-[#B4B4B4]' };
 
 /**
  * What the current choices include, in a fixed order so nothing jumps around.
- * Anything that differs from today's cover is highlighted, with today's value underneath.
+ * The icon carries the status: green with a tick when included, grey when not, purple when it differs from today.
  */
 export function FeatureList() {
   const persona = usePersona();
   const selection = usePlan((s) => s.selection);
   const features = featureViews(selection, baseline, persona.focusAreas);
-  const changed = features.filter((f) => f.changed);
+  const changed = features.filter((f) => f.changed).length;
+  const included = features.filter((f) => f.status !== 'Not on your plan').length;
 
   return (
     <div id="features" className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <h3 className="text-[15px] font-semibold">What you get</h3>
-        <p role="status" className={`text-[13px] ${changed.length ? 'font-medium text-ai-text' : 'text-secondary'}`}>
-          {changed.length
-            ? `${changed.length} ${changed.length === 1 ? 'thing differs' : 'things differ'} from your cover today, highlighted below.`
-            : 'The same as your cover today. Change an option to see what moves.'}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+          <h3 className="text-[15px] font-semibold">What you get</h3>
+          <span className="flex items-center gap-3 text-[11px] text-secondary">
+            <span className="inline-flex items-center gap-1"><span aria-hidden className="flex size-3.5 items-center justify-center rounded-full bg-[#1D8A4F] text-white"><Check size={9} strokeWidth={3} /></span>Included</span>
+            <span className="inline-flex items-center gap-1"><Sparkles aria-hidden size={12} strokeWidth={1.8} className="text-ai-icon" />Relevant to you</span>
+          </span>
+        </div>
+        <p role="status" className={`text-[13px] ${changed ? 'font-medium text-ai-text' : 'text-secondary'}`}>
+          {changed
+            ? `${changed} ${changed === 1 ? 'change' : 'changes'} from your cover today, highlighted below.`
+            : `${included} of ${features.length} included. Change an option to see what moves.`}
         </p>
       </div>
-      <ul className="m-0 flex list-none flex-col p-0">
+      <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
         {features.map((f) => {
           const Icon = FEATURE_ICON[f.id] ?? HeartPulse;
           const off = f.status === 'Not on your plan';
+          const limited = f.status === 'Limited';
+          const tile = f.changed
+            ? 'bg-white text-ai-icon ring-1 ring-ai-highlight'
+            : off ? 'bg-surface-2 text-[#A8A8A8]' : 'bg-brand-tint text-brand';
           return (
-            <li key={f.id} className={`flex gap-3 border-t border-divider px-2 py-2.5 first:border-t-0 ${f.changed ? 'rounded-[10px] border-t-transparent bg-ai-bg' : ''}`}>
-              <span aria-hidden className={`flex size-8 shrink-0 items-center justify-center rounded-[8px] ${f.changed ? 'bg-white text-ai-icon' : off ? 'bg-surface-2 text-secondary-2' : 'bg-brand-tint text-brand'}`}>
-                <Icon size={16} strokeWidth={1.8} />
+            <li key={f.id} className={`flex items-center gap-3 rounded-[12px] px-2.5 py-2 transition-colors ${f.changed ? 'bg-ai-bg' : ''}`}>
+              <span aria-hidden className={`relative flex size-9 shrink-0 items-center justify-center rounded-[10px] ${tile}`}>
+                <Icon size={17} strokeWidth={1.8} />
+                {!off && (
+                  <span className={`absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full ring-2 ${f.changed ? 'ring-ai-bg' : 'ring-white'} ${limited ? 'bg-[#B5651D]' : 'bg-[#1D8A4F]'} text-white`}>
+                    <Check size={10} strokeWidth={3} />
+                  </span>
+                )}
               </span>
-              <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-                  <span className={`text-sm font-medium leading-snug ${off ? 'text-secondary' : ''}`}>{f.name}</span>
-                  <span className="inline-flex shrink-0 items-center gap-1.5 text-xs text-secondary"><span aria-hidden className={`size-1.5 rounded-full ${DOT[f.status]}`} />{f.status}</span>
-                </div>
-                <span className={`text-[13px] ${f.changed ? 'font-medium text-ai-text' : 'text-secondary'}`}>{f.detail}</span>
-                {f.changed && <span className="text-xs text-secondary">Today: {f.wasDetail}</span>}
-                {f.relevant && !f.changed && <span className="text-xs font-medium text-ai-text">Relevant to you</span>}
+              <div className="flex min-w-0 flex-1 flex-col">
+                <span className={`flex items-center gap-1.5 text-sm leading-snug ${off ? 'text-secondary-2' : 'font-semibold text-ink'}`}>
+                  {f.name}
+                  {f.relevant && <Sparkles size={12} strokeWidth={1.8} className="shrink-0 text-ai-icon" aria-label="Relevant to you" />}
+                </span>
+                <span className={`text-[13px] leading-snug ${f.changed ? 'font-medium text-ai-text' : off ? 'text-secondary-2' : 'text-secondary'}`}>
+                  {f.detail}
+                </span>
+                {f.changed && <span className="text-xs text-secondary-2">Today: {f.wasDetail}</span>}
               </div>
+              <span className="sr-only">{off ? 'Not on your plan' : limited ? 'Included, limited' : 'Included'}{f.changed ? ', changed from today' : ''}</span>
             </li>
           );
         })}
