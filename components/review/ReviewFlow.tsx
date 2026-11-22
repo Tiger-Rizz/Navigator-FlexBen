@@ -235,14 +235,13 @@ function ConfirmedSheet() {
         className="slide-in relative flex h-full w-full flex-col bg-[#F7F8F6] shadow-[var(--shadow-float)] sm:w-[520px]"
       >
         <div className="flex-1 overflow-y-auto">
-          <div className="relative flex flex-col gap-3 bg-brand-tint px-6 pb-14 pt-6 sm:px-8">
-            <button type="button" aria-label="Close and go to Private Medical Insurance" onClick={close} className="absolute right-3 top-3 flex size-11 items-center justify-center rounded-[10px] cursor-pointer hover:bg-white/60">
+          <div className="relative flex flex-col gap-3 bg-brand-tint px-6 pb-14 pt-7 sm:px-8">
+            <button type="button" aria-label="Close and go to Private Medical Insurance" onClick={close} className="absolute right-3 top-2.5 flex size-11 items-center justify-center rounded-[10px] cursor-pointer hover:bg-white/60">
               <X aria-hidden size={18} />
             </button>
-            <span className="flex size-11 items-center justify-center rounded-full bg-success text-white shadow-[0_4px_14px_rgba(29,94,53,0.25)]"><Check aria-hidden size={22} strokeWidth={2.5} /></span>
             <div className="flex flex-col gap-1">
-              <span className="flex items-center gap-2 text-[13px] text-secondary"><AxaTile size={22} />AXA Health · Private Medical Insurance</span>
-              <h2 id="done" tabIndex={-1} className="text-[24px] leading-tight outline-none">{coveredHeadline(s, people)}</h2>
+              <span className="flex items-center gap-2 pr-10 text-[13px] text-secondary"><AxaTile size={22} />AXA Health · Private Medical Insurance</span>
+              <h2 id="done" tabIndex={-1} className="text-balance text-[24px] leading-tight outline-none">{coveredHeadline(s, people)}</h2>
             </div>
             <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0" aria-label="Your plan">
               {chips.map((c) => <li key={c} className="rounded-full border border-brand-tint-border bg-white px-2.5 py-1 text-xs font-medium text-ink-2">{c}</li>)}
