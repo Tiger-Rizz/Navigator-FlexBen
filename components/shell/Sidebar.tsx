@@ -3,14 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Badge as BadgeIcon, Bookmark, CirclePlus, Heart, House, Menu, PartyPopper, Tag, X, type LucideIcon } from 'lucide-react';
+import { Badge as BadgeIcon, Bookmark, CirclePlus, Heart, House, Menu, PartyPopper, ReceiptText, Tag, Wallet, X, type LucideIcon } from 'lucide-react';
 import { PointsPill } from './PointsPill';
 import { SearchOrAsk } from './SearchOrAsk';
 import { DemoBadge } from '@/components/ai/DemoBadge';
 
-const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) => boolean }[] = [
-  { href: '/', label: 'Home', icon: House, match: (p) => p === '/' },
+const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) => boolean; isNew?: boolean }[] = [
+  { href: '/home', label: 'Home', icon: House, match: (p) => p === '/home' },
   { href: '/benefits', label: 'Benefits', icon: BadgeIcon, match: (p) => p.startsWith('/benefits') },
+  { href: '/pay', label: 'My pay', icon: Wallet, match: (p) => p.startsWith('/pay'), isNew: true },
+  { href: '/claims', label: 'Claims', icon: ReceiptText, match: (p) => p.startsWith('/claims'), isNew: true },
   { href: '/store', label: 'Store', icon: Tag, match: (p) => p.startsWith('/store') },
   { href: '/recognition', label: 'Recognition', icon: PartyPopper, match: (p) => p.startsWith('/recognition') },
   { href: '/my-choices', label: 'My choices', icon: Bookmark, match: (p) => p.startsWith('/my-choices') },
@@ -20,7 +22,7 @@ const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) =
 
 function Brand() {
   return (
-    <Link href="/" className="flex min-h-11 items-center gap-2 px-1.5 no-underline">
+    <Link href="/home" className="flex min-h-11 items-center gap-2 px-1.5 no-underline">
       <span aria-hidden className="flex size-[26px] items-center justify-center rounded-[7px] bg-brand text-[13px] font-semibold text-white">
         M
       </span>
@@ -29,11 +31,22 @@ function Brand() {
   );
 }
 
+function DemoRoomLink() {
+  return (
+    <Link href="/" className="-mb-2 flex min-h-11 items-center px-1.5 text-xs text-secondary-2 no-underline hover:text-ink">
+      ← Demo room
+    </Link>
+  );
+}
+
+/** The demo room and the notes pages sit outside Navigator, so they have no sidebar. */
+export const isChromeless = (p: string) => p === '/' || p.startsWith('/notes') || p === '/passcode';
+
 function NavLinks() {
   const pathname = usePathname();
   return (
     <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
-      {NAV.map(({ href, label, icon: Icon, match }) => {
+      {NAV.map(({ href, label, icon: Icon, match, isNew }) => {
         const active = match(pathname);
         return (
           <li key={href}>
@@ -46,6 +59,7 @@ function NavLinks() {
             >
               <Icon aria-hidden size={16} strokeWidth={1.8} />
               {label}
+              {isNew && <span className="ml-auto rounded-[5px] bg-ai-bg px-1.5 py-0.5 text-[10px] font-semibold text-ai-text">New</span>}
             </Link>
           </li>
         );
@@ -59,7 +73,7 @@ function Footer() {
     <div className="mt-auto flex flex-col gap-1">
       <DemoBadge />
       <PointsPill />
-      <Link href="/about" className="flex min-h-11 items-center px-1.5 text-xs text-secondary-2 underline-offset-2 hover:underline">
+      <Link href="/notes/flex" className="flex min-h-11 items-center px-1.5 text-xs text-secondary-2 underline-offset-2 hover:underline">
         Notes for reviewers
       </Link>
       <div className="flex items-center gap-2 border-t border-line px-1.5 py-2">
@@ -77,6 +91,7 @@ export function Sidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   useEffect(() => setOpen(false), [pathname]);
+  if (isChromeless(pathname)) return null;
 
   return (
     <>
@@ -85,6 +100,7 @@ export function Sidebar() {
         aria-label="Main"
         className="sticky top-0 hidden h-screen w-[232px] shrink-0 flex-col gap-3 border-r border-line bg-white px-3.5 py-5 min-[900px]:flex"
       >
+        <DemoRoomLink />
         <Brand />
         <SearchOrAsk />
         <NavLinks />
@@ -108,6 +124,7 @@ export function Sidebar() {
         </div>
         {open && (
           <nav id="mobile-nav" aria-label="Main" className="flex flex-col gap-4 border-t border-line px-4 pb-4 pt-3">
+            <DemoRoomLink />
             <SearchOrAsk />
             <NavLinks />
             <Footer />

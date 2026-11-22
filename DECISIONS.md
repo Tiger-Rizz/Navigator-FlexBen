@@ -152,3 +152,12 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
     - Markdown is rendered safely (bold, bullets) in case the model uses it anyway.
     - Pricing one situation on one plan now shows the "You'd pay" card in live mode too.
     - The Demo mode badge no longer calls the API from the passcode page, which logged a 401.
+
+## Part 2 · §1, §2, §6: Demo room, routes and notes
+
+87. **The sidebar hides itself on `/`, `/notes/*` and `/passcode`** instead of moving every Navigator route into a route group. One small check, and no file moves.
+88. **Home moved to `/home`.** The sidebar Home item, the brand tile and tour A's first step point there. The old "Take the 3-minute guided tour" card on Home is gone (the demo room does that job), and `?tour=1` still works on any Navigator page. The demo room's tour button goes to `/home?tour=1`.
+89. **Tour A's end card** now links to "Read my notes" (`/notes/flex`) and "Back to demo room" (`/`), as PART2.md §1 asks. `/about` (and `/notes`) redirect to `/notes/flex`.
+90. **Notes are copied by running the design file's own `notes` array** and writing it to `data/notes.json`, so the wording is exactly as written. The design-tool `tour` field (e.g. `Main.dc.html`) became `tourHref` with our routes. A zod schema validates the file at load.
+91. **Demo room preview figures come from the engine**: £51.50, £80.00, "3 changes" and the premium split bar.
+92. **`/pay` and `/claims` are simple placeholders for now**, each linking to its notes. Their tour buttons (`?tour=1`) go to those placeholders until Tours P and C are built.

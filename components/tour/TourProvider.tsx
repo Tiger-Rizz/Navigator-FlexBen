@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { usePlan } from '@/lib/store';
 import { TOUR_STEPS, type TourHelpers } from './steps';
@@ -46,7 +45,6 @@ export function TourProvider() {
   const router = useRouter();
   const pathname = usePathname();
   const step = usePlan((s) => s.tourStep);
-  const dismissed = usePlan((s) => s.tourDismissed);
   const [running, setRunning] = useState(false);
   const [rect, setRect] = useState<Rect | null>(null);
   const [wide, setWide] = useState(false);
@@ -151,27 +149,7 @@ export function TourProvider() {
 
   const query = <Suspense fallback={null}><TourQueryStarter start={start} /></Suspense>;
 
-  if (step === null) {
-    if (dismissed || pathname !== '/') return query;
-    return (
-      <>
-        {query}
-        <section aria-label="Guided tour" className="fixed bottom-4 left-4 right-4 z-40 flex flex-col gap-3 rounded-[16px] border border-ai-border bg-white p-5 shadow-[var(--shadow-float)] sm:right-auto sm:w-[340px] min-[900px]:left-[248px]">
-          <div className="flex items-start gap-2.5">
-            <Sparkles aria-hidden size={18} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />
-            <div className="flex flex-col gap-1">
-              <h2 className="text-base">Take the 3-minute guided tour</h2>
-              <p className="text-[13px] text-secondary">See Priya add her spouse to her health cover, with an AI that reasons and code that calculates.</p>
-            </div>
-          </div>
-          <div className="flex gap-2.5">
-            <Button onClick={start}>Start tour</Button>
-            <Button variant="secondary" onClick={() => usePlan.getState().dismissTour()}>Explore freely</Button>
-          </div>
-        </section>
-      </>
-    );
-  }
+  if (step === null) return query;
 
   const s = TOUR_STEPS[step];
   const last = step === TOUR_STEPS.length - 1;
@@ -202,7 +180,10 @@ export function TourProvider() {
         <p id="tour-what" className="font-semibold leading-snug">{running ? 'Loading this step…' : s.what()}</p>
         {!running && <p className="text-[13px] text-secondary"><span className="font-medium text-ink">Why it matters: </span>{s.why}</p>}
         {last && !running && (
-          <Link href="/about" onClick={exit} className="text-sm font-medium text-ai-text">Read the notes for reviewers</Link>
+          <div className="flex flex-wrap gap-x-4">
+            <Link href="/notes/flex" onClick={exit} className="inline-flex min-h-11 items-center text-sm font-medium text-ai-text underline underline-offset-2">Read my notes</Link>
+            <Link href="/" onClick={exit} className="inline-flex min-h-11 items-center text-sm font-medium text-ai-text underline underline-offset-2">Back to demo room</Link>
+          </div>
         )}
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="secondary" onClick={back} disabled={step === 0 || running}>Back</Button>
