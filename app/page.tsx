@@ -35,10 +35,6 @@ export default function DemoRoom() {
     <div className="min-h-screen bg-[#F7F8F6] px-4 pb-10 pt-12 sm:px-8 sm:pt-14">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-8">
         <header className="flex flex-col gap-3">
-          <div className="flex items-center gap-2.5">
-            <span aria-hidden className="flex size-[30px] items-center justify-center rounded-[8px] bg-brand text-sm font-semibold text-white">M</span>
-            <span className="text-[13px] text-secondary-2">Navigator prototype · Euphoric Deployment Strategist take-home</span>
-          </div>
           <h1 className="text-[34px] tracking-[-0.02em]">Divin’s demo room</h1>
           <p className="max-w-[640px] text-base leading-relaxed text-ink-2">
             Two parts, each with a guided tour and my notes. Start with Part 1, the flex benefits prototype, then see two features I’d add to Navigator.
