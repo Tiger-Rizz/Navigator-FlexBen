@@ -73,6 +73,12 @@ export async function* liveReply(opts: {
           yield { type: 'part', part: { type: 'proposal', proposal: out as unknown as Proposal } };
         } else if (p.toolName === 'search_policy') {
           for (const passage of (out as { passages: { title: string }[] }).passages) sources.add(passage.title);
+        } else if (p.toolName === 'run_scenarios') {
+          const rows = out as unknown as { scenarios: { youPay: string; note: string }[] }[];
+          if (rows.length === 1 && rows[0].scenarios.length === 1) {
+            const s = rows[0].scenarios[0];
+            yield { type: 'part', part: { type: 'scenario', card: { label: 'You’d pay', amount: Number(s.youPay.replace(/[£,]/g, '')), note: s.note } } };
+          }
         } else if (p.toolName === 'compare_plan_years') {
           sources.add('AXA’s 2026–27 and 2027–28 scheme documents for Meridian');
         }

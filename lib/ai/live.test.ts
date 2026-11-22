@@ -77,3 +77,17 @@ describe('live AI path', () => {
     expect(ev.some((e) => e.type === 'part' && e.part.type === 'scenario')).toBe(true);
   });
 });
+
+describe('live scenario card', () => {
+  it('pricing one situation on one plan shows the “You’d pay” card', async () => {
+    const model = new MockLanguageModelV4({
+      doStream: [
+        { stream: convertArrayToReadableStream([toolCall('s1', 'run_scenarios', { selections: [priya.currentSelection], scenarioIds: ['knee'] }), finish('tool-calls')]) as never },
+        { stream: convertArrayToReadableStream([...text('It would cost you £300.'), finish('stop')]) as never },
+      ],
+    });
+    const ev = await collect(liveReply({ model, messages: [{ role: 'user', content: COMMON_QUESTIONS[1] }], lastText: COMMON_QUESTIONS[1], ctx, msPerWord: 0 }));
+    const card = ev.find((e) => e.type === 'part' && e.part.type === 'scenario') as { part: { card: { amount: number } } };
+    expect(card.part.card.amount).toBe(300);
+  });
+});
