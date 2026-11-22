@@ -9,7 +9,7 @@ import { firstName, leverSummary, whoLabel, lowerFirst } from '@/lib/plan';
 import { relationshipLabel } from '@/lib/engine/rules';
 import { usePersona, usePlan } from '@/lib/store';
 
-/** "Here's what I already know" — facts from Meridian, for the member to confirm. */
+/** "Here's what I already know" - facts from Meridian, for the member to confirm. */
 export function MemberContextCard() {
   const persona = usePersona();
   const { contextConfirmed, setContextConfirmed, busy } = usePlan();

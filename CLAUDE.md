@@ -1,4 +1,4 @@
-# CLAUDE.md — Navigator Flex PMI prototype
+# CLAUDE.md - Navigator Flex PMI prototype
 
 Read this file fully before writing any code. It is the source of truth for this project.
 When this file and the design reference disagree, this file wins. When something isn't covered, choose the simplest option that matches the design reference and note the decision in `DECISIONS.md`.
@@ -225,13 +225,13 @@ Headline the AI states: adding Sam the lean way costs £258 a year more than tod
 
 **The `/design-reference/*.dc.html` files are the approved designs.** Match their layout, hierarchy and copy closely. Ignore their internal `<x-dc>`/`{{ }}` templating; it's a design-tool format. Unlike the canvas, all screens here share **one plan state** (Zustand): accepting a change in chat updates the PMI page, scenarios and review.
 
-### Shell (every page) — mirrors Euphoric's Navigator
+### Shell (every page) - mirrors Euphoric's Navigator
 Left sidebar: brand tile "M" + "Meridian Benefits"; a **"Search or ask"** box that opens the Ask AI pop-up; nav: Home, Benefits, Store, Recognition, My choices, Total rewards, Saved (Store, Recognition, Total rewards and Saved can be simple "Not part of this prototype" placeholders); bottom: a "100 to spend" points pill (recognition points, kept separate from the Flex Fund on purpose) and the user (Priya Shah). On narrow screens the sidebar collapses into a top bar.
 
 ### Home `/` (`Main.dc.html`)
 Brand-tint hero: "Hi Priya, / Ready to explore your benefits?" with a large AI input (rotating placeholder prompts, submits to chat). Then an **"Action needed"** card: "Enrolment closes in 9 days", "Sam isn't on your health cover", source line "Sam is listed as a dependant in your HR record", buttons "Review my health cover" and "Remind me tomorrow". A side column with "What's changed in your health cover for 2027–28" and "Sam isn't named on your life assurance". Then "Based on your recent activity" and "Top benefits for you" card rows.
 
-### PMI page `/benefits/pmi` (`Benefit.dc.html`) — the centrepiece
+### PMI page `/benefits/pmi` (`Benefit.dc.html`) - the centrepiece
 - Header band (brand tint), breadcrumb, AXA tile, "Private Medical Insurance", pill "Enrolment open until 31 March".
 - **Nudge** (when Sam isn't covered): "Sam is listed as your spouse but isn't on your health cover…" with [Add Sam] [Talk it through].
 - **Your cover for April 2027 to March 2028**:
@@ -304,7 +304,7 @@ Linked from the sidebar footer and the tour end. Sections (keep the placeholder 
 | `search_policy(query)` | matching `policyText` passages with ids, for citations |
 | `check_eligibility(relationship, age?)` | eligible true/false + explanation |
 
-### Scripted fallback (`lib/ai/scripted.ts`) — required
+### Scripted fallback (`lib/ai/scripted.ts`) - required
 If `ANTHROPIC_API_KEY` is missing, the call errors, or the **guided tour** is running, use scripted responses: intent matching on the suggested questions and the tour steps, with the same tool calls run locally so cards and numbers render identically. Stream them with a short typewriter effect so they feel live. Free typing that doesn't match gets a polite generic answer plus suggestion chips. **The tour must be 100% deterministic.**
 
 ### Canonical opening exchange (scripted and used in the tour)
@@ -318,7 +318,7 @@ AI: enrolment is open until 31 March so he can be added now; under Meridian's sc
 - Landing (`/`) shows a dismissible card in the bottom-left corner: **"Take the 3-minute guided tour"** [Start tour] [Explore freely]. Also `?tour=1`.
 - Tour overlay: a spotlight on the target element plus a caption card (bottom-right) with **step x of n**, a bold one-line **"What's happening"**, one line of **"Why it matters"**, and [Back] [Next] [Exit tour]. Next performs the step's action (navigate, click, type a message, accept a proposal) so the reviewer just keeps clicking Next.
 - Keyboard: → / ← / Esc. Works at 1280px+; on smaller screens, captions only.
-- **Tour A — Priya adds Sam (about 12 steps):**
+- **Tour A - Priya adds Sam (about 12 steps):**
   1. Home: the nudge spots a gap, Sam on record but not covered (privacy-respecting, no life-event inference).
   2. Open the PMI page: the "Your cover" panel replaces the old external "Manage benefit" link.
   3. Quick choices: most people keep their cover or add family; one tap each.
@@ -331,7 +331,7 @@ AI: enrolment is open until 31 March so he can be added now; under Meridian's sc
   10. Accept → the live plan updates; open scenarios.
   11. Scenarios: Enhanced would still cost £230 more even if all four happened.
   12. Review: payslip preview (payrolling from April 2027), warnings, DOB, confirm → confirmed; end card linking to "Notes for reviewers".
-- **Tour B — Tom trades down (phase 2, about 5 steps):** switch persona → PMI page → "I barely use this" in chat → proposal (higher excess + Guided, or opt out) with the Flex Fund reallocation and the rejoining warning → confirm.
+- **Tour B - Tom trades down (phase 2, about 5 steps):** switch persona → PMI page → "I barely use this" in chat → proposal (higher excess + Guided, or opt out) with the Flex Fund reallocation and the rejoining warning → confirm.
 - A small **persona switcher** (Priya / Tom) appears in the user menu only after phase 2.
 
 ---
