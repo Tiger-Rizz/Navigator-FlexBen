@@ -52,7 +52,7 @@ export function AskPanel() {
           type="button"
           onClick={() => setAskOpen(true)}
           data-tour="ask-pill"
-          className="fixed bottom-6 right-6 z-40 inline-flex min-h-12 items-center gap-2 rounded-full border border-ai-border bg-white px-5 font-medium text-ai-text shadow-[var(--shadow-float)] cursor-pointer hover:bg-ai-soft"
+          className="fixed bottom-24 right-4 z-40 inline-flex lg:bottom-6 lg:right-6 min-h-12 items-center gap-2 rounded-full border border-ai-border bg-white px-5 font-medium text-ai-text shadow-[var(--shadow-float)] cursor-pointer hover:bg-ai-soft"
         >
           <Sparkles aria-hidden size={17} strokeWidth={1.8} className="text-ai-icon" />
           Ask AI about this benefit

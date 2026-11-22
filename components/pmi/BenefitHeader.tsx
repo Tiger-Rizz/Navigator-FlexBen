@@ -15,7 +15,7 @@ export function AxaTile({ size = 36 }: { size?: number }) {
 
 export function BenefitHeader() {
   return (
-    <div className="bg-brand-tint px-4 pb-7 pt-6 min-[900px]:px-12">
+    <div className="bg-brand-tint px-4 pb-7 pt-6 min-[900px]:px-12 lg:pb-16">
       <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-[13px] text-secondary-2">
         <Link href="/benefits" aria-label="Back to benefits" className="-my-3 -ml-2 flex size-11 items-center justify-center rounded-lg text-ink">
           <ArrowLeft aria-hidden size={16} />
@@ -32,7 +32,8 @@ export function BenefitHeader() {
           <span className="text-[13px] text-secondary">AXA Health</span>
           <h1 className="text-[26px]">Private Medical Insurance</h1>
         </div>
-        <span className="ml-auto rounded-full border border-success-border bg-white px-3 py-1 text-xs font-medium text-success">
+        <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-success-border bg-white px-3 py-1 text-xs font-medium text-success">
+          <span aria-hidden className="size-1.5 rounded-full bg-success" />
           Enrolment open until 31 March
         </span>
       </div>

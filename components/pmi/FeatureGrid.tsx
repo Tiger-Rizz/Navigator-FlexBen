@@ -12,7 +12,7 @@ export function FeatureGrid() {
   const selection = usePlan((s) => s.selection);
   const features = featureViews(selection, baseline, persona.focusAreas);
   return (
-    <section id="features" aria-labelledby="features-h" className="flex flex-col gap-4 rounded-[16px] border border-line px-6 py-[22px]">
+    <section id="features" aria-labelledby="features-h" className="flex flex-col gap-4 rounded-[16px] border border-line bg-white px-6 py-[22px]">
       <div className="flex flex-col gap-1">
         <h2 id="features-h" className="text-lg">What your choices include</h2>
         <p className="text-[13px] text-secondary">

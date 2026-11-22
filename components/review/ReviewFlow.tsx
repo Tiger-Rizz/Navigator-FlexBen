@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useId, useState } from 'react';
-import { AlertTriangle, CalendarPlus, Check, Sparkles } from 'lucide-react';
+import { AlertTriangle, CalendarPlus, Check, Lock, Sparkles } from 'lucide-react';
 import { Button, buttonClass } from '@/components/ui/Button';
 import { PageBody, PageHeader } from '@/components/shell/PageHeader';
 import type { Dependant } from '@/lib/data';
@@ -52,14 +52,11 @@ function ReviewForm() {
           <div className="flex min-w-0 flex-1 flex-col gap-5">
             <ChangesTable base={baseline} selection={selection} />
             {needDob.map((p) => <DependantDetails key={p.id} person={p} showError={tried} />)}
-            <section aria-labelledby="before" data-tour="before-confirm" className="flex flex-col gap-3 rounded-[16px] border border-line px-6 py-[22px]">
-              <h2 id="before" className="text-lg">Before you confirm</h2>
-              <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
+            <section aria-labelledby="before" data-tour="before-confirm" className="flex flex-col gap-3 rounded-[16px] border border-[#F2D9A6] bg-warning-soft px-6 py-[22px]">
+              <h2 id="before" className="flex items-center gap-2 text-lg"><AlertTriangle aria-hidden size={18} className="text-warning" />Before you confirm</h2>
+              <ul className="m-0 flex list-none flex-col gap-2.5 p-0 text-[14px] leading-relaxed">
                 {warnings.map((w) => (
-                  <li key={w.title} className="flex gap-2.5 rounded-[12px] bg-warning-soft px-4 py-3 text-[13px]">
-                    <AlertTriangle aria-hidden size={16} className="mt-0.5 shrink-0 text-warning" />
-                    <p><strong className="font-semibold">{w.title}</strong> {w.text}</p>
-                  </li>
+                  <li key={w.title}><strong className="font-semibold">{w.title}</strong> {w.text}</li>
                 ))}
               </ul>
             </section>
@@ -67,7 +64,7 @@ function ReviewForm() {
               <label className="flex min-h-11 items-start gap-2.5">
                 <input
                   type="checkbox"
-                  className="mt-1 size-4"
+                  className="mt-0.5 size-5 shrink-0"
                   checked={reviewAgreed}
                   onChange={(e) => setReviewAgreed(e.target.checked)}
                   aria-invalid={tried && !reviewAgreed}
@@ -79,8 +76,8 @@ function ReviewForm() {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <Button onClick={submit} data-tour="confirm">Confirm my choices</Button>
-              <span className="text-[13px] text-secondary">Done here. No AXA login needed.</span>
-              <Link href="/benefits/pmi" className="ml-auto inline-flex min-h-11 items-center text-sm font-medium">Go back and change</Link>
+              <span className="inline-flex items-center gap-1.5 text-[13px] text-secondary"><Lock aria-hidden size={13} />Done here. No AXA login needed.</span>
+              <Link href="/benefits/pmi" className={buttonClass('secondary')}>Go back and change</Link>
             </div>
           </div>
           <div className="flex w-full shrink-0 flex-col gap-5 lg:w-[360px]">
@@ -204,16 +201,16 @@ function Confirmed() {
           </Link>
         </div>
         <div className="flex flex-wrap gap-2.5">
-          <Button variant="secondary" onClick={calendar}><CalendarPlus aria-hidden size={16} />Add 1 April to my calendar</Button>
+          <Button onClick={calendar}><CalendarPlus aria-hidden size={16} />Add 1 April to my calendar</Button>
           <Link href="/benefits/pmi" className={buttonClass('secondary')}>See my cover</Link>
-          <Button variant="secondary" onClick={() => (status === 'kept' ? undo() : unconfirm())}>Undo</Button>
+          <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
         </div>
         {partner && (
           <div className="flex gap-3 rounded-[16px] border border-ai-border bg-ai-soft px-5 py-4">
             <Sparkles aria-hidden size={18} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />
             <div className="flex flex-col gap-3">
               <p>One more thing: {firstName(partner)} isn’t named on your life assurance. Want to check who should receive it?</p>
-              <Link href="/benefits" className={buttonClass('secondary', 'self-start')}>Review my life assurance</Link>
+              <Link href="/benefits" className="inline-flex min-h-11 items-center self-start font-medium text-ai-text underline underline-offset-2">Review my life assurance</Link>
             </div>
           </div>
         )}

@@ -19,7 +19,7 @@ export function KeptBanner() {
       <p className="flex-1">
         <strong className="font-semibold">Your cover stays as it is from 1 April.</strong> Saved to My choices. You can still change it until 31 March.
       </p>
-      <button type="button" onClick={undo} className="min-h-11 rounded-[10px] border border-success-border bg-white px-3.5 text-sm font-medium text-ink cursor-pointer">
+      <button type="button" onClick={undo} className="min-h-11 px-2 text-sm font-medium text-success underline underline-offset-2 cursor-pointer">
         Undo
       </button>
     </div>

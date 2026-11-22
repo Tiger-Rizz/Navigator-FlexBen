@@ -23,10 +23,11 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
   };
 
   return (
+    <>
     <div data-tour="proposal" className="flex flex-col gap-3 rounded-[12px] border border-ai-highlight bg-ai-soft p-4">
       <div className="flex items-center gap-2">
         <Sparkles aria-hidden size={16} strokeWidth={1.8} className="text-ai-icon" />
-        <h3 className="flex-1 text-[15px]">{proposal.title}</h3>
+        <h2 className="flex-1 text-[15px]">{proposal.title}</h2>
         <span className="text-xs font-medium text-ai-text">{n} {n === 1 ? 'change' : 'changes'}</span>
       </div>
       <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
@@ -37,14 +38,14 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
           </li>
         ))}
       </ul>
-      <div className="flex flex-wrap gap-3">
-        <div className="flex flex-col rounded-[10px] border border-ai-border bg-white px-3 py-2">
-          <span className="text-lg font-semibold">{formatMonthly(proposal.monthly)} a month</span>
+      <div className="flex flex-wrap gap-x-8 gap-y-2 border-t border-ai-border pt-3">
+        <div className="flex flex-col">
+          <span><span className="text-xl font-semibold">{formatMonthly(proposal.monthly)}</span> <span className="text-[13px] text-secondary">a month</span></span>
           <span className="text-xs text-secondary">with these changes</span>
         </div>
         {proposal.alternative && (
-          <div className="flex flex-col rounded-[10px] border border-line px-3 py-2">
-            <span className="text-lg font-medium text-secondary">{formatMonthly(proposal.alternative.monthly)} a month</span>
+          <div className="flex flex-col">
+            <span><span className="text-xl font-semibold text-secondary">{formatMonthly(proposal.alternative.monthly)}</span> <span className="text-[13px] text-secondary">a month</span></span>
             <span className="text-xs text-secondary">{proposal.alternative.label}</span>
           </div>
         )}
@@ -52,7 +53,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
       {accepted ? (
         <div role="status" className="flex flex-wrap items-center gap-3">
           <span className="inline-flex items-center gap-1.5 font-medium text-success"><Check aria-hidden size={16} />Applied to your plan</span>
-          <Button variant="secondary" onClick={undoProposal}>Undo</Button>
+          <button type="button" onClick={undoProposal} className="min-h-11 px-1 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
         </div>
       ) : superseded && proposalStatus !== null && current ? (
         <p className="text-xs text-secondary-2">Replaced by a newer suggestion.</p>
@@ -62,7 +63,8 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
           <Link href="/benefits/pmi/scenarios" className={buttonClass('secondary')}>Compare alternatives</Link>
         </div>
       )}
-      {proposal.taxNote && <p className="text-[13px] text-secondary">{proposal.taxNote}</p>}
     </div>
+    {proposal.taxNote && <p className="rounded-[12px] bg-surface-2 px-4 py-3 text-[13px] text-secondary">{proposal.taxNote}</p>}
+    </>
   );
 }

@@ -118,3 +118,22 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 76. **Spotlight and caption placement:** targets are scrolled to near the top of the screen, and the caption goes bottom-right or bottom-left, whichever overlaps the spotlight less. Below 1280px there's no spotlight, only captions. The page stays clickable throughout.
 77. **Start:** the bottom-left "Take the 3-minute guided tour" card on Home, or `?tour=1` on any page. **Keyboard:** → / ← / Esc. Focus moves to Next after each step.
 78. **Flakiness check:** five automated end-to-end runs with no API key: three standard (including keyboard-only from `?tour=1`, and Back from step 7 to step 6 and forward again), one with the CPU slowed 6×, and one at 1024px. All passed with no console errors. An earlier test exercised Back/Next on steps 6–7 dozens of times without breaking state.
+
+## Steps 10–11: Reviewer notes, polish, accessibility, deployment
+
+79. **Reviewer notes keep `TODO(owner)` in every section**, with a one-line prompt above each saying what belongs there. The page also links to the tour and the PMI page.
+80. **Polish pass against the rendered design files:**
+    - The PMI header band overlaps the first cards, and the status pill has a dot.
+    - The nudge is a white card, and "Talk it through" is styled as an AI action.
+    - Who's covered is one grouped list with text-style Remove.
+    - What's changed uses rows.
+    - The cover panel breakdown is split into two groups.
+    - The privacy note is a green lock line.
+    - The proposal card shows its prices inline, with the tax note in a grey box below.
+    - The first follow-up action is the primary button, and the builder chips are neutral.
+    - "Before you confirm" is one amber card.
+    - On the confirmed state, the calendar is the primary button and Undo is a link.
+81. **Sticky cost bar on phones (PMI page):** below 1024px the cover panel falls to the bottom of a long page. A compact bar keeps the real monthly cost and status visible (§2.5), and the Ask pill sits above it.
+82. **Passcode gate uses Next 16's `proxy.ts`**, which replaces `middleware.ts`. It's active only when `DEMO_PASSCODE` is set. A plain form post (works without JavaScript) sets an httpOnly cookie holding a SHA-256 of the passcode, for 7 days. API routes return 401 instead of redirecting, and `next` is restricted to same-site paths.
+83. **Noindex everywhere:** the robots meta tag, `robots.txt` disallow, and an `X-Robots-Tag: noindex, nofollow` header on every response. Lighthouse's SEO score is low only because of this, which is intended.
+84. **Accessibility results:** axe-core (WCAG 2.1 A/AA plus best practice) finds no violations on any route or state checked, including the open Ask panel, a proposal, the error and confirmed states, and the tour. Lighthouse accessibility on the PMI page scores 100. One fix was needed: a heading-level skip on the proposal card.

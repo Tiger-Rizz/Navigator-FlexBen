@@ -38,9 +38,9 @@ export function MessageParts({ parts, onChip }: { parts: MessagePart[]; onChip?:
           case 'actions':
             return (
               <div key={i} className="flex flex-wrap gap-2.5">
-                {p.items.map((a) =>
+                {p.items.map((a, ai) =>
                   a.href ? (
-                    <Link key={a.label} href={a.href} className={buttonClass('secondary')}>{a.label}</Link>
+                    <Link key={a.label} href={a.href} className={buttonClass(ai === 0 ? 'primary' : 'secondary')}>{a.label}</Link>
                   ) : (
                     <button key={a.label} type="button" className={buttonClass('primary')} onClick={() => persona.peopleOnRecord[0] && cover(persona.peopleOnRecord[0].id)}>
                       {a.label}

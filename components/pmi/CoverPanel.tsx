@@ -47,14 +47,16 @@ export function CoverPanel() {
         </span>
         <span className="text-xs text-secondary-2">Keeping your current cover: {perMonth(now.realMonthlyCost)}</span>
       </div>
-      <dl className="m-0 flex flex-col gap-2 border-t border-divider pt-3 text-[13px]">
-        {rows.map(([k, v]) => (
-          <div key={k} className="flex justify-between gap-3">
-            <dt className="text-secondary">{k}</dt>
-            <dd className="m-0 font-medium">{v}</dd>
-          </div>
-        ))}
-      </dl>
+      {[rows.slice(0, 3), rows.slice(3)].map((group, gi) => (
+        <dl key={gi} className="m-0 flex flex-col gap-2 border-t border-divider pt-3 text-[13px]">
+          {group.map(([k, v]) => (
+            <div key={k} className="flex justify-between gap-3">
+              <dt className="text-secondary">{k}</dt>
+              <dd className="m-0 whitespace-nowrap font-medium">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      ))}
       <FundBar used={b.fromFund} total={b.flexFund} fundAsCashMonthly={b.fundAsCashMonthly} unused={b.unusedFund} />
       <p className="text-xs font-medium text-warning">Closes 31 March: {daysLeft(employer.demoToday)} days left</p>
       <Link href="/benefits/pmi/review" className={buttonClass('primary', 'w-full')}>Review and confirm</Link>

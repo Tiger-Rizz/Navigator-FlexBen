@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Sparkles } from 'lucide-react';
 import { forwardRef, useId, useImperativeHandle, useRef, useState } from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -71,8 +72,8 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
         {changed && <Badge tone="ai">Changed</Badge>}
       </div>
 
-      <ul className="m-0 flex list-none flex-col gap-2 p-0">
-        <li className="flex items-center gap-3 rounded-[12px] border border-line px-3.5 py-2.5">
+      <ul className="m-0 flex list-none flex-col overflow-hidden rounded-[12px] border border-line p-0">
+        <li className="flex items-center gap-3 px-3.5 py-2.5">
           <Avatar initials={persona.initials} />
           <span className="flex flex-col">
             <span className="font-medium">{persona.name}</span>
@@ -83,18 +84,18 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
         {[...onRecord, ...added].map((p: Dependant) => {
           const covered = selection.dependants.includes(p.id);
           return covered ? (
-            <li key={p.id} className="flex flex-wrap items-center gap-3 rounded-[12px] border border-line px-3.5 py-2.5">
+            <li key={p.id} className="flex flex-wrap items-center gap-3 border-t border-divider bg-ai-soft px-3.5 py-2.5">
               <Avatar initials={initialsOf(p.name)} />
               <span className="flex flex-1 flex-col">
                 <span className="font-medium">{p.name}</span>
                 <span className="text-xs text-secondary-2">{personLabel(p)}</span>
               </span>
-              <Button variant="secondary" onClick={() => uncover(p.id)} aria-label={`Remove ${firstName(p)}`}>
+              <button type="button" onClick={() => uncover(p.id)} aria-label={`Remove ${firstName(p)}`} className="min-h-11 px-2 text-[13px] text-secondary underline underline-offset-2 cursor-pointer">
                 Remove
-              </Button>
+              </button>
             </li>
           ) : (
-            <li key={p.id} className="flex flex-wrap items-center gap-3 rounded-[12px] border border-dashed border-line-control px-3.5 py-2.5">
+            <li key={p.id} className="flex flex-wrap items-center gap-3 border-t border-divider px-3.5 py-2.5">
               <Avatar initials={initialsOf(p.name)} muted />
               <span className="flex flex-1 flex-col">
                 <span className="font-medium text-secondary">{p.name}</span>
@@ -140,7 +141,7 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
         </div>
       )}
 
-      <p className="text-[13px] text-secondary">{scheme.rules.medicalHistoryDisregarded}</p>
+      <p className="flex items-start gap-1.5 text-[13px] text-secondary"><Sparkles aria-hidden size={14} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />{scheme.rules.medicalHistoryDisregarded}</p>
     </div>
   );
 });
@@ -200,7 +201,7 @@ function ChildForm({ costFor, onAdd }: { costFor: () => number; onAdd: (name: st
         </label>
       </div>
       <label className="flex min-h-11 items-center gap-2 text-[13px]">
-        <input type="checkbox" className="size-4" checked={ftEducation} onChange={(e) => setFtEducation(e.target.checked)} />
+        <input type="checkbox" className="size-5" checked={ftEducation} onChange={(e) => setFtEducation(e.target.checked)} />
         In full-time education
       </label>
       <p className="text-[13px] text-secondary">{scheme.rules.copy.child}</p>

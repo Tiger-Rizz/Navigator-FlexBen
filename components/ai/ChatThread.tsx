@@ -55,7 +55,7 @@ export function ChatThread() {
       <div className="sticky bottom-0 flex flex-col gap-2.5 bg-white pb-4 pt-2">
         {chips.length > 0 && <div className="-mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
           {chips.map((c) => (
-            <button key={c.label} type="button" disabled={busy} onClick={() => send(c.text)} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-ai-border bg-ai-soft px-3.5 text-[13px] font-medium text-ai-text cursor-pointer hover:bg-ai-bg disabled:opacity-60">
+            <button key={c.label} type="button" disabled={busy} onClick={() => send(c.text)} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-line-control bg-white px-3.5 text-[13px] text-ink cursor-pointer hover:bg-surface-2 disabled:opacity-60">
               <Sparkles aria-hidden size={13} strokeWidth={1.8} />{c.label}
             </button>
           ))}
