@@ -86,3 +86,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .slide-in { animation: slide-in 0.36s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .fade-in { animation: fade-in 0.3s ease-out both; }
+
+/* Claim it: the receipt scan. */
+@keyframes scan-down { from { top: 0; } to { top: 100%; } }
+.scan-once { animation: scan-down 1.3s cubic-bezier(0.45, 0, 0.55, 1) both; }
+.scan-loop { animation: scan-down 2.4s ease-in-out infinite alternate; }
+@keyframes pop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+.pop { animation: pop 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+/* Torn-paper bottom edge for receipts. */
+.receipt-edge {
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+}

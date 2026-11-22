@@ -16,12 +16,12 @@
     "glasses": {
       "route": "allowance", "shop": "Clearview Opticians", "address": "12 Mare Street, London E8", "date": "14/05/2027 11:42",
       "dateShort": "14 May 2027", "item": "Prescription glasses", "what": "Prescription glasses", "amount": 189, "fileName": "IMG_2041.jpg",
-      "sampleLine": "Prescription glasses · £189.00", "sampleRoute": "Paid from Meridian’s allowance"
+      "sampleLine": "Prescription glasses · £189.00", "sampleRoute": "Paid from your allowance"
     },
     "physio": {
       "route": "axa", "shop": "Hackney Physio Clinic", "address": "88 Well Street, London E9", "date": "12/05/2027 08:15",
       "dateShort": "12 May 2027", "item": "Initial assessment", "what": "Physiotherapy", "amount": 65, "fileName": "invoice-0512.pdf",
-      "sampleLine": "Physiotherapy assessment · £65.00", "sampleRoute": "Handed off to AXA",
+      "sampleLine": "Physiotherapy assessment · £65.00", "sampleRoute": "Handed to AXA",
       "axa": { "membership": "MER 4417 2291", "patient": "Priya Shah", "treatment": "Physiotherapy assessment, 12 May 2027", "checkIn": "22 May" }
     }
   }

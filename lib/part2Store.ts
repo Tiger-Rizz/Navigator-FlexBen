@@ -47,7 +47,7 @@ const initialRecent = (): RecentClaim[] => claims.recent.map((c) => ({ what: c.w
 const payInitial = { month: 'april' as const, openRow: 'health' as string | null, flag: 'closed' as Flag, flagLine: '', flagNote: '', flagTried: false };
 const claimInitial = { receipt: null as ReceiptId | null, reading: false, own: false, ownTried: false, submitted: false, leaving: false, toast: null as string | null };
 
-export const READING_MS = 900;
+export const READING_MS = 1500;
 
 export const usePart2 = create<Part2State>()((set, get) => ({
   ...payInitial,
