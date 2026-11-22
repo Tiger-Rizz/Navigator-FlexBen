@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, X } from 'lucide-react';
 import { forwardRef, useId, useImperativeHandle, useRef, useState } from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -52,7 +52,7 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
       setRel(null);
       requestAnimationFrame(() => {
         addRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-        addRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+        addRef.current?.querySelector<HTMLButtonElement>('[role=group] button')?.focus();
       });
     },
   }));
@@ -118,7 +118,15 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
           <span aria-hidden className="text-lg leading-none">+</span>Add someone
         </button>
       ) : (
-        <div ref={addRef} className="flex flex-col gap-3.5 rounded-[12px] border border-line bg-[#FBFBFA] p-4">
+        <div ref={addRef} className="relative flex flex-col gap-3.5 rounded-[12px] border border-line bg-[#FBFBFA] p-4 pr-12">
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={() => { setAdding(false); setRel(null); }}
+            className="absolute right-1.5 top-1.5 flex size-11 items-center justify-center rounded-[10px] text-secondary cursor-pointer hover:bg-surface-2 hover:text-ink"
+          >
+            <X aria-hidden size={16} />
+          </button>
           <Segmented label="Who would you like to add?" options={RELS} value={rel ?? ('' as Rel)} onChange={setRel} />
           {rel === 'child' && (
             <ChildForm
@@ -135,9 +143,6 @@ export const WhosCovered = forwardRef<WhosCoveredHandle>(function WhosCovered(_,
               <Link href="/benefits/pmi/chat" className="self-start font-medium text-ai-text">Talk through other options</Link>
             </div>
           )}
-          <div>
-            <Button variant="secondary" onClick={() => { setAdding(false); setRel(null); }}>Cancel</Button>
-          </div>
         </div>
       )}
 
