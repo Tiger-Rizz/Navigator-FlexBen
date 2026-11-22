@@ -26,9 +26,9 @@ function ComingUp() {
     done
       ? { month: 'Mar', day: '31', title: 'Your choices are in', detail: 'Change them until then', href: '/my-choices', tone: 'done' as const }
       : { month: 'Mar', day: '31', title: 'Enrolment closes', detail: `${days} days left`, href: '/benefits/pmi', tone: 'urgent' as const },
-    { month: 'Apr', day: '1', title: 'New cover year', detail: `${employer.coverYear.label} health cover`, href: '/benefits/pmi', tone: 'key' as const },
-    { month: 'Apr', day: '6', title: 'Payrolled benefits', detail: 'A new payslip line', href: '/pay', tone: 'plain' as const },
-    { month: 'Apr', day: '30', title: 'April payday', detail: 'Your pay, explained', href: '/pay', tone: 'plain' as const },
+    { month: 'Apr', day: '1', title: 'New cover year', detail: `${employer.coverYear.label} health cover`, tone: 'key' as const },
+    { month: 'Apr', day: '6', title: 'Payrolled benefits', detail: 'A new payslip line', tone: 'plain' as const },
+    { month: 'Apr', day: '30', title: 'April payday', detail: 'Your pay, explained', tone: 'plain' as const },
   ];
   const head = { urgent: 'bg-warning-bg text-warning', done: 'bg-success-bg text-success', key: 'bg-black/15', plain: 'bg-brand-tint text-brand' };
 
@@ -36,9 +36,9 @@ function ComingUp() {
     <section aria-labelledby="coming-up" className="flex flex-col gap-3 rounded-[16px] border border-line bg-white px-4 py-5 sm:px-5">
       <h2 id="coming-up" className="px-1 text-lg">Coming up</h2>
       <ol className="m-0 grid list-none grid-cols-1 gap-1 p-0 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((it) => (
-          <li key={it.day + it.month}>
-            <Link href={it.href} className="group flex min-h-11 items-center gap-3.5 rounded-[12px] p-2.5 no-underline transition-colors hover:bg-[#FAFAF9]">
+        {items.map((it) => {
+          const inner = (
+            <>
               <span aria-hidden className={`flex w-[46px] shrink-0 flex-col overflow-hidden rounded-[10px] border text-center ${it.tone === 'key' ? 'border-brand bg-brand text-white' : 'border-line bg-white'}`}>
                 <span className={`py-0.5 text-[10px] font-semibold uppercase tracking-wide ${head[it.tone]}`}>{it.month}</span>
                 <span className="py-0.5 text-[17px] font-semibold leading-tight">{it.day}</span>
@@ -50,10 +50,21 @@ function ComingUp() {
                 </span>
                 <span className={`text-xs ${it.tone === 'urgent' ? 'font-medium text-warning' : 'text-secondary'}`}>{it.detail}</span>
               </span>
-              <ArrowRight aria-hidden size={14} className="shrink-0 text-secondary-2 opacity-0 transition-opacity group-hover:opacity-100" />
-            </Link>
-          </li>
-        ))}
+            </>
+          );
+          return (
+            <li key={it.day + it.month}>
+              {it.href ? (
+                <Link href={it.href} className="group flex min-h-11 items-center gap-3.5 rounded-[12px] p-2.5 no-underline transition-colors hover:bg-[#FAFAF9]">
+                  {inner}
+                  <ArrowRight aria-hidden size={14} className="shrink-0 text-secondary-2 opacity-0 transition-opacity group-hover:opacity-100" />
+                </Link>
+              ) : (
+                <div className="flex min-h-11 items-center gap-3.5 p-2.5">{inner}</div>
+              )}
+            </li>
+          );
+        })}
       </ol>
     </section>
   );
