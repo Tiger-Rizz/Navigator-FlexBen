@@ -43,31 +43,31 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     route: '/benefits/pmi',
-    target: '[data-tour="cover-panel"]',
-    what: () => 'The PMI page gets a “Your cover” panel, replacing the old external “Manage benefit” link.',
-    why: 'Choices happen inside Navigator, with the real monthly cost always in view.',
+    target: '[data-tour="pmi-flex"]',
+    what: () => 'On the PMI page, the old external “Manage benefit” link becomes a prompt and a live “Your cover” card.',
+    why: 'Navigator says this is a flex benefit and what needs attention, with the real monthly cost in view.',
   },
   {
-    route: '/benefits/pmi',
+    route: '/benefits/pmi/cover',
     target: '[data-tour="quick-choices"]',
-    what: () => 'Quick choices come first: most people keep their cover or add family, one tap each.',
-    why: 'Easiest path first. Fine-tuning stays folded away until it’s wanted.',
+    what: () => '“Review my health cover” opens the flex page. Quick choices come first: keep your cover or add family, one tap each.',
+    why: 'Easiest path first. Fine-tuning is there, but nobody has to touch it.',
   },
   {
-    route: '/benefits/pmi',
+    route: '/benefits/pmi/cover',
     target: '[data-tour="cover-panel"]',
     enter: () => state().cover(SAM),
     what: () => `Adding Sam updates the cost live: ${formatMonthly(money(baseline))} → ${formatMonthly(money({ ...baseline, dependants: [SAM] }))} a month, with the full breakdown.`,
     why: 'The real cost is the payroll deduction plus income tax, after Meridian’s contribution and the Flex Fund.',
   },
   {
-    route: '/benefits/pmi',
+    route: '/benefits/pmi/cover',
     target: '[data-tour="whats-changed"]',
     what: () => 'What’s changed since last year reuses the plan-year comparison GAP already holds.',
     why: 'Members see what’s different before they decide, with the source shown.',
   },
   {
-    route: '/benefits/pmi',
+    route: '/benefits/pmi/cover',
     target: '[data-tour="ask-panel"]',
     enter: async (h) => {
       if (!userAsked(KNEE)) state().openAsk(KNEE);

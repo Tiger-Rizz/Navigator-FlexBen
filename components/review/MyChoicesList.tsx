@@ -31,7 +31,7 @@ export function MyChoicesList() {
           <span className="text-[13px] text-secondary">{leverSummary(s).replace(/^./, (c) => c.toUpperCase())}</span>
           <span className="text-[13px] text-secondary">{whoLabel(s, people)} · from 1 April 2027 · {formatMonthly(b.realMonthlyCost)} a month</span>
         </div>
-        <Link href="/benefits/pmi" className={buttonClass('secondary')}>Change until 31 March</Link>
+        <Link href="/benefits/pmi/cover" className={buttonClass('secondary')}>Change until 31 March</Link>
       </li>
     </ul>
   );
