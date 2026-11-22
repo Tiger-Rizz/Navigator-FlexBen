@@ -1,4 +1,5 @@
 import { buttonClass } from '@/components/ui/Button';
+import { MeridianLogo } from '@/components/shell/MeridianLogo';
 
 export const metadata = { title: 'Enter passcode · Meridian Benefits' };
 
@@ -8,7 +9,7 @@ export default async function PasscodePage({ searchParams }: { searchParams: Pro
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-white px-4">
       <form method="post" action="/api/passcode" className="flex w-full max-w-[360px] flex-col gap-4 rounded-[16px] border border-line px-6 py-6">
         <div className="flex items-center gap-2">
-          <span aria-hidden className="flex size-[26px] items-center justify-center rounded-[7px] bg-brand text-[13px] font-semibold text-white">M</span>
+          <MeridianLogo size={28} />
           <h1 className="text-lg">Meridian Benefits prototype</h1>
         </div>
         <input type="hidden" name="next" value={next} />

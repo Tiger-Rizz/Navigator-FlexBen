@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Badge as BadgeIcon, Bookmark, CirclePlus, Heart, House, Menu, PartyPopper, ReceiptText, Tag, Wallet, X, type LucideIcon } from 'lucide-react';
+import { MeridianLogo } from './MeridianLogo';
 import { PointsPill } from './PointsPill';
 import { SearchOrAsk } from './SearchOrAsk';
 import { DemoBadge } from '@/components/ai/DemoBadge';
@@ -24,9 +25,7 @@ const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) =
 function Brand() {
   return (
     <Link href="/home" className="flex min-h-11 items-center gap-2 px-1.5 no-underline">
-      <span aria-hidden className="flex size-[26px] items-center justify-center rounded-[7px] bg-brand text-[13px] font-semibold text-white">
-        M
-      </span>
+      <MeridianLogo size={28} />
       <span className="text-[15px] font-semibold">Meridian Benefits</span>
     </Link>
   );
