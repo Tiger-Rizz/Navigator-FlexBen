@@ -126,7 +126,6 @@ function Summary({ openId, onPick }: { openId: string | null; onPick: (id: strin
         </div>
         <Waterfall openId={openId} onPick={onPick} />
       </div>
-      <span className="text-xs text-secondary-2">{pay.summary.source}</span>
     </section>
   );
 }
