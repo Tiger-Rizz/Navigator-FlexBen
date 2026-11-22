@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Sidebar } from '@/components/shell/Sidebar';
 import { StoreHydrator } from '@/components/shell/StoreHydrator';
 import { AskPanel } from '@/components/ai/AskPanel';
+import { TourProvider } from '@/components/tour/TourProvider';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' });
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
         </div>
         <AskPanel />
+        <TourProvider />
       </body>
     </html>
   );

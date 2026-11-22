@@ -107,3 +107,14 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 68. **The hero input sends the typed question to the plan builder and opens it.** An empty submit just opens the builder. Placeholder prompts rotate every 3.5 seconds, except with reduced motion.
 69. **"Remind me tomorrow" only acknowledges** ("We’ll remind you tomorrow."): there's no notification system in the prototype.
 70. **The carousel arrows on "Based on your recent activity" are left out:** buttons that do nothing would mislead reviewers.
+
+## Step 9: Guided tour A
+
+71. **13 steps rather than "about 12":** confirming is its own final step after the review step, so the payslip and the confirmed state each get a caption.
+72. **The tour starts from a clean plan** (`resetAll`) so every run is identical. It keeps the "Explore freely" dismissal, and it always uses the scripted AI locally: in testing, zero `/api/chat` requests were made during the tour.
+73. **Every step's action can safely run twice** (cover Sam, ask once, send once, accept if pending, unconfirm when going back to review), so Back and Next can never put the plan into a state the captions don't describe.
+74. **Caption numbers are computed from the engine and the store when shown** (£30.00 → £80.00, £300, £51.50 vs £80.00, £230), never typed into the copy.
+75. **In the tour, Sam is added on the PMI page before the chat.** So the AI's lean proposal changes only the excess and the specialist ("2 changes", "Accept both"), still priced £51.50 against £80.00 "if you just add Sam". Without the tour, it's the three-change version from the canvas.
+76. **Spotlight and caption placement:** targets are scrolled to near the top of the screen, and the caption goes bottom-right or bottom-left, whichever overlaps the spotlight less. Below 1280px there's no spotlight, only captions. The page stays clickable throughout.
+77. **Start:** the bottom-left "Take the 3-minute guided tour" card on Home, or `?tour=1` on any page. **Keyboard:** → / ← / Esc. Focus moves to Next after each step.
+78. **Flakiness check:** five automated end-to-end runs with no API key: three standard (including keyboard-only from `?tour=1`, and Back from step 7 to step 6 and forward again), one with the CPU slowed 6×, and one at 1024px. All passed with no console errors. An earlier test exercised Back/Next on steps 6–7 dozens of times without breaking state.
