@@ -72,3 +72,12 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 45. **The Ask panel shows only the latest exchange**, like Navigator's search pop-up. It shares one conversation with the chat page, so "Continue in Chat" carries everything over.
 46. **"Demo mode" badge** shows when `GET /api/chat` reports no key. With a key set it's hidden even if calls later fail, because those failures fall back silently.
 47. **Pronouns for Sam** ("his GP") come straight from the approved canvas copy for this fictional persona.
+
+## Step 5: AI plan builder
+
+48. **The live plan shows the pending proposal over the current plan**: changed rows in purple with the old value struck through, the cost as "£30.00 → £51.50", and the status as "N suggested changes". After Accept it shows the applied plan as "Updated, not yet confirmed".
+49. **Accepting adds a deterministic follow-up message** ("Done. Before you confirm…" with Show me scenarios / Go to review) from the client, not from the model, so it's identical in live and scripted modes.
+50. **Only one proposal can be pending.** A newer proposal replaces it, and the older card says "Replaced by a newer suggestion" instead of offering a second Accept.
+51. **"Worth knowing before you commit"** is built from the plan shown, not from the model: the excess with its engine saving and break-even, Guided if chosen, and the Flex Fund given up if all of it is used.
+52. **Suggestion chips:** the opening chip "Add Sam without it costing a fortune" goes through the same intent as the canonical message. Chips already sent are hidden, and on phones they scroll in one row so the composer stays visible.
+53. **Not tested against a real model:** no Anthropic key is available in the build environment. The keyed path was exercised with an invalid key: the request reached Anthropic, was rejected, and fell back to the scripted reply with identical cards and numbers. Run one real-key check before submitting (see the summary).

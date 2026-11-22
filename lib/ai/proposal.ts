@@ -46,8 +46,9 @@ function line(c: Change, from: Selection, people: Dependant[]): ProposalLine {
   }
   const order = ORDER[c.field];
   const icon = order.indexOf(c.value) > order.indexOf(from[c.field]) ? '↗' : '↘';
-  const fromLabel = optionFor(c.field, from[c.field] as never).label;
-  const toLabel = optionFor(c.field, c.value as never).label;
+  const lower = (s: string) => (c.field === 'outpatient' && /^[A-Z][a-z]/.test(s) ? s.toLowerCase() : s);
+  const toLabel = lower(optionFor(c.field, c.value as never).label);
+  const fromLabel = lower(optionFor(c.field, from[c.field] as never).label);
   const name: Record<string, string> = { tier: 'Cover level', excess: 'Excess', outpatient: 'Outpatient allowance', specialist: 'Specialist choice' };
   const q = (s: string) => (c.field === 'specialist' ? `“${s}”` : s);
   let text = `${name[c.field]} from ${q(fromLabel)} to ${q(toLabel)}`;
