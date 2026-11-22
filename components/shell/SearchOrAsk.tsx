@@ -3,7 +3,7 @@
 import { Search } from 'lucide-react';
 import { usePlan } from '@/lib/store';
 
-/** Opens the Ask AI pop-up. */
+/** Opens the Ask pop-up. */
 export function SearchOrAsk() {
   const openAsk = usePlan((s) => s.openAsk);
   return (

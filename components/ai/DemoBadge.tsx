@@ -16,7 +16,7 @@ export function DemoBadge() {
   }, [pathname]);
   if (!scripted) return null;
   return (
-    <span title="The AI is using scripted answers. Every number still comes from the pricing engine." className="self-start rounded-full border border-line px-2 py-0.5 text-[11px] font-medium text-secondary">
+    <span title="Answers are scripted in this demo. Every number still comes from the pricing engine." className="self-start rounded-full border border-line px-2 py-0.5 text-[11px] font-medium text-secondary">
       Demo mode
     </span>
   );

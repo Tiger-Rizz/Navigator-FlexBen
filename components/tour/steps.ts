@@ -79,7 +79,7 @@ export const TOUR_STEPS: TourStep[] = [
     },
     what: () => {
       const knee = scenarioLibrary.scenarios.find((s) => s.id === 'knee')!;
-      return `Ask AI answers with Priya’s own numbers: a knee operation would cost her ${formatAnnual(memberPays(knee, state().selection, people()).memberPays)} on her current choices.`;
+      return `Asking about the benefit gets an answer with Priya’s own numbers: a knee operation would cost her ${formatAnnual(memberPays(knee, state().selection, people()).memberPays)} on her current choices.`;
     },
     why: 'Answers come from the pricing engine, link to the benefit features and cite their sources.',
   },

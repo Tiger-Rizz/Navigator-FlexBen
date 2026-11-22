@@ -69,7 +69,7 @@ export function ChatThread() {
             <ArrowRight aria-hidden size={16} />
           </button>
         </form>
-        <p className="text-xs text-secondary-2">Guidance, not financial advice. Prices and tax are calculated by Navigator, not by the AI.</p>
+        <p className="text-xs text-secondary-2">Guidance, not financial advice. Prices and tax always come from Meridian’s scheme rules.</p>
       </div>
     </section>
   );
