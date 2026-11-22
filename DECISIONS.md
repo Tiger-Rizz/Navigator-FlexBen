@@ -59,3 +59,16 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 35. **"Add family" opens the add-someone picker** in Who's covered and moves focus there, rather than opening a separate screen.
 36. **The Flex Fund bar reads "£X of £{fund}"**, where the fund includes any downgrade saving, instead of a fixed "of £500".
 37. **Radix and Framer Motion are not used yet.** Fine-tune uses a native `aria-expanded` disclosure and the Ask panel a hand-rolled non-modal dialog. Both are lighter, accessible, and enough for the prototype.
+
+## Step 4: Ask AI panel, /api/chat and scripted fallback
+
+38. **The endpoint streams its own small NDJSON event format** (`text`, `part`, `mode`, `done`) instead of the AI SDK's UI message stream, and the client doesn't use `@ai-sdk/react`. The live model path (`streamText` + tools) and the scripted path produce exactly the same events, so cards and numbers render identically, and the client can run the script locally when the network fails. `ai` and `@ai-sdk/anthropic` are still used for the live path.
+39. **AI SDK v7 API:** `stopWhen: stepCountIs(4)` replaces `maxSteps`, and tools use `inputSchema`. Temperature 0.3, at most 600 output tokens.
+40. **Fallback order:** no key → scripted. Rate limit (30 requests per 10 minutes per IP) or message cap (40) → a scripted "limit reached" reply. Live call fails before any output → scripted reply for the same question. It fails mid-answer → a short apology. The request itself fails → the client runs the script locally. The guided tour always runs the script locally.
+41. **The privacy note is added by code, not by the model.** A regex spots personal health disclosures ("asthma", "diagnosed"…) in the user's message. The model is told the app adds the note, so it doesn't have to remember to.
+42. **The model never sees the whole store:** the client sends the plan on screen, people the member added and chat mentions. The server rebuilds people from the persona file and drops any dependant ids it doesn't know.
+43. **Tool outputs are pre-formatted strings** ("£51.50") so the model quotes figures exactly instead of rounding them itself.
+44. **Proposal "alternative":** when a proposal changes who's covered and some options, the comparison is "if you just add Sam" (same people changes, no option changes). When it only changes options, it's "if you keep things as they are". The tax note is added only when the tax really is unchanged and the proposal is cheaper.
+45. **The Ask panel shows only the latest exchange**, like Navigator's search pop-up. It shares one conversation with the chat page, so "Continue in Chat" carries everything over.
+46. **"Demo mode" badge** shows when `GET /api/chat` reports no key. With a key set it's hidden even if calls later fail, because those failures fall back silently.
+47. **Pronouns for Sam** ("his GP") come straight from the approved canvas copy for this fictional persona.

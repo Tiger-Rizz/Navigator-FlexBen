@@ -30,6 +30,9 @@ export interface PlanState {
   askOpen: boolean;
   /** A question waiting to be asked in the Ask AI panel. */
   askQuery: string | null;
+  busy: boolean;
+  /** Set while the guided tour runs: the AI is always scripted then. */
+  tourActive: boolean;
 
   setLever: <L extends Lever>(lever: L, value: Selection[L]) => void;
   cover: (id: string) => void;
@@ -53,6 +56,8 @@ export interface PlanState {
   setAskOpen: (v: boolean) => void;
   openAsk: (question?: string) => void;
   takeAskQuery: () => string | null;
+  setBusy: (v: boolean) => void;
+  setTourActive: (v: boolean) => void;
   resetAll: () => void;
 }
 
@@ -73,6 +78,8 @@ const initial = () => ({
   contextConfirmed: false,
   askOpen: false,
   askQuery: null as string | null,
+  busy: false,
+  tourActive: false,
 });
 
 const edit = (s: Selection) => ({ selection: s, status: 'editing' as Status, undoSelection: null });
@@ -138,6 +145,8 @@ export const usePlan = create<PlanState>()(
       },
       setContextConfirmed: (v) => set({ contextConfirmed: v }),
       setAskOpen: (v) => set({ askOpen: v }),
+      setBusy: (v) => set({ busy: v }),
+      setTourActive: (v) => set({ tourActive: v }),
       openAsk: (question) => set({ askOpen: true, askQuery: question ?? null }),
       takeAskQuery: () => {
         const q = get().askQuery;
@@ -150,7 +159,7 @@ export const usePlan = create<PlanState>()(
       name: 'navigator-flex-plan',
       storage: createJSONStorage(() => sessionStorage),
       skipHydration: true, // rehydrated in <StoreHydrator/> after mount, to avoid SSR mismatches
-      partialize: ({ askOpen, askQuery, ...rest }) => rest,
+      partialize: ({ askOpen, askQuery, busy, ...rest }) => rest,
     },
   ),
 );

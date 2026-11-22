@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Badge as BadgeIcon, Bookmark, CirclePlus, Heart, House, Menu, PartyPopper, Tag, X, type LucideIcon } from 'lucide-react';
 import { PointsPill } from './PointsPill';
 import { SearchOrAsk } from './SearchOrAsk';
+import { DemoBadge } from '@/components/ai/DemoBadge';
 
 const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) => boolean }[] = [
   { href: '/', label: 'Home', icon: House, match: (p) => p === '/' },
@@ -56,6 +57,7 @@ function NavLinks() {
 function Footer() {
   return (
     <div className="mt-auto flex flex-col gap-1">
+      <DemoBadge />
       <PointsPill />
       <Link href="/about" className="flex min-h-11 items-center px-1.5 text-xs text-secondary-2 underline-offset-2 hover:underline">
         Notes for reviewers
