@@ -6,7 +6,7 @@ An AI-native flexible benefits experience inside Navigator for a UK PMI benefit.
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000, guided tour at /?tour=1
+npm run dev      # http://localhost:3000: the demo room; Navigator home is /home, tour A at /home?tour=1
 npm test         # pricing, claims, rules and AI-layer tests
 npm run build
 ```

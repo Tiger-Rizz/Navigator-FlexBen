@@ -35,6 +35,7 @@ export interface PlanState {
   dobs: Record<string, string>;
   reviewAgreed: boolean;
   tourStep: number | null;
+  tourId: 'flex' | 'pay' | 'claims';
   tourDismissed: boolean;
   /** Set while the guided tour runs: the AI is always scripted then. */
   tourActive: boolean;
@@ -66,6 +67,7 @@ export interface PlanState {
   setReviewAgreed: (v: boolean) => void;
   unconfirm: () => void;
   setTourStep: (n: number | null) => void;
+  setTourId: (id: 'flex' | 'pay' | 'claims') => void;
   dismissTour: () => void;
   setTourActive: (v: boolean) => void;
   resetAll: () => void;
@@ -92,6 +94,7 @@ const initial = () => ({
   dobs: {} as Record<string, string>,
   reviewAgreed: false,
   tourStep: null as number | null,
+  tourId: 'flex' as 'flex' | 'pay' | 'claims',
   tourDismissed: false,
   tourActive: false,
 });
@@ -164,6 +167,7 @@ export const usePlan = create<PlanState>()(
       setReviewAgreed: (v) => set({ reviewAgreed: v }),
       unconfirm: () => set({ status: 'editing', confirmedSelection: null }),
       setTourStep: (n) => set({ tourStep: n }),
+      setTourId: (tourId) => set({ tourId }),
       dismissTour: () => set({ tourDismissed: true }),
       setTourActive: (v) => set({ tourActive: v }),
       openAsk: (question) => set({ askOpen: true, askQuery: question ?? null }),
@@ -178,7 +182,7 @@ export const usePlan = create<PlanState>()(
       name: 'navigator-flex-plan',
       storage: createJSONStorage(() => sessionStorage),
       skipHydration: true, // rehydrated in <StoreHydrator/> after mount, to avoid SSR mismatches
-      partialize: ({ askOpen, askQuery, busy, tourStep, tourActive, ...rest }) => rest,
+      partialize: ({ askOpen, askQuery, busy, tourStep, tourActive, tourId, ...rest }) => rest,
     },
   ),
 );

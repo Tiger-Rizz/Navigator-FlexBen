@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Search, Sparkles, X } from 'lucide-react';
 import { sendMessage } from '@/lib/ai/client';
 import { COMMON_QUESTIONS } from '@/lib/ai/questions';
+import { pay } from '@/lib/part2';
 import { usePlan } from '@/lib/store';
 import { MessageParts, TypingDots } from './MessageParts';
 
@@ -40,7 +41,8 @@ export function AskPanel() {
   const question = lastUser >= 0 ? messages[lastUser] : null;
   const answer = lastUser >= 0 ? messages[lastUser + 1] : null;
   const questionText = question?.parts[0]?.type === 'text' ? question.parts[0].text : '';
-  const chips = COMMON_QUESTIONS.filter((q) => q !== questionText).slice(0, 4);
+  const pool: readonly string[] = pathname.startsWith('/pay') ? pay.questions.map((x) => x.q) : COMMON_QUESTIONS;
+  const chips = pool.filter((q) => q !== questionText).slice(0, 4);
 
   const ask = (q: string) => { setText(''); void sendMessage(q); };
 
@@ -76,7 +78,7 @@ export function AskPanel() {
                 ref={inputRef}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Ask about Private Medical Insurance…"
+                placeholder={pathname.startsWith('/pay') ? 'Ask about your pay…' : 'Ask about Private Medical Insurance…'}
                 className="min-h-11 w-full bg-transparent outline-none"
               />
             </label>

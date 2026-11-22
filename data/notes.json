@@ -1,0 +1,175 @@
+{
+  "notes": [
+    {
+      "id": "flex",
+      "kicker": "PART 1 · THE BRIEF",
+      "color": "#1F5C4E",
+      "label": "Flex benefits for UK PMI",
+      "title": "Flex benefits for UK PMI",
+      "thesis": "Flex isn’t a form problem, it’s a decision problem. Navigator already helps people understand their benefits; this lets them act, by turning insurance trade-offs into consequences they can see, with an AI that reasons and code that calculates.",
+      "tourHref": "/home?tour=1",
+      "sections": [
+        {
+          "heading": "How I read the brief",
+          "items": [
+            "Employees make one insurance decision a year, against a deadline, about illnesses they can’t predict, with tax effects they can’t see. Most keep the default, then find the gaps when they claim.",
+            "So I designed for the decision, not the form: the real monthly cost after tax, consequences shown as real situations, and an AI that proposes changes to the plan rather than chatting beside it."
+          ]
+        },
+        {
+          "heading": "What I researched",
+          "items": [
+            "UK PMI option menus from AXA and Bupa: excess steps, outpatient allowances, hospital lists, AXA’s Guided option.",
+            "Scheme rules: who counts as a dependant, life-event windows, and why joining late can mean worse terms.",
+            "HMRC: medical benefits move to payrolling from 6 April 2027, so the tax shows on payslips every month.",
+            "Navigator’s walkthrough and detailed demo, to mirror its look, its Ask AI pattern and its onboarding data. And what employees actually ask at benefits fairs, from running benefits rollouts at nudge."
+          ]
+        },
+        {
+          "heading": "Assumptions",
+          "items": [
+            "Meridian pays employee-only Core cover (£900 a year) and gives a £500 Flex Fund. Core, Enhanced and Premium are Meridian’s tiers, built from AXA’s options.",
+            "Pricing is per person (partner at the adult rate, children at 40%), with loadings for each option. All prices are illustrative.",
+            "Dependants added at enrolment join with medical history ignored: a Meridian scheme rule, not a universal one.",
+            "Sam is on Priya’s HR dependants record. Priya pays 40% tax. The demo date is 22 March 2027, 9 days before enrolment closes."
+          ]
+        },
+        {
+          "heading": "What’s real and what’s mocked",
+          "items": [
+            "Real: the pricing, tax and claims engines (unit-tested), the tool-calling AI and its scripted fallback, one shared plan state across chat and screens.",
+            "Mocked: the scheme data and prices, the HR record, and the updates to AXA and payroll."
+          ]
+        },
+        {
+          "heading": "Key design decisions",
+          "items": [
+            "Kept Navigator’s UI exactly and put the creativity into the flow.",
+            "Easiest path first: most people keep their cover or add family in one tap; fine-tuning is optional.",
+            "Navigator spots gaps between people on record and their cover. It never infers life events.",
+            "The AI reasons, code calculates: no price or option ever comes from the model. Guidance, not advice, with warnings before anything hard to undo."
+          ]
+        },
+        {
+          "heading": "What I’d build next",
+          "items": [
+            "Test with five employees and one reward team, watching where they hesitate.",
+            "A second persona trading down and moving the saving to other benefits in the Flex Fund.",
+            "Country-specific rules, and live connections to the insurer and payroll."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pay",
+      "kicker": "PART 2 · FEATURE 1",
+      "color": "#4B36C4",
+      "label": "Your pay, explained",
+      "title": "Your pay, explained",
+      "thesis": "Your payslip is where your benefits show up every month, and it’s the least explained document you get. Navigator should read it with you.",
+      "tourHref": "/pay?tour=1",
+      "sections": [
+        {
+          "heading": "What it is",
+          "items": [
+            "When your payslip lands, Navigator shows what changed since last month and why, line by line, linked to the benefit behind each deduction. If something looks wrong, you can raise it with payroll in one tap, with the context already attached."
+          ]
+        },
+        {
+          "heading": "Who it serves",
+          "items": [
+            "Employees, who can’t tell a pay rise from a tax change.",
+            "Payroll and HR teams, who answer “why is my pay different?” every month."
+          ]
+        },
+        {
+          "heading": "Why it matters",
+          "items": [
+            "It turns benefits from a once-a-year choice into something you see working every month.",
+            "It continues where Part 1 stops: Part 1 previews one cost before you choose; this explains all of your pay after."
+          ]
+        },
+        {
+          "heading": "Why now",
+          "items": [
+            "From April 2027, medical benefits are taxed through payroll, and most other benefits follow in April 2028. New lines appear on millions of payslips on a fixed date."
+          ]
+        },
+        {
+          "heading": "How it works",
+          "items": [
+            "Payroll data comes in, the change from last month is calculated, and the AI explains the change, quoting the payslip and scheme rules. It never estimates tax itself."
+          ]
+        },
+        {
+          "heading": "How I’d measure it",
+          "items": [
+            "Fewer pay questions to HR and payroll, payslips opened in Navigator, and flags resolved first time."
+          ]
+        },
+        {
+          "heading": "Risks and guardrails",
+          "items": [
+            "Payroll data must be exact, so this view is read-only and every figure comes from payroll. Explains, never advises. Only the employee sees their pay."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "claim",
+      "kicker": "PART 2 · FEATURE 2",
+      "color": "#4B36C4",
+      "label": "Claim it",
+      "title": "Claim it",
+      "thesis": "Employees shouldn’t need to know which benefit pays for what. Snap the receipt; Navigator works out the route and does as much of the claim as it can.",
+      "tourHref": "/claims?tour=1",
+      "sections": [
+        {
+          "heading": "What it is",
+          "items": [
+            "Add a receipt or describe a cost. The AI reads it, works out which benefit should pay, and either claims it in Navigator (employer-funded allowances) or prepares it and hands it to the provider (insurance, such as AXA), with every detail filled in."
+          ]
+        },
+        {
+          "heading": "Who it serves",
+          "items": [
+            "Employees, who today guess which benefit covers what, or don’t claim at all.",
+            "Reward and payroll teams, who process allowance claims by hand."
+          ]
+        },
+        {
+          "heading": "Why it matters",
+          "items": [
+            "Unclaimed benefits are wasted spend for the employer and lost value for the employee. Routing removes the hardest part.",
+            "It shows the AI being useful in daily life, not only once a year at enrolment."
+          ]
+        },
+        {
+          "heading": "What’s realistic",
+          "items": [
+            "Insurance claims stay with the insurer: it holds the policy, approves treatment and pays providers, and handling claims involves medical data and possibly regulation. So Navigator guides and hands off.",
+            "Employer-funded allowances (wellbeing, lifestyle, leftover Flex Fund) have no insurer involved, so Navigator can own the claim from receipt to payroll."
+          ]
+        },
+        {
+          "heading": "How it works",
+          "items": [
+            "The receipt is read by AI and the details checked by the person. The rules engine matches it against the scheme and allowance rules, and payroll pays approved allowance claims. Insurance claims become a prepared hand-off with a follow-up reminder."
+          ]
+        },
+        {
+          "heading": "How I’d measure it",
+          "items": [
+            "Allowance used, time from receipt to payment, claims rejected for being sent to the wrong place, and manual reimbursement work removed."
+          ]
+        },
+        {
+          "heading": "Risks and guardrails",
+          "items": [
+            "The person confirms every detail the AI read. Rules come from configuration, not the model. No medical information is stored beyond what the claim needs. Allowance payments are shown with their tax treatment."
+          ]
+        }
+      ]
+    }
+  ]
+}

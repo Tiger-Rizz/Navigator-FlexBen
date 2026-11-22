@@ -4,6 +4,7 @@
  * steps, with the same tools run locally so cards and numbers match the live path.
  */
 import { scenarioLibrary, type Selection } from '@/lib/data';
+import { pay } from '@/lib/part2';
 import { memberPays } from '@/lib/engine/claims';
 import { excessSaving, monthlyDifference, price } from '@/lib/engine/pricing';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
@@ -185,8 +186,16 @@ export function limitReached(): StreamEvent[] {
   return [t('You’ve reached the limit for this demo conversation. The questions below still work.'), part({ type: 'chips', items: [...COMMON_QUESTIONS.slice(0, 3)] })];
 }
 
+/** Payslip questions (PART2.md §3): always answered from the script, never by the model. */
+export function payAnswer(text: string): StreamEvent[] | null {
+  const hit = pay.questions.find((x) => norm(x.q) === norm(text));
+  return hit ? [t(hit.a), sources('Your March and April payslips from Meridian Payroll')] : null;
+}
+
 /** Deterministic reply for a message. */
 export function scriptedReply(text: string, ctx: ResolvedContext): StreamEvent[] {
+  const payReply = payAnswer(text);
+  if (payReply) return payReply;
   const q = norm(text);
   if (/asthma/.test(q) || (/\bsam\b/.test(q) && /(fortune|cheap|lean|without it costing|keep it)/.test(q))) return canonicalOpening(ctx, text);
   if (/without it costing a fortune/.test(q)) return canonicalOpening(ctx, text);

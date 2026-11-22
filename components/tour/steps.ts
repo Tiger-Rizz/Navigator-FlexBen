@@ -36,7 +36,7 @@ const idle = (h: TourHelpers) => h.waitFor(() => !state().busy, 15000);
 
 export const TOUR_STEPS: TourStep[] = [
   {
-    route: '/',
+    route: '/home',
     target: '[data-tour="home-nudge"]',
     what: () => 'Navigator spots a gap: Sam is on Priya’s HR record, but not on her health cover.',
     why: 'It asks about people already on record. It never guesses at life events.',

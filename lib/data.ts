@@ -5,6 +5,7 @@ import planYearsJson from '@/data/plan-years.json';
 import scenariosJson from '@/data/scenarios.json';
 import priyaJson from '@/data/personas/priya.json';
 import tomJson from '@/data/personas/tom.json';
+import notesJson from '@/data/notes.json';
 
 // ---- Primitive enums (CLAUDE.md §6) ----
 export const TierSchema = z.enum(['core', 'enhanced', 'premium']);
@@ -166,11 +167,25 @@ export const ScenarioLibrarySchema = z.object({
 });
 export type ScenarioLibrary = z.infer<typeof ScenarioLibrarySchema>;
 
+// ---- Notes for reviewers (PART2.md §6): copied word for word from Notes.dc.html ----
+export const NoteSchema = z.object({
+  id: z.enum(['flex', 'pay', 'claim']),
+  kicker: z.string(),
+  color: z.string(),
+  label: z.string(),
+  title: z.string(),
+  thesis: z.string(),
+  tourHref: z.string(),
+  sections: z.array(z.object({ heading: z.string(), items: z.array(z.string()).min(1) })).min(1),
+});
+export type Note = z.infer<typeof NoteSchema>;
+
 // ---- Validated loaders (throw at import time if the JSON is wrong) ----
 export const employer: Employer = EmployerSchema.parse(employerJson);
 export const scheme: Scheme = SchemeSchema.parse(schemeJson);
 export const planYears: PlanYears = PlanYearsSchema.parse(planYearsJson);
 export const scenarioLibrary: ScenarioLibrary = ScenarioLibrarySchema.parse(scenariosJson);
+export const notes: Note[] = z.object({ notes: z.array(NoteSchema).length(3) }).parse(notesJson).notes;
 export const personas: Record<string, Persona> = {
   priya: PersonaSchema.parse(priyaJson),
   tom: PersonaSchema.parse(tomJson),

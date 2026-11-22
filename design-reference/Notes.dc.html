@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Read my notes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#141414;background:#fff}
+a{color:#141414}a:hover{color:#000}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="min-height: 1500px; background: #F7F8F6; padding: 40px 32px 64px; box-sizing: border-box; font-size: 14px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<a href="DemoRoom.dc.html" style="font-size: 13px; color: #5F5F5F; text-decoration: none">← Demo room</a>
+<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<nav aria-label="Notes" style="flex: 1 1 220px; max-width: 260px; position: sticky; top: 24px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; color: #5F5F5F; padding: 0 10px 6px">Read my notes</span>
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<button type="button" aria-current="{{t.current}}" onClick="{{t.pick}}" style="{{t.style}}"><span style="font-size: 11px; color: {{t.kickerColor}}; font-weight: 600">{{t.kicker}}</span><span style="font-size: 14px; font-weight: 500">{{t.label}}</span></button>
+</sc-for>
+</nav>
+<article style="flex: 999 1 560px; min-width: 0; background: #ffffff; border: 1px solid #E6E8E4; border-radius: 20px; padding: 36px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 26px">
+<header style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: {{kickerColor}}">{{kicker}}</span>
+<h1 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -0.02em">{{title}}</h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3D3D3D; font-family: Georgia, 'Times New Roman', serif">{{thesis}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px">
+<a href="{{tourHref}}" style="display: inline-flex; align-items: center; gap: 8px; background: #141414; color: #ffffff; text-decoration: none; padding: 11px 16px; border-radius: 10px; font-weight: 500; min-height: 44px; box-sizing: border-box"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>Take the guided tour</a>
+</div>
+</header>
+<sc-for list="{{sections}}" as="s" hint-placeholder-count="6">
+<section style="display: flex; flex-direction: column; gap: 10px; padding-top: 22px; border-top: 1px solid #F0F0F0">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">{{s.h}}</h2>
+<sc-for list="{{s.items}}" as="it" hint-placeholder-count="3">
+<p style="margin: 0; font-size: 14px; line-height: 1.65; color: #2E2E2E; display: flex; gap: 10px"><span aria-hidden="true" style="color: #9A9A9A; flex: 0 0 auto">{{s.bullet}}</span><span>{{it}}</span></p>
+</sc-for>
+</section>
+</sc-for>
+</article>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 0 }; }
+  renderVals() {
+    var self = this, t = this.state.tab;
+    var notes = [
+      { kicker: 'PART 1 · THE BRIEF', color: '#1F5C4E', label: 'Flex benefits for UK PMI', title: 'Flex benefits for UK PMI', tour: 'Main.dc.html',
+        thesis: 'Flex isn’t a form problem, it’s a decision problem. Navigator already helps people understand their benefits; this lets them act, by turning insurance trade-offs into consequences they can see, with an AI that reasons and code that calculates.',
+        sections: [
+          ['How I read the brief', ['Employees make one insurance decision a year, against a deadline, about illnesses they can’t predict, with tax effects they can’t see. Most keep the default, then find the gaps when they claim.', 'So I designed for the decision, not the form: the real monthly cost after tax, consequences shown as real situations, and an AI that proposes changes to the plan rather than chatting beside it.']],
+          ['What I researched', ['UK PMI option menus from AXA and Bupa: excess steps, outpatient allowances, hospital lists, AXA’s Guided option.', 'Scheme rules: who counts as a dependant, life-event windows, and why joining late can mean worse terms.', 'HMRC: medical benefits move to payrolling from 6 April 2027, so the tax shows on payslips every month.', 'Navigator’s walkthrough and detailed demo, to mirror its look, its Ask AI pattern and its onboarding data. And what employees actually ask at benefits fairs, from running benefits rollouts at nudge.']],
+          ['Assumptions', ['Meridian pays employee-only Core cover (£900 a year) and gives a £500 Flex Fund. Core, Enhanced and Premium are Meridian’s tiers, built from AXA’s options.', 'Pricing is per person (partner at the adult rate, children at 40%), with loadings for each option. All prices are illustrative.', 'Dependants added at enrolment join with medical history ignored: a Meridian scheme rule, not a universal one.', 'Sam is on Priya’s HR dependants record. Priya pays 40% tax. The demo date is 22 March 2027, 9 days before enrolment closes.']],
+          ['What’s real and what’s mocked', ['Real: the pricing, tax and claims engines (unit-tested), the tool-calling AI and its scripted fallback, one shared plan state across chat and screens.', 'Mocked: the scheme data and prices, the HR record, and the updates to AXA and payroll.']],
+          ['Key design decisions', ['Kept Navigator’s UI exactly and put the creativity into the flow.', 'Easiest path first: most people keep their cover or add family in one tap; fine-tuning is optional.', 'Navigator spots gaps between people on record and their cover. It never infers life events.', 'The AI reasons, code calculates: no price or option ever comes from the model. Guidance, not advice, with warnings before anything hard to undo.']],
+          ['What I’d build next', ['Test with five employees and one reward team, watching where they hesitate.', 'A second persona trading down and moving the saving to other benefits in the Flex Fund.', 'Country-specific rules, and live connections to the insurer and payroll.']]
+        ] },
+      { kicker: 'PART 2 · FEATURE 1', color: '#4B36C4', label: 'Your pay, explained', title: 'Your pay, explained', tour: 'Pay.dc.html',
+        thesis: 'Your payslip is where your benefits show up every month, and it’s the least explained document you get. Navigator should read it with you.',
+        sections: [
+          ['What it is', ['When your payslip lands, Navigator shows what changed since last month and why, line by line, linked to the benefit behind each deduction. If something looks wrong, you can raise it with payroll in one tap, with the context already attached.']],
+          ['Who it serves', ['Employees, who can’t tell a pay rise from a tax change.', 'Payroll and HR teams, who answer “why is my pay different?” every month.']],
+          ['Why it matters', ['It turns benefits from a once-a-year choice into something you see working every month.', 'It continues where Part 1 stops: Part 1 previews one cost before you choose; this explains all of your pay after.']],
+          ['Why now', ['From April 2027, medical benefits are taxed through payroll, and most other benefits follow in April 2028. New lines appear on millions of payslips on a fixed date.']],
+          ['How it works', ['Payroll data comes in, the change from last month is calculated, and the AI explains the change, quoting the payslip and scheme rules. It never estimates tax itself.']],
+          ['How I’d measure it', ['Fewer pay questions to HR and payroll, payslips opened in Navigator, and flags resolved first time.']],
+          ['Risks and guardrails', ['Payroll data must be exact, so this view is read-only and every figure comes from payroll. Explains, never advises. Only the employee sees their pay.']]
+        ] },
+      { kicker: 'PART 2 · FEATURE 2', color: '#4B36C4', label: 'Claim it', title: 'Claim it', tour: 'Claim.dc.html',
+        thesis: 'Employees shouldn’t need to know which benefit pays for what. Snap the receipt; Navigator works out the route and does as much of the claim as it can.',
+        sections: [
+          ['What it is', ['Add a receipt or describe a cost. The AI reads it, works out which benefit should pay, and either claims it in Navigator (employer-funded allowances) or prepares it and hands it to the provider (insurance, such as AXA), with every detail filled in.']],
+          ['Who it serves', ['Employees, who today guess which benefit covers what, or don’t claim at all.', 'Reward and payroll teams, who process allowance claims by hand.']],
+          ['Why it matters', ['Unclaimed benefits are wasted spend for the employer and lost value for the employee. Routing removes the hardest part.', 'It shows the AI being useful in daily life, not only once a year at enrolment.']],
+          ['What’s realistic', ['Insurance claims stay with the insurer: it holds the policy, approves treatment and pays providers, and handling claims involves medical data and possibly regulation. So Navigator guides and hands off.', 'Employer-funded allowances (wellbeing, lifestyle, leftover Flex Fund) have no insurer involved, so Navigator can own the claim from receipt to payroll.']],
+          ['How it works', ['The receipt is read by AI and the details checked by the person. The rules engine matches it against the scheme and allowance rules, and payroll pays approved allowance claims. Insurance claims become a prepared hand-off with a follow-up reminder.']],
+          ['How I’d measure it', ['Allowance used, time from receipt to payment, claims rejected for being sent to the wrong place, and manual reimbursement work removed.']],
+          ['Risks and guardrails', ['The person confirms every detail the AI read. Rules come from configuration, not the model. No medical information is stored beyond what the claim needs. Allowance payments are shown with their tax treatment.']]
+        ] }
+    ];
+    var n = notes[t];
+    var tabs = notes.map(function (x, i) {
+      var on = i === t;
+      return { kicker: x.kicker, label: x.label, kickerColor: x.color, current: on ? 'page' : 'false',
+        pick: function () { self.setState({ tab: i }); },
+        style: 'text-align: left; display: flex; flex-direction: column; gap: 3px; padding: 12px 12px; border-radius: 12px; cursor: pointer; color: #141414; ' + (on ? 'background: #ffffff; border: 1px solid #DADADA;' : 'background: transparent; border: 1px solid transparent;') };
+    });
+    return {
+      tabs: tabs, kicker: n.kicker, kickerColor: n.color, title: n.title, thesis: n.thesis, tourHref: n.tour,
+      sections: n.sections.map(function (s) { return { h: s[0], items: s[1], bullet: s[1].length > 1 ? '•' : '' }; })
+    };
+  }
+}
+</script>
+</body>
+</html>
