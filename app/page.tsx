@@ -112,7 +112,7 @@ export default function DemoRoom() {
         </section>
 
         <footer className="flex flex-wrap justify-between gap-2 text-xs text-secondary-2">
-          <span>Meridian Group, the scheme and all prices are fictional and illustrative. Guidance, not financial advice.</span>
+          <span>Meridian Group, the scheme and all prices are fictional and illustrative.</span>
           <span>Built by Divin Kamath</span>
         </footer>
       </div>
