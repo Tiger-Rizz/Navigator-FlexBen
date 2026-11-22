@@ -77,6 +77,9 @@ export interface FeatureView {
   status: FeatureStatus;
   relevant: boolean;
   changed: boolean;
+  /** Detail and status on the base selection (today's cover), for was → now comparisons. */
+  wasDetail: string;
+  wasStatus: FeatureStatus;
 }
 
 function resolve<T>(v: T | Record<string, T>, f: Feature, s: Selection): T {
@@ -89,8 +92,10 @@ export function featureViews(s: Selection, base: Selection, focusAreas: string[]
   const views = scheme.features.map((f) => {
     const detail = resolve(f.detail, f, s);
     const status = resolve(f.status, f, s);
-    const changed = detail !== resolve(f.detail, f, base) || status !== resolve(f.status, f, base);
-    return { id: f.id, name: f.name, detail, status, relevant: !!f.focusArea && focusAreas.includes(f.focusArea), changed };
+    const wasDetail = resolve(f.detail, f, base);
+    const wasStatus = resolve(f.status, f, base);
+    const changed = detail !== wasDetail || status !== wasStatus;
+    return { id: f.id, name: f.name, detail, status, relevant: !!f.focusArea && focusAreas.includes(f.focusArea), changed, wasDetail, wasStatus };
   });
   // Stable sort: things you told us matter first.
   return [...views.filter((v) => v.relevant), ...views.filter((v) => !v.relevant)];
