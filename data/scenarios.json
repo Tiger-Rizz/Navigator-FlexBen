@@ -1,0 +1,28 @@
+{
+  "plans": [
+    { "id": "keep", "tag": "Keep as is", "name": "Current cover", "sub": "Core, just you, £0 excess, £1,000 outpatient, your choice of specialist",
+      "selection": { "tier": "core", "excess": 0, "outpatient": 1000, "specialist": "directory", "dependants": [] } },
+    { "id": "lean", "tag": "Suggested in chat", "name": "Add Sam, lean", "sub": "Core, you and Sam, £250 excess, £1,000 outpatient, Guided by AXA",
+      "selection": { "tier": "core", "excess": 250, "outpatient": 1000, "specialist": "guided", "dependants": ["sam"] } },
+    { "id": "enhanced", "tag": "Alternative", "name": "Enhanced", "sub": "Enhanced, you and Sam, £250 excess, outpatient in full, your choice",
+      "selection": { "tier": "enhanced", "excess": 250, "outpatient": "full", "specialist": "directory", "dependants": ["sam"] } }
+  ],
+  "scenarios": [
+    { "id": "knee", "who": "member", "title": "Knee injury that needs surgery", "focusArea": "Bones, joints & muscles",
+      "why": "You told us bones, joints & muscles matter", "typicalCostLabel": "over £11,000",
+      "journey": ["Virtual GP", "Consultations and tests £1,300", "MRI (paid in full)", "Day-case surgery (paid in full)"],
+      "costs": { "outpatient": 1300, "paidInFull": 10000 } },
+    { "id": "sam-asthma", "who": "sam", "title": "Asthma flare-up, specialist review", "focusArea": null, "mentionKey": "asthma",
+      "why": "You mentioned Sam’s asthma in chat", "typicalCostLabel": "£650",
+      "journey": ["GP referral", "Respiratory consultant", "Lung function tests"],
+      "costs": { "outpatient": 650 } },
+    { "id": "therapy", "who": "member", "title": "Eight sessions of talking therapy", "focusArea": "Mental health & wellbeing",
+      "why": "You told us mental health matters", "typicalCostLabel": "£960",
+      "journey": ["Self-referral", "Mental health assessment", "8 sessions"],
+      "costs": { "mentalHealth": 960 } },
+    { "id": "back-physio", "who": "member", "title": "Back pain needing 14 physio sessions", "focusArea": "Bones, joints & muscles",
+      "why": "You told us bones, joints & muscles matter", "typicalCostLabel": "£840",
+      "journey": ["Self-referral", "Physio assessment", "14 sessions"],
+      "costs": { "physioSessions": 14 } }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "from": "2026–27",
+  "to": "2027–28",
+  "source": "Compared by Navigator from AXA’s 2026–27 and 2027–28 scheme documents for Meridian",
+  "differences": [
+    { "id": "mh-limit", "label": "Mental health outpatient limit", "from": "£750", "to": "£1,000", "note": "Higher on every cover level", "improved": true },
+    { "id": "guided", "label": "Guided by AXA option", "from": "Not offered", "to": "New", "note": "Lower cost if AXA arranges your specialist", "improved": true },
+    { "id": "physio", "label": "Physiotherapy sessions", "from": "10", "to": "10", "note": "No change", "improved": false },
+    { "id": "core-premium", "label": "Core premium for you", "from": "£900", "to": "£900", "note": "No change. Meridian still pays it", "improved": false }
+  ]
+}

@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+/* Design tokens (CLAUDE.md §10). Exposed as CSS variables and Tailwind theme values. */
+@theme {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --color-ink: #141414;
+  --color-ink-2: #3d3d3d;
+  --color-secondary: #4a4a4a;
+  --color-secondary-2: #5f5f5f;
+  --color-muted: #6b6b6b; /* only for ≥12px metadata */
+
+  --color-line: #ececec;       /* card borders */
+  --color-line-control: #dadada;
+  --color-divider: #f0f0f0;
+  --color-surface-2: #f4f4f3;  /* search box */
+  --color-nav-active: #f1f1f0;
+
+  --color-brand: #1f5c4e;
+  --color-brand-tint: #e9f1ee;
+  --color-brand-tint-border: #c9ddd6;
+  --color-fund: #1f5c4e;
+  --color-fund-soft: #8fbfae;
+
+  --color-ai-text: #4b36c4;
+  --color-ai-icon: #5b45d6;
+  --color-ai-bg: #f2effd;
+  --color-ai-soft: #faf9ff;
+  --color-ai-border: #d9d2fa;
+  --color-ai-highlight: #b9acf5;
+
+  --color-success: #1d5e35;
+  --color-success-bg: #eaf5ee;
+  --color-success-banner: #eef8f1;
+  --color-success-border: #bfe3cc;
+  --color-warning: #7a4300;
+  --color-warning-bg: #fff3dc;
+  --color-warning-soft: #fff6e5;
+  --color-error: #b42318;
+  --color-neutral-chip: #f1f1f0;
+
+  --color-axa: #00008f;
+  --color-points: #e8b10e;
+  --color-points-bg: #f6f5f1;
+  --color-points-border: #eceae2;
+  --color-avatar: #f3d9a4;
+  --color-avatar-text: #5c3d00;
+
+  --radius-card: 16px;
+  --radius-inner: 12px;
+  --radius-control: 10px;
+
+  --shadow-float: 0 8px 28px rgba(20, 20, 20, 0.14);
+}
+
+@layer base {
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+p { margin: 0; }
+a { color: var(--color-ink); }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Visible focus everywhere (§2.9) */
+:focus-visible { outline: 2px solid var(--color-ai-icon); outline-offset: 2px; border-radius: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

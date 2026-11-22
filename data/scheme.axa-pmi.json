@@ -1,0 +1,93 @@
+{
+  "id": "axa-pmi-meridian-2027",
+  "insurer": "AXA Health",
+  "name": "Private Medical Insurance",
+  "options": {
+    "tier": [
+      { "value": "core", "label": "Core", "summary": "Core", "factor": 1, "hint": "Meridian’s base level: 10 physio sessions and up to £1,000 of outpatient mental health care." },
+      { "value": "enhanced", "label": "Enhanced", "summary": "Enhanced", "factor": 1, "hint": "Adds therapies and raises physio to 15 sessions and mental health to £2,000." },
+      { "value": "premium", "label": "Premium", "summary": "Premium", "factor": 1, "hint": "Adds a dental and optical cash plan and unlimited physio. The most expensive by far." }
+    ],
+    "excess": [
+      { "value": 0, "label": "£0", "summary": "£0 excess", "factor": 1.0, "hint": "You pay nothing when you claim." },
+      { "value": 100, "label": "£100", "summary": "£100 excess", "factor": 0.95, "hint": "You pay the first £100 of claims, once per person each year. It counts towards your outpatient allowance." },
+      { "value": 250, "label": "£250", "summary": "£250 excess", "factor": 0.9, "hint": "You pay the first £250 of claims, once per person each year. Saves premium if you rarely claim." },
+      { "value": 500, "label": "£500", "summary": "£500 excess", "factor": 0.85, "hint": "You pay the first £500 of claims, once per person each year. Only worth it if you rarely claim." }
+    ],
+    "outpatient": [
+      { "value": 500, "label": "£500", "summary": "£500 outpatient allowance", "factor": 0.9, "hint": "Covers a consultation or two. Specialist tests before treatment often cost more, and you’d pay the difference." },
+      { "value": 1000, "label": "£1,000", "summary": "£1,000 outpatient allowance", "factor": 1.0, "hint": "Covers most diagnosis journeys. MRI, CT and PET scans are paid in full on top of this." },
+      { "value": "full", "label": "Paid in full", "summary": "outpatient paid in full", "factor": 1.1, "hint": "Consultations, tests and therapies paid in full." }
+    ],
+    "specialist": [
+      { "value": "guided", "label": "Guided by AXA", "summary": "specialist guided by AXA", "factor": 0.9, "hint": "AXA arranges your specialist and hospital from its shortlist. Lower cost, but you can’t choose a named consultant." },
+      { "value": "directory", "label": "Your choice", "summary": "your choice of specialist", "factor": 1.0, "hint": "You choose any specialist and hospital in AXA’s Directory of Hospitals." },
+      { "value": "extended", "label": "Your choice + Extended cover", "summary": "your choice + Extended cover", "factor": 1.15, "hint": "Adds hospitals and scanning centres outside AXA’s Directory. Only worth it if you have one in mind." }
+    ]
+  },
+  "rates": {
+    "adult": { "core": 900, "enhanced": 1125, "premium": 1350 },
+    "childFactor": 0.4
+  },
+  "limits": {
+    "physioSessions": { "core": 10, "enhanced": 15, "premium": null },
+    "physioSessionCost": 60,
+    "mentalHealthOutpatient": { "core": 1000, "enhanced": 2000, "premium": null }
+  },
+  "features": [
+    { "id": "mental-health", "name": "Mental health support", "focusArea": "Mental health & wellbeing", "dependsOn": "tier",
+      "detail": { "core": "Outpatient care up to £1,000 a year", "enhanced": "Outpatient care up to £2,000 a year", "premium": "Outpatient care paid in full" },
+      "status": "Included" },
+    { "id": "physio", "name": "Physiotherapy and osteopathy", "focusArea": "Bones, joints & muscles", "dependsOn": "tier",
+      "detail": { "core": "Up to 10 sessions, no GP referral needed", "enhanced": "Up to 15 sessions, no GP referral needed", "premium": "Unlimited when clinically needed" },
+      "status": "Included" },
+    { "id": "virtual-gp", "name": "Virtual GP (Doctor at Hand)", "focusArea": null, "dependsOn": null,
+      "detail": "Phone and video appointments, 24/7", "status": "Included" },
+    { "id": "cancer", "name": "Cancer care", "focusArea": null, "dependsOn": null,
+      "detail": "Diagnosis, surgery and drug treatment paid in full", "status": "Included" },
+    { "id": "outpatient", "name": "Outpatient consultations, tests and therapies", "focusArea": null, "dependsOn": "outpatient",
+      "detail": { "500": "Up to £500 a year, including your excess", "1000": "Up to £1,000 a year, including your excess", "full": "Paid in full" },
+      "status": { "500": "Limited", "1000": "Included", "full": "Included" } },
+    { "id": "scans", "name": "MRI, CT and PET scans", "focusArea": null, "dependsOn": "specialist",
+      "detail": { "guided": "Paid in full at AXA scanning centres", "directory": "Paid in full at AXA scanning centres", "extended": "Paid in full at any UK scanning centre" },
+      "status": "Included" },
+    { "id": "therapies", "name": "Therapies (acupuncture, chiropody)", "focusArea": null, "dependsOn": "tier",
+      "detail": { "core": "Comes with Enhanced or Premium", "enhanced": "Up to £500 a year", "premium": "Up to £500 a year" },
+      "status": { "core": "Not on your plan", "enhanced": "Included", "premium": "Included" } },
+    { "id": "dental-optical", "name": "Dental and optical cash plan", "focusArea": null, "dependsOn": "tier",
+      "detail": { "core": "Comes with Premium", "enhanced": "Comes with Premium", "premium": "Up to £250 a year back" },
+      "status": { "core": "Not on your plan", "enhanced": "Not on your plan", "premium": "Included" } }
+  ],
+  "rules": {
+    "eligibleRelationships": ["spouse", "civil_partner", "cohabiting_partner", "child"],
+    "partnerRelationships": ["spouse", "civil_partner", "cohabiting_partner"],
+    "maxPartners": 1,
+    "childMaxAge": 21,
+    "childMaxAgeInEducation": 25,
+    "medicalHistoryDisregarded": "Under Meridian’s scheme rules, anyone you add at enrolment joins with their medical history ignored, so existing conditions aren’t excluded.",
+    "afterWindow": "After 31 March you can only change your cover after a qualifying life event, such as a birth, within 30 days of it.",
+    "lifeEventDays": 30,
+    "rejoining": "Under Meridian’s scheme rules, someone who leaves and rejoins later may no longer have their medical history ignored.",
+    "excess": "The excess is paid once per person per policy year and counts towards the outpatient allowance.",
+    "paidInFull": "MRI, CT and PET scans are paid in full at AXA scanning centres. Inpatient and day-case treatment is paid in full.",
+    "copy": {
+      "partner": "You can cover one partner, including a cohabiting partner.",
+      "partnerAlreadyListed": "You can cover one partner, including a cohabiting partner. {name} is already listed above as your {relationship}.",
+      "child": "Children can be covered until 21, or 25 if they’re in full-time education.",
+      "childTooOld": "Children can be covered until 21, or 25 if they’re in full-time education.",
+      "notEligible": "Meridian’s scheme covers partners and children only, so parents and other relatives can’t be added. They could buy their own policy, but it would ask about their medical history and may exclude existing conditions."
+    }
+  },
+  "policyText": [
+    { "id": "excess", "title": "Excess", "text": "You pay the first part of any claim, up to your chosen excess. The excess is paid once per person in each policy year, and it counts towards your outpatient allowance." },
+    { "id": "outpatient", "title": "Outpatient allowance", "text": "Outpatient consultations, tests and therapies are covered up to your allowance each policy year, including any excess you pay. MRI, CT and PET scans are paid in full on top of the allowance at AXA scanning centres." },
+    { "id": "guided", "title": "Guided by AXA", "text": "With Guided, AXA arranges your specialist and hospital from its shortlist when you need treatment. You can’t ask for a named consultant. In return, the premium is lower." },
+    { "id": "extended", "title": "Extended cover", "text": "Extended cover adds hospitals and scanning centres outside AXA’s Directory of Hospitals." },
+    { "id": "eligibility", "title": "Who you can cover", "text": "You can cover one partner (a spouse, civil partner or cohabiting partner) and children under 21, or under 25 if they’re in full-time education. Parents and other relatives can’t be covered." },
+    { "id": "pre-existing", "title": "Pre-existing conditions", "text": "Under Meridian’s scheme rules, anyone added at enrolment joins with their medical history disregarded, so existing conditions aren’t excluded. Someone who leaves and rejoins later may be underwritten." },
+    { "id": "chronic", "title": "Chronic conditions", "text": "PMI covers diagnosis and acute flare-ups of long-term conditions, such as asthma. Routine, ongoing management stays with your GP." },
+    { "id": "changes", "title": "Changing your cover", "text": "After the enrolment window closes, you can only change your cover after a qualifying life event, within 30 days of it." },
+    { "id": "physio", "title": "Muscles, Bones and Joints service", "text": "Physiotherapy and osteopathy through AXA’s Muscles, Bones and Joints service, with no GP referral needed: 10 sessions on Core, 15 on Enhanced, unlimited on Premium when clinically needed." },
+    { "id": "mental-health", "title": "Mental health", "text": "Outpatient mental health care is covered up to £1,000 a year on Core, £2,000 on Enhanced, and in full on Premium." }
+  ]
+}

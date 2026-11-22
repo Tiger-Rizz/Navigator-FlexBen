@@ -1,0 +1,23 @@
+{
+  "id": "meridian",
+  "name": "Meridian Group",
+  "appName": "Meridian Benefits",
+  "branding": {
+    "tile": "#1F5C4E",
+    "tint": "#E9F1EE",
+    "tintBorder": "#C9DDD6",
+    "fundBar": "#1F5C4E",
+    "fundBarSoft": "#8FBFAE"
+  },
+  "flexFund": 500,
+  "employerContribution": {
+    "description": "Meridian pays for employee-only Core cover with your choice of specialist, £0 excess and a £1,000 outpatient allowance.",
+    "annualCap": 900,
+    "basis": { "tier": "core", "excess": 0, "outpatient": 1000, "specialist": "directory", "dependants": [] }
+  },
+  "enrolmentWindow": { "opens": "2027-03-01", "closes": "2027-03-31" },
+  "coverYear": { "starts": "2027-04-01", "ends": "2028-03-31", "label": "2027–28" },
+  "demoToday": "2027-03-22",
+  "payrollNote": "From 6 April 2027, tax on employer-provided medical benefits is collected through payroll each month instead of through your tax code.",
+  "payrollStarts": "2027-04-06"
+}
