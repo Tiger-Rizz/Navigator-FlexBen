@@ -1,6 +1,5 @@
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { planYears } from '@/lib/data';
-import { SourceLine } from '@/components/ai/SourceLine';
 
 export function WhatsChanged() {
   return (
@@ -21,7 +20,6 @@ export function WhatsChanged() {
           </li>
         ))}
       </ul>
-      <SourceLine>{planYears.source}</SourceLine>
     </section>
   );
 }
