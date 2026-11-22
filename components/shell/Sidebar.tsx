@@ -19,7 +19,7 @@ const NAV: { href: string; label: string; icon: LucideIcon; match: (p: string) =
 
 function Brand() {
   return (
-    <Link href="/" className="flex items-center gap-2 px-1.5 no-underline">
+    <Link href="/" className="flex min-h-11 items-center gap-2 px-1.5 no-underline">
       <span aria-hidden className="flex size-[26px] items-center justify-center rounded-[7px] bg-brand text-[13px] font-semibold text-white">
         M
       </span>
@@ -55,9 +55,9 @@ function NavLinks() {
 
 function Footer() {
   return (
-    <div className="mt-auto flex flex-col gap-2.5">
+    <div className="mt-auto flex flex-col gap-1">
       <PointsPill />
-      <Link href="/about" className="px-1.5 text-xs text-secondary-2 underline-offset-2 hover:underline">
+      <Link href="/about" className="flex min-h-11 items-center px-1.5 text-xs text-secondary-2 underline-offset-2 hover:underline">
         Notes for reviewers
       </Link>
       <div className="flex items-center gap-2 border-t border-line px-1.5 py-2">
@@ -81,7 +81,7 @@ export function Sidebar() {
       {/* Desktop */}
       <nav
         aria-label="Main"
-        className="sticky top-0 hidden h-screen w-[232px] shrink-0 flex-col gap-[18px] border-r border-line bg-white px-3.5 py-5 min-[900px]:flex"
+        className="sticky top-0 hidden h-screen w-[232px] shrink-0 flex-col gap-3 border-r border-line bg-white px-3.5 py-5 min-[900px]:flex"
       >
         <Brand />
         <SearchOrAsk />
