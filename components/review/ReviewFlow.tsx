@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
-import { AlertTriangle, ArrowLeft, CalendarPlus, Check, Lock, Receipt, Sparkles, Undo2, UserRoundSearch, Wallet, X } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Bookmark, CalendarPlus, Check, CirclePlus, Lock, Receipt, Sparkles, Undo2, UserRoundSearch, Wallet, X } from 'lucide-react';
 import { Button, buttonClass } from '@/components/ui/Button';
-import { BenefitHeader } from '@/components/pmi/BenefitHeader';
+import { AxaTile, BenefitHeader } from '@/components/pmi/BenefitHeader';
 import type { Dependant } from '@/lib/data';
 import { formatAnnual, formatMonthly } from '@/lib/engine/format';
 import { relationshipLabel, validateDob } from '@/lib/engine/rules';
 import { usePlanPricing } from '@/lib/hooks/usePlanPricing';
-import { coveredPeople, firstName, whoLabel, lowerFirst, leverSummary } from '@/lib/plan';
-import { addedPeople, beforeYouConfirm, confirmedSummary, coveredHeadline, nameList } from '@/lib/reviewView';
+import { coveredPeople, firstName, whoLabel, lowerFirst, optionFor } from '@/lib/plan';
+import { addedPeople, beforeYouConfirm, coveredHeadline, nameList } from '@/lib/reviewView';
 import { baseline, usePeople, usePersona, usePlan } from '@/lib/store';
 import { ChangesTable } from './ChangesTable';
 import { PayslipPreview } from './PayslipPreview';
@@ -170,6 +170,8 @@ function DependantDetails({ person, showError }: { person: Dependant; showError:
   );
 }
 
+const upperFirst = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
 /** The confirmation slides in over the review page; closing it returns to the benefit page. */
 function ConfirmedSheet() {
   const router = useRouter();
@@ -213,6 +215,14 @@ function ConfirmedSheet() {
     URL.revokeObjectURL(a.href);
   };
 
+  const chips = [
+    `${optionFor('tier', s.tier).label} cover`,
+    `${optionFor('excess', s.excess).label} excess`,
+    s.outpatient === 'full' ? 'Outpatient in full' : `${optionFor('outpatient', s.outpatient).label} outpatient`,
+    upperFirst(optionFor('specialist', s.specialist).summary),
+  ];
+  const pct = (n: number) => `${b.premium > 0 ? (n / b.premium) * 100 : 0}%`;
+
   return (
     <div className="fixed inset-0 z-[55] flex justify-end">
       <div aria-hidden onClick={close} className="fade-in absolute inset-0 bg-ink/25 backdrop-blur-[3px]" />
@@ -222,44 +232,76 @@ function ConfirmedSheet() {
         aria-modal="true"
         aria-labelledby="done"
         data-tour="confirmed"
-        className="slide-in relative flex h-full w-full flex-col gap-5 overflow-y-auto bg-white px-6 py-6 shadow-[var(--shadow-float)] sm:w-[500px] sm:px-8"
+        className="slide-in relative flex h-full w-full flex-col bg-[#F7F8F6] shadow-[var(--shadow-float)] sm:w-[520px]"
       >
-        <div className="flex items-start justify-between">
-          <span className="flex size-12 items-center justify-center rounded-full bg-success-bg text-success"><Check aria-hidden size={24} /></span>
-          <button type="button" aria-label="Close and go to Private Medical Insurance" onClick={close} className="-mr-2 flex size-11 items-center justify-center rounded-[10px] cursor-pointer hover:bg-surface-2">
-            <X aria-hidden size={18} />
-          </button>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h2 id="done" tabIndex={-1} className="text-[24px] leading-tight outline-none">{coveredHeadline(s, people)}</h2>
-          <p className="text-[15px] leading-relaxed text-ink-2">{confirmedSummary(s, people, persona.taxRate)}</p>
-        </div>
-        <div className="flex flex-col gap-3">
-          <Link href="/my-choices" className="flex flex-col gap-1 rounded-[12px] border border-success-border bg-success-banner p-4 no-underline">
-            <span className="text-xs font-medium text-success">Saved to My choices</span>
-            <span className="font-semibold">Private Medical Insurance</span>
-            <span className="text-[13px] text-secondary">{leverSummary(s).split(' · ')[0]}, {lowerFirst(whoLabel(s, people))}, from 1 April 2027</span>
-          </Link>
-          <Link href="/total-rewards" className="flex flex-col gap-1 rounded-[12px] border border-line p-4 no-underline">
-            <span className="text-xs font-medium text-secondary">Updated in Total rewards</span>
-            <span className="font-semibold">{formatAnnual(b.employerPays + b.fromFund)} a year towards your health cover</span>
-            <span className="text-[13px] text-secondary">{formatAnnual(b.employerPays)} from Meridian, {formatAnnual(b.fromFund)} from your Flex Fund</span>
-          </Link>
-        </div>
-        {partner && (
-          <div className="flex gap-3 rounded-[14px] border border-ai-border bg-ai-soft px-4 py-3.5">
-            <Sparkles aria-hidden size={17} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />
-            <div className="flex flex-col gap-1.5 text-sm">
-              <p>One more thing: {firstName(partner)} isn’t named on your life assurance. Want to check who should receive it?</p>
-              <Link href="/benefits" className="inline-flex min-h-11 items-center self-start font-medium text-ai-text underline underline-offset-2">Review my life assurance</Link>
+        <div className="flex-1 overflow-y-auto">
+          <div className="relative flex flex-col gap-3 bg-brand-tint px-6 pb-14 pt-6 sm:px-8">
+            <button type="button" aria-label="Close and go to Private Medical Insurance" onClick={close} className="absolute right-3 top-3 flex size-11 items-center justify-center rounded-[10px] cursor-pointer hover:bg-white/60">
+              <X aria-hidden size={18} />
+            </button>
+            <span className="flex size-11 items-center justify-center rounded-full bg-success text-white shadow-[0_4px_14px_rgba(29,94,53,0.25)]"><Check aria-hidden size={22} strokeWidth={2.5} /></span>
+            <div className="flex flex-col gap-1">
+              <span className="flex items-center gap-2 text-[13px] text-secondary"><AxaTile size={22} />AXA Health · Private Medical Insurance</span>
+              <h2 id="done" tabIndex={-1} className="text-[24px] leading-tight outline-none">{coveredHeadline(s, people)}</h2>
             </div>
+            <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0" aria-label="Your plan">
+              {chips.map((c) => <li key={c} className="rounded-full border border-brand-tint-border bg-white px-2.5 py-1 text-xs font-medium text-ink-2">{c}</li>)}
+            </ul>
           </div>
-        )}
-        <div className="mt-auto flex flex-col gap-2.5 border-t border-divider pt-5">
+
+          <div className="relative -mt-9 flex flex-col gap-3 px-4 pb-6 sm:px-6">
+            <div className="flex flex-col gap-3 rounded-[16px] border border-line bg-white px-5 py-4">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <span className="text-[13px] text-secondary">What it really costs you</span>
+                <span className="text-xs text-secondary-2">From 1 April, including tax</span>
+              </div>
+              <span className="text-[30px] font-semibold leading-none tracking-tight">{formatMonthly(b.realMonthlyCost)} <span className="text-sm font-normal text-secondary">a month</span></span>
+              <div className="flex h-2 overflow-hidden rounded" role="img" aria-label={`Meridian ${formatAnnual(b.employerPays)}, Flex Fund ${formatAnnual(b.fromFund)}, your pay ${formatAnnual(b.fromPay)} a year`}>
+                <div className="bg-fund" style={{ width: pct(b.employerPays) }} />
+                <div className="bg-fund-soft" style={{ width: pct(b.fromFund) }} />
+                <div className="bg-ink" style={{ width: pct(b.fromPay) }} />
+              </div>
+              <ul aria-hidden className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs text-secondary">
+                <li className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-fund" />Meridian {formatAnnual(b.employerPays)}</li>
+                <li className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-fund-soft" />Flex Fund {formatAnnual(b.fromFund)}</li>
+                <li className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-ink" />Your pay {formatAnnual(b.fromPay)}</li>
+              </ul>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Link href="/my-choices" className="flex flex-col gap-2 rounded-[16px] border border-line bg-white p-4 no-underline hover:border-line-control">
+                <span aria-hidden className="flex size-9 items-center justify-center rounded-[10px] bg-success-bg text-success"><Bookmark size={17} strokeWidth={1.8} /></span>
+                <span className="text-xs font-medium text-success">Saved to My choices</span>
+                <span className="text-sm font-semibold leading-snug">{optionFor('tier', s.tier).label} cover for {lowerFirst(whoLabel(s, people))}</span>
+              </Link>
+              <Link href="/total-rewards" className="flex flex-col gap-2 rounded-[16px] border border-line bg-white p-4 no-underline hover:border-line-control">
+                <span aria-hidden className="flex size-9 items-center justify-center rounded-[10px] bg-brand-tint text-brand"><CirclePlus size={17} strokeWidth={1.8} /></span>
+                <span className="text-xs font-medium text-secondary">Updated in Total rewards</span>
+                <span className="text-sm font-semibold leading-snug">{formatAnnual(b.employerPays + b.fromFund)} a year towards your cover</span>
+              </Link>
+            </div>
+
+            <Timeline base={baseline} selection={s} people={people} confirmed />
+
+            {partner && (
+              <div className="flex gap-3 rounded-[16px] border border-ai-border bg-ai-soft px-4 py-3.5">
+                <Sparkles aria-hidden size={17} strokeWidth={1.8} className="mt-0.5 shrink-0 text-ai-icon" />
+                <div className="flex flex-col gap-0.5 text-sm">
+                  <p><span className="font-semibold">One more thing:</span> {firstName(partner)} isn’t named on your life assurance. Want to check who should receive it?</p>
+                  <Link href="/benefits" className="inline-flex min-h-11 items-center self-start font-medium text-ai-text underline underline-offset-2">Review my life assurance</Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 border-t border-line bg-white px-6 py-4 sm:px-8">
           <Link href="/benefits/pmi" className={buttonClass('primary', 'w-full')}>Back to Private Medical Insurance</Link>
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <Button variant="secondary" onClick={calendar}><CalendarPlus aria-hidden size={16} />Add 1 April to my calendar</Button>
-            <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm underline underline-offset-2 cursor-pointer">Undo</button>
+          <div className="flex items-center justify-between gap-2">
+            <button type="button" onClick={calendar} className="inline-flex min-h-11 items-center gap-1.5 rounded-[10px] px-2 text-sm font-medium cursor-pointer hover:bg-surface-2">
+              <CalendarPlus aria-hidden size={16} />Add 1 April to my calendar
+            </button>
+            <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm text-secondary underline underline-offset-2 cursor-pointer hover:text-ink">Undo</button>
           </div>
         </div>
       </section>
