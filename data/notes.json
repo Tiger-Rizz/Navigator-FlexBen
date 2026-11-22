@@ -6,14 +6,14 @@
       "color": "#1F5C4E",
       "label": "Flex benefits for UK PMI",
       "title": "Flex benefits for UK PMI",
-      "thesis": "Flex isn’t a form problem, it’s a decision problem. Navigator already helps people understand their benefits; this lets them act, by turning insurance trade-offs into consequences they can see, with an AI that reasons and code that calculates.",
+      "thesis": "Flex isn’t a form problem, it’s a decision problem. Navigator already helps people understand their benefits; this lets them act, by turning insurance trade-offs into consequences they can see. Navigator explains; code calculates.",
       "tourHref": "/home?tour=1",
       "sections": [
         {
           "heading": "How I read the brief",
           "items": [
             "Employees make one insurance decision a year, against a deadline, about illnesses they can’t predict, with tax effects they can’t see. Most keep the default, then find the gaps when they claim.",
-            "So I designed for the decision, not the form: the real monthly cost after tax, consequences shown as real situations, and an AI that proposes changes to the plan rather than chatting beside it."
+            "So I designed for the decision, not the form: the real monthly cost after tax, consequences shown as real situations, and a guide that proposes changes to the plan, not a chat window beside it."
           ]
         },
         {
@@ -22,7 +22,7 @@
             "UK PMI option menus from AXA and Bupa: excess steps, outpatient allowances, hospital lists, AXA’s Guided option.",
             "Scheme rules: who counts as a dependant, life-event windows, and why joining late can mean worse terms.",
             "HMRC: medical benefits move to payrolling from 6 April 2027, so the tax shows on payslips every month.",
-            "Navigator’s walkthrough and detailed demo, to mirror its look, its Ask AI pattern and its onboarding data. And what employees actually ask at benefits fairs, from running benefits rollouts at nudge."
+            "Navigator’s walkthrough and detailed demo, to mirror its look, its Ask pop-up and its onboarding data. And what employees actually ask at benefits fairs, from running benefits rollouts at nudge."
           ]
         },
         {
@@ -37,7 +37,7 @@
         {
           "heading": "What’s real and what’s mocked",
           "items": [
-            "Real: the pricing, tax and claims engines (unit-tested), the tool-calling AI and its scripted fallback, one shared plan state across chat and screens.",
+            "Real: the pricing, tax and claims engines (unit-tested), the live model with tool calls and its scripted fallback, and one plan state shared by chat and screens.",
             "Mocked: the scheme data and prices, the HR record, and the updates to AXA and payroll."
           ]
         },
@@ -47,7 +47,7 @@
             "Kept Navigator’s UI exactly and put the creativity into the flow.",
             "Easiest path first: most people keep their cover or add family in one tap; fine-tuning is optional.",
             "Navigator spots gaps between people on record and their cover. It never infers life events.",
-            "The AI reasons, code calculates: no price or option ever comes from the model. Guidance, not advice, with warnings before anything hard to undo."
+            "The model reasons; code calculates. No price or option ever comes from the model. Guidance, not advice, with warnings before anything hard to undo."
           ]
         },
         {
@@ -98,7 +98,7 @@
         {
           "heading": "How it works",
           "items": [
-            "Payroll data comes in, the change from last month is calculated, and the AI explains the change, quoting the payslip and scheme rules. It never estimates tax itself."
+            "Payroll data comes in, code works out the change from last month, and Navigator explains it, quoting the payslip and scheme rules. It never estimates tax itself."
           ]
         },
         {
@@ -127,7 +127,7 @@
         {
           "heading": "What it is",
           "items": [
-            "Add a receipt or describe a cost. The AI reads it, works out which benefit should pay, and either claims it in Navigator (employer-funded allowances) or prepares it and hands it to the provider (insurance, such as AXA), with every detail filled in."
+            "Add a receipt or describe a cost. Navigator reads it, works out which benefit pays, and either claims it in Navigator (employer-funded allowances) or prepares it and hands it to the provider (insurance, such as AXA), with every detail filled in."
           ]
         },
         {
@@ -141,7 +141,7 @@
           "heading": "Why it matters",
           "items": [
             "Unclaimed benefits are wasted spend for the employer and lost value for the employee. Routing removes the hardest part.",
-            "It shows the AI being useful in daily life, not only once a year at enrolment."
+            "It makes Navigator useful every day, not only once a year at enrolment."
           ]
         },
         {
@@ -154,7 +154,7 @@
         {
           "heading": "How it works",
           "items": [
-            "The receipt is read by AI and the details checked by the person. The rules engine matches it against the scheme and allowance rules, and payroll pays approved allowance claims. Insurance claims become a prepared hand-off with a follow-up reminder."
+            "Navigator reads the receipt; the person checks the details. The rules engine matches it against the scheme and allowance rules, and payroll pays approved allowance claims. Insurance claims become a prepared hand-off with a follow-up reminder."
           ]
         },
         {
@@ -166,7 +166,7 @@
         {
           "heading": "Risks and guardrails",
           "items": [
-            "The person confirms every detail the AI read. Rules come from configuration, not the model. No medical information is stored beyond what the claim needs. Allowance payments are shown with their tax treatment."
+            "The person confirms every detail Navigator read. Rules come from configuration, not the model. No medical information is stored beyond what the claim needs. Allowance payments are shown with their tax treatment."
           ]
         }
       ]

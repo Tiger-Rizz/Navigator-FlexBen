@@ -109,7 +109,7 @@ export const TOUR_STEPS: TourStep[] = [
       if (!userAsked(CANONICAL_OPENING)) await sendMessage(CANONICAL_OPENING);
       await idle(h);
     },
-    what: () => 'Priya mentions Sam’s asthma. The AI explains he joins with his medical history ignored.',
+    what: () => 'Priya mentions Sam’s asthma. Navigator explains he joins with his medical history ignored.',
     why: 'Health details stay between Priya and Navigator. Meridian never sees them.',
   },
   {
@@ -118,8 +118,8 @@ export const TOUR_STEPS: TourStep[] = [
     what: () => {
       const p = state().proposal;
       return p?.alternative
-        ? `The AI proposes a lean way to add Sam: ${formatMonthly(p.monthly)} a month, against ${formatMonthly(p.alternative.monthly)} if she just adds him.`
-        : 'The AI proposes a lean way to add Sam.';
+        ? `Navigator proposes a lean way to add Sam: ${formatMonthly(p.monthly)} a month, against ${formatMonthly(p.alternative.monthly)} if she just adds him.`
+        : 'Navigator proposes a lean way to add Sam.';
     },
     why: 'The tax stays the same, so every pound trimmed comes straight off the payslip deduction.',
   },

@@ -50,7 +50,7 @@ export default function DemoRoom() {
             <span className="text-xs font-semibold tracking-[0.02em] text-brand">PART 1 · THE BRIEF</span>
             <h2 id="part1" className="text-2xl">Flex benefits for UK PMI</h2>
             <p className="max-w-[540px] text-[15px] leading-relaxed text-ink-2">
-              Priya adds her spouse to her AXA health cover during enrolment. Navigator spots the gap, shows the real monthly cost including tax, lets an AI talk her through the trade-offs, and confirms it without leaving the app.
+              Priya adds her spouse to her AXA health cover during enrolment. Navigator spots the gap, shows the real monthly cost after tax, talks her through the trade-offs and confirms it, all in the app.
             </p>
             <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
               {TAGS.map((t) => <li key={t} className="rounded-full bg-[#F1F2EF] px-2.5 py-1 text-xs text-ink-2">{t}</li>)}
@@ -86,7 +86,7 @@ export default function DemoRoom() {
             <span className="text-xs font-semibold tracking-[0.02em] text-ai-text">PART 2 · BEYOND THE BRIEF</span>
             <h2 id="part2" className="text-2xl">Two features I’d add to Navigator</h2>
             <p className="max-w-[720px] text-[15px] leading-relaxed text-ink-2">
-              Both are for employees and both follow Priya after enrolment: first her April payslip, then a claim in May. Each uses the same pattern as Part 1: the AI reasons, the rules and numbers come from code.
+              Both are for employees and both follow Priya after enrolment: first her April payslip, then a claim in May. Same pattern as Part 1: Navigator explains, code does the maths.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
