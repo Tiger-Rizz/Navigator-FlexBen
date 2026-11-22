@@ -137,3 +137,12 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 82. **Passcode gate uses Next 16's `proxy.ts`**, which replaces `middleware.ts`. It's active only when `DEMO_PASSCODE` is set. A plain form post (works without JavaScript) sets an httpOnly cookie holding a SHA-256 of the passcode, for 7 days. API routes return 401 instead of redirecting, and `next` is restricted to same-site paths.
 83. **Noindex everywhere:** the robots meta tag, `robots.txt` disallow, and an `X-Robots-Tag: noindex, nofollow` header on every response. Lighthouse's SEO score is low only because of this, which is intended.
 84. **Accessibility results:** axe-core (WCAG 2.1 A/AA plus best practice) finds no violations on any route or state checked, including the open Ask panel, a proposal, the error and confirmed states, and the tour. Lighthouse accessibility on the PMI page scores 100. One fix was needed: a heading-level skip on the proposal card.
+
+## After deployment: live AI fix
+
+85. **Bug found on the live deployment:** with a real key, answers came back with tool calls but no text, so the member saw an empty message. With a 4-step limit and no instruction to finish, the model could spend every step calling tools. Fixes:
+    - The member's facts go into the system prompt, saving a tool round.
+    - The prompt asks for parallel tool calls and an answer within two rounds.
+    - The limit is 5 steps, and the 5th step forbids tools (`prepareStep` → `toolChoice: 'none'`), so it must answer. That keeps §11's four rounds of tool calls.
+    - Safety net: a live reply that still has no text uses the scripted answer, or a plain line if a proposal card was already shown.
+    The live path now lives in `lib/ai/live.ts`, with mock-model tests for each case.
