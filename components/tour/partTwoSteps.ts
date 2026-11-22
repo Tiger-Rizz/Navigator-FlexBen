@@ -72,7 +72,7 @@ export const CLAIM_STEPS: TourStep[] = [
       await ready(h);
     },
     what: () => 'Navigator scans the receipt, highlights the four details it read, and asks Priya to check them.',
-    why: 'The AI reads; the person confirms every detail before anything is claimed.',
+    why: 'Navigator reads; Priya confirms every detail before anything is claimed.',
   },
   {
     route: '/claims',

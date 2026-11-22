@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variabl
 
 export const metadata: Metadata = {
   title: 'Meridian Benefits',
-  description: 'Navigator Flex: an AI-native flexible benefits prototype for UK private medical insurance.',
+  description: 'Navigator Flex: a flexible benefits prototype for UK private medical insurance.',
   robots: { index: false, follow: false },
 };
 
