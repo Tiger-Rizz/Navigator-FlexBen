@@ -85,7 +85,7 @@ export function TourProvider() {
         const top = el.getBoundingClientRect().top + window.scrollY - 96;
         window.scrollTo({ top: Math.max(0, top) });
         // Let entrance animations (slide-in sheet, fade-up cards) settle before measuring the spotlight.
-        const anims = [el, ...el.querySelectorAll('*')].flatMap((n) => n.getAnimations?.() ?? []);
+        const anims = (document.getAnimations?.() ?? []).filter((a) => a.effect?.getTiming().iterations !== Infinity);
         await Promise.race([Promise.all(anims.map((a) => a.finished.catch(() => undefined))), sleep(800)]);
       }
       await sleep(80);
