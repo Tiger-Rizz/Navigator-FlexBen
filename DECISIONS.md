@@ -98,7 +98,7 @@ Judgement calls made where CLAUDE.md or the design reference was ambiguous or si
 62. **"Before you confirm" is generated from the plan:** hard to undo (always, plus the rejoining rule for anyone newly added), the excess if any, the Flex Fund if used (with the cash equivalent from the engine), and Guided if chosen.
 63. **The payslip preview shows "Now" as today's cover and "April" as the plan being confirmed**, all monthly, from the engine (taxable benefit £75.00 → £116.67).
 64. **"Keep my current cover" counts as confirmed**, so the review screen then shows the confirmed state. Undo there restores whatever the plan was before.
-65. **"Add 1 April to my calendar" downloads a small .ics file.** "Review my life assurance" links to Benefits, because life assurance is outside this prototype.
+65. **"Remind me on 1 April" downloads a small .ics file** (an all-day "AXA Health cover starts" event). "Review my life assurance" links to Benefits, because life assurance is outside this prototype.
 66. **My choices lists the confirmed election only**, with the real monthly cost and "Change until 31 March". Unconfirmed drafts don't appear there.
 
 ## Step 8: Home
