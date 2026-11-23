@@ -279,7 +279,7 @@ function ConfirmedSheet() {
           <Link href="/benefits/pmi" className={buttonClass('primary', 'w-full')}>Back to Private Medical Insurance</Link>
           <div className="flex items-center justify-between gap-2">
             <button type="button" onClick={calendar} className="inline-flex min-h-11 items-center gap-1.5 rounded-[10px] px-2 text-sm font-medium cursor-pointer hover:bg-surface-2">
-              <CalendarPlus aria-hidden size={16} />Add 1 April to my calendar
+              <CalendarPlus aria-hidden size={16} />Remind me on 1 April
             </button>
             <button type="button" onClick={() => (status === 'kept' ? undo() : unconfirm())} className="min-h-11 px-2 text-sm text-secondary underline underline-offset-2 cursor-pointer hover:text-ink">Undo</button>
           </div>
